@@ -2,6 +2,8 @@
 
 A scroll-driven dive from the surface of a fictional icy moon down to a hydrogen-powered vent field 50 km below.
 
+**[Open the live interactive dive](https://omarshobaki-png.github.io/Pyrothalasa/)**
+
 ## Open it
 Double-click `index.html`. It runs in any modern browser with no build step.
 Fonts load from Google Fonts; without internet the page falls back to a plain monospace font.
