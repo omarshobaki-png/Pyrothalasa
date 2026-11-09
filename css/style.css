@@ -436,6 +436,9 @@ body.over-creature { cursor: zoom-in; }
   .hud-value { font-size: 17px; }
   .hud-link { top: 8px; right: 8px; font-size: 10px; padding: 6px 9px; }
   .hud-found { top: 44px; right: 8px; padding: 4px 8px; }
+  /* On phones the end panel is full width, so the top HUD boxes would cover its text */
+  #hud .hud-depth, #hud .hud-link, #hud .hud-found { transition: opacity .3s; }
+  #hud.at-end .hud-depth, #hud.at-end .hud-link, #hud.at-end .hud-found { opacity: 0; pointer-events: none; }
   .hud-found .hud-label { display: none; }
   .found-val { font-size: 12px; }
   .found-val::before { content: "★ "; color: var(--assume); }

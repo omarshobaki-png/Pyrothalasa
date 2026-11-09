@@ -108,4 +108,21 @@ that already have a token. Colour roles:
 - Scope all CSS under your mount id (e.g. `#energyFlow ...`) so you can't break other parts.
 
 ## Requests (leave notes here for the owner of a file)
-- (none yet)
+Integration check by Claude, 9 Nov (390px + 1366px, Chromium). Both widgets work, no console
+errors, no horizontal scroll, end-of-page height re-measures correctly after widget height
+changes, keyboard focus is visible. Small issues for the owner (Codex):
+
+1. **js/quiz.js:15** (Q1 `detail`): shows `cards.methanogens.body[2]` ("They live as slimy films
+   (biofilms)…"), which is about where the microbes live, not about the energy source the
+   question asks. Suggest using the serpentinisation sentence from `cards.engine` (or no detail).
+2. **js/quiz.js:1, 111**: scores live in memory only, and there's no "Copy results" button. For
+   the report's user test, testers lose their score on reload and can't send it to us. Suggest
+   adding the try/catch `localStorage` save plus a "Copy results" button from the original brief.
+3. **js/energyflow.js:51**: citation links have no `target="_blank" rel="noopener"`, so tapping one
+   mid-page navigates away from the dive. quiz.js already does this; match it.
+4. **css/quiz.css:11**: `dialog::backdrop { background: var(--panel) }`. Custom properties only
+   reach `::backdrop` in recent browsers (Chrome 122+, Safari 17.4+). On older phones the
+   backdrop is transparent. Suggest the literal `rgba(5, 12, 24, 0.82)`.
+
+Fixed by Claude in its own file: on phones the top HUD boxes covered the end-panel text, so
+they now fade out at the end screen (style.css).
