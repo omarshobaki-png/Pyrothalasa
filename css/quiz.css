@@ -34,3 +34,21 @@
 @media (prefers-reduced-motion: reduce) {
   #quizPreBtn, #quizEnd *, #quizEnd *::before, #quizEnd *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+#quizEnd progress { display: block; width: 100%; height: 14px; border: 1px solid var(--line); background: var(--panel-solid); accent-color: var(--accent); }
+#quizEnd progress::-webkit-progress-bar { background: var(--panel-solid); }
+#quizEnd progress::-webkit-progress-value { background: var(--accent); }
+#quizEnd progress::-moz-progress-bar { background: var(--accent); }
+#quizEnd .q-step { color: var(--muted); }
+#quizEnd .q-question { font: 24px/1.3 var(--body); color: var(--ink); margin: 20px 0; }
+#quizEnd .q-choices { display: grid; gap: 12px; }
+#quizEnd .q-choice { width: 100%; min-height: 48px; border: 2px solid var(--line); background: var(--panel-solid); color: var(--ink); padding: 12px; text-align: left; font: 20px/1.3 var(--body); cursor: pointer; }
+#quizEnd .q-choice:hover:not([aria-disabled]) { border-color: var(--accent); }
+#quizEnd .q-choice[aria-disabled] { cursor: default; }
+#quizEnd .q-right { border-color: var(--evidence); color: var(--evidence); animation: q-bounce 300ms steps(3); }
+#quizEnd .q-wrong { border-color: var(--pink); color: var(--pink); animation: q-shake 240ms steps(3); }
+#quizEnd .q-feedback { min-height: 2.7em; }
+#quizEnd .q-learning { border-left: 3px solid var(--evidence); padding-left: 12px; }
+#quizEnd [hidden] { display: none; }
+@keyframes q-bounce { 50% { transform: translateY(-5px); } }
+@keyframes q-shake { 25%, 75% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }

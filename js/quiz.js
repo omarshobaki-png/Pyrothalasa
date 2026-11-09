@@ -12,7 +12,7 @@
       choices: ['Sunlight passing through the ice', 'Hydrogen released when seawater reacts with rock', 'Oxygen in the ocean'],
       correct: 1, tag: 'Evidence',
       explanation: 'Hydrogen (H₂) comes from seawater reacting with rock, a process called serpentinisation.',
-      detail: (cards.methanogens && cards.methanogens.body[2]) || '',
+      detail: (cards.engine && cards.engine.body[0]) || '',
       sources: ['kelley2005', 'waite2017']
     },
     {
@@ -33,6 +33,7 @@
   ];
   let before = null;
   let after = null;
+  const attempts = { before: [], after: [] };
   let phase = 'before';
   let returnFocus = entry;
 
@@ -86,6 +87,14 @@
     if (phase === 'before') {
       body.innerHTML += '<p>Your starting score is saved for this visit. Explore the garden, then try the same questions at the end. Explanations appear after that quiz.</p>';
     } else {
+      const gained = before ? after.filter(function (answer, i) {
+        return answer === questions[i].correct && before[i] !== questions[i].correct;
+      }).length : null;
+      const learning = gained === null ? 'You checked three ideas: hydrogen, energy loss, and what habitable means.' :
+        gained > 0 ? 'You learned ' + gained + ' of these ideas: you answered them correctly after missing them before.' :
+        score(after) === 3 ? 'You know all three ideas: hydrogen, energy loss, and what habitable means.' :
+        'Keep exploring: the explanations below show which ideas to revisit.';
+      body.innerHTML += '<p class="q-learning">' + learning + '</p>';
       body.innerHTML += '<p>' + (before ? 'Before: ' + score(before) + '/3 → After: ' + score(after) + '/3.' :
         'You skipped the before-dive quiz, so there is no starting score to compare.') + '</p>' +
         questions.map(function (q, i) {
@@ -101,44 +110,59 @@
     body.querySelector('[data-done]').focus({preventScroll: true});
   }
 
+  function showQuestion() {
+    const answers = attempts[phase];
+    const index = answers.length;
+    if (index === questions.length) {
+      if (phase === 'before') before = answers.slice();
+      else after = answers.slice();
+      updateSummary();
+      showResult();
+      return;
+    }
+    const question = questions[index];
+    body.innerHTML = '<p class="q-step">Question ' + (index + 1) + ' of 3</p>' +
+      '<progress max="3" value="' + index + '" aria-label="Questions answered"></progress>' +
+      '<h3 class="q-question" tabindex="-1">' + escape(question.title) + '</h3>' +
+      '<div class="q-choices">' + question.choices.map(function (choice, i) {
+        return '<button type="button" class="q-choice" data-choice="' + i + '">' + escape(choice) + '</button>';
+      }).join('') + '</div><p class="q-feedback" role="status"></p>' +
+      '<button type="button" class="q-button" data-next hidden>' + (index === 2 ? 'See my score' : 'Next question') + '</button>';
+    const next = body.querySelector('[data-next]');
+    let answered = false;
+    body.querySelectorAll('[data-choice]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (answered) return;
+        answered = true;
+        const answer = Number(button.dataset.choice);
+        answers.push(answer);
+        const right = answer === question.correct;
+        button.classList.add(right ? 'q-right' : 'q-wrong');
+        body.querySelectorAll('[data-choice]').forEach(function (item) { item.setAttribute('aria-disabled', 'true'); });
+        body.querySelector('progress').value = answers.length;
+        body.querySelector('.q-feedback').textContent = right ? 'Correct! Answer locked in.' : 'Not quite. Answer locked in; explanations follow the after-dive quiz.';
+        next.hidden = false;
+      });
+    });
+    next.addEventListener('click', showQuestion);
+    body.querySelector('.q-question').focus({preventScroll: true});
+    dialog.scrollTop = 0;
+  }
+
   function open(nextPhase, trigger) {
-    phase = nextPhase;
+    // An after attempt cannot be followed by a new baseline.
+    phase = nextPhase === 'before' && (after || attempts.after.length) && !before ? 'after' : nextPhase;
     returnFocus = trigger;
     title.textContent = phase === 'before' ? 'Before your dive' : 'After your dive';
-    const saved = phase === 'before' ? before : after;
-    if (saved) showResult();
-    else {
-      body.innerHTML = '<p>Choose one answer per question. Your scores stay on this page until you reload it.</p>' +
-        '<form>' + questions.map(function (q, i) {
-          return '<fieldset><legend>' + (i + 1) + ' / 3 · ' + escape(q.title) + '</legend>' +
-            q.choices.map(function (choice, j) {
-              return '<label><input required type="radio" name="q' + i + '" value="' + j + '"><span>' + escape(choice) + '</span></label>';
-            }).join('') + '</fieldset>';
-        }).join('') + '<button class="q-button" type="submit">Check my answers</button></form>';
-      body.querySelector('form').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const form = new FormData(event.currentTarget);
-        const answers = questions.map(function (_, i) { return Number(form.get('q' + i)); });
-        if (phase === 'before') before = answers;
-        else after = answers;
-        updateSummary();
-        showResult();
-      });
-    }
     dialog.showModal();
+    if (phase === 'before' ? before : after) showResult();
+    else showQuestion();
     dialog.scrollTop = 0;
   }
   entry.addEventListener('click', function () { open('before', entry); });
   start.addEventListener('click', function () { open('after', start); });
   mount.querySelector('[data-close]').addEventListener('click', function () { dialog.close(); });
   dialog.addEventListener('close', function () { returnFocus.focus({preventScroll: true}); });
-  // Keep the first attempt as the baseline, even if the visitor reviews it later.
-  // Once an after score exists, a new baseline would no longer be a before test.
-  const originalOpen = open;
-  open = function (nextPhase, trigger) {
-    if (nextPhase === 'before' && after && !before) nextPhase = 'after';
-    originalOpen(nextPhase, trigger);
-  };
   if (typeof ResizeObserver !== 'undefined') {
     let height = mount.offsetHeight;
     new ResizeObserver(function () {
