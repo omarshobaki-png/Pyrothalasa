@@ -35,7 +35,7 @@
 #energyFlow .ef-flowing .ef-coin { animation: ef-coin-pass 850ms steps(10) both; animation-delay: calc(var(--coin) * 45ms); }
 #energyFlow .ef-flowing .ef-loss { animation-name: ef-coin-heat; box-shadow: 0 0 8px var(--vent-glow); }
 #energyFlow.ef-off .ef-arrow, #energyFlow.ef-off .ef-fuel { color: var(--dim); }
-#energyFlow .ef-starved { opacity: .48; filter: grayscale(1); }
+#energyFlow .ef-starved { opacity: 1; filter: grayscale(1); }
 #energyFlow .ef-note { margin: 14px 0; color: var(--assume); }
 #energyFlow a { color: var(--accent); text-underline-offset: 3px; }
 #energyFlow .ef-controls { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -93,7 +93,7 @@
 #energyFlow .ef-flowing .ef-loss { animation-name: ef-heat-burst; }
 #energyFlow.ef-payoff .ef-status { color: var(--assume); border-left: 4px solid var(--assume); padding-left: 12px; }
 #energyFlow.ef-payoff [data-node="3"] .ef-counter { animation: ef-arrival 360ms steps(3); }
-#energyFlow .ef-starved { opacity: .38; filter: grayscale(1); }
+#energyFlow .ef-starved { opacity: 1; filter: grayscale(1); }
 #energyFlow .ef-node { transition: opacity 420ms steps(4), filter 420ms steps(4); }
 #energyFlow.ef-off .ef-status { color: var(--vent); }
 @keyframes ef-invite { 50% { box-shadow: var(--shadow-px), 0 0 0 3px var(--line); transform: translateY(-2px); } }
@@ -105,3 +105,11 @@
   65% { opacity: 1; left: 30%; background: var(--vent); transform: translate(calc((var(--coin) - 4) * 4px), -38px) scale(1.2); }
   100% { opacity: 0; left: 50%; background: var(--vent); transform: translate(calc((var(--coin) - 4) * 5px), -76px) scale(.5); }
 }
+
+/* Fade the illustration, keeping the still-interactive text readable. */
+#energyFlow .ef-icon { transition: opacity 420ms steps(4); }
+#energyFlow .ef-starved .ef-icon { opacity: .25; }
+
+#energyFlow [data-follow]:focus-visible { outline-color: var(--panel-solid); }
+
+#energyFlow.ef-off .ef-fuel { color: var(--muted); }

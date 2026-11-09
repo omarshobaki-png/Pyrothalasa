@@ -137,10 +137,10 @@
         const answer = Number(button.dataset.choice);
         answers.push(answer);
         const right = answer === question.correct;
-        button.classList.add(right ? 'q-right' : 'q-wrong');
+        button.classList.add(phase === 'before' ? 'q-locked' : right ? 'q-right' : 'q-wrong');
         body.querySelectorAll('[data-choice]').forEach(function (item) { item.setAttribute('aria-disabled', 'true'); });
         body.querySelector('progress').value = answers.length;
-        body.querySelector('.q-feedback').textContent = right ? 'Correct! Answer locked in.' : 'Not quite. Answer locked in; explanations follow the after-dive quiz.';
+        body.querySelector('.q-feedback').textContent = phase === 'before' ? 'Answer locked in' : right ? 'Correct! Answer locked in.' : 'Not quite. Answer locked in; explanations follow the after-dive quiz.';
         next.hidden = false;
       });
     });

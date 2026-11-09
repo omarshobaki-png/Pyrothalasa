@@ -52,3 +52,9 @@
 #quizEnd [hidden] { display: none; }
 @keyframes q-bounce { 50% { transform: translateY(-5px); } }
 @keyframes q-shake { 25%, 75% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }
+
+#quizEnd .q-locked { border-color: var(--accent); color: var(--ink); }
+
+#quizPreBtn { min-height: 44px; min-width: 44px; }
+
+#quizEnd .q-question:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
