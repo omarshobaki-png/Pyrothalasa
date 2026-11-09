@@ -6,12 +6,22 @@
    ===================================================================== */
 window.Microscope = (function () {
   const S = 120;                       // low-res art size; CSS scales it up, pixelated
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Read live, so switching reduced motion on while the microscope is open freezes it.
+  const motionMq = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = motionMq.matches;
+  const onMotion = (e) => {
+    reduced = e.matches;
+    if (!current) return;
+    cancelAnimationFrame(raf);
+    if (reduced) draw(current, 1.5); else { t0 = performance.now(); loop(t0); }
+  };
+  if (motionMq.addEventListener) motionMq.addEventListener('change', onMotion); else motionMq.addListener(onMotion);
 
+  // Tags: what is real on Earth, what is our assumption, what is invented, what is a drawing choice.
   const SPECIMENS = {
     methanogens: {
-      level: 'Level 1', name: 'Methane-makers', card: 'methanogens', tag: 'evidence',
-      tagText: 'Real microbes on Earth',
+      level: 'Level 1', name: 'Methane-makers', card: 'methanogens',
+      tags: [['evidence', 'Real microbes on Earth'], ['assumption', 'Assumption: living on this moon']],
       lines: [
         'Single cells living in slimy films (biofilms) inside the warm chimney pores.',
         'They take in hydrogen (H₂) and carbon dioxide (CO₂) and give off methane (CH₄).',
@@ -19,28 +29,28 @@ window.Microscope = (function () {
       ],
       eq: 'CO₂ + 4H₂ → CH₄ + 2H₂O',
       legend: [['h2', 'H₂ in'], ['ch4', 'CH₄ out']],
-      scale: 'Zoomed in much further than the animals (not to scale)'
+      scale: 'Drawing choice: zoomed in much further than the animals (not to scale)'
     },
     grazers: {
-      level: 'Level 2', name: 'Grazers', card: 'grazers', tag: 'fiction',
-      tagText: 'Fictional, based on real oxygen-free protozoa',
+      level: 'Level 2', name: 'Grazers', card: 'grazers',
+      tags: [['fiction', 'Fictional, based on real protozoa: single-celled organisms with a nucleus']],
       lines: [
         'One single cell covered in tiny beating hairs (cilia) that it uses to swim.',
         'It swallows methane-makers whole. See the green microbes inside it.'
       ],
       legend: [['cil', 'cilia'], ['food', 'swallowed microbes']],
-      scale: 'Drawn about ×300 larger than life'
+      scale: 'Drawing choice: shown about ×300 larger than life'
     },
     predator: {
-      level: 'Level 3', name: 'Shadowfin', card: 'predator', tag: 'fiction',
-      tagText: 'Fictional, based on real Loricifera',
+      level: 'Level 3', name: 'Shadowfin', card: 'predator',
+      tags: [['fiction', 'Fictional, based on Loricifera: real tiny animals']],
       lines: [
         'The top predator, and still smaller than 1 mm: about the size of a grain of salt.',
         'A vase-shaped shell protects its body. It has a spiny head and no eyes, because there is no light.',
         'We imagine it finds grazers by sensing the chemistry of the water and their movement.'
       ],
       legend: [['spine', 'spiny head'], ['shell', 'vase-shaped shell']],
-      scale: 'Drawn about ×300 larger than life'
+      scale: 'Drawing choice: shown about ×300 larger than life'
     }
   };
 
@@ -51,16 +61,29 @@ window.Microscope = (function () {
   const ctx = cvs.getContext('2d');
   cvs.width = S; cvs.height = S; ctx.imageSmoothingEnabled = false;
   const $ = (sel) => root.querySelector(sel);
-  let current = null, raf = 0, t0 = 0, opener = null;
+  let current = null, raf = 0, t0 = 0, opener = null, fallback = null;
 
   function chip(cls, text) { const s = document.createElement('span'); s.className = 'chip ' + cls; s.textContent = text; return s; }
 
-  function open(id, from) {
+  // While open, everything behind the microscope is inert (no Tab, no clicks, hidden from
+  // screen readers), so aria-modal is true in practice; Tab cycles inside the box.
+  const behindScope = () => ['world', 'hud', 'card'].map((i) => document.getElementById(i)).filter(Boolean);
+  const focusables = () => [...root.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')].filter((el) => !el.disabled && el.offsetParent !== null);
+  root.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const f = focusables(); if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  function open(id, from, fb) {
     const sp = SPECIMENS[id]; if (!sp) return;
-    current = id; opener = from || document.activeElement;
+    current = id; opener = from || document.activeElement; fallback = fb || null;
+    behindScope().forEach((el) => { el.inert = true; });
     $('#scopeLevel').textContent = sp.level;
     $('#scopeName').textContent = sp.name;
-    const tags = $('#scopeTags'); tags.replaceChildren(chip(sp.tag, sp.tagText));
+    const tags = $('#scopeTags'); tags.replaceChildren(...sp.tags.map(([cls, txt]) => chip(cls, txt)));
     const ul = $('#scopeLines'); ul.replaceChildren();
     sp.lines.forEach((l) => { const li = document.createElement('li'); li.textContent = l; ul.appendChild(li); });
     const eq = $('#scopeEq'); eq.hidden = !sp.eq; eq.textContent = sp.eq || '';
@@ -79,12 +102,19 @@ window.Microscope = (function () {
   function close() {
     if (root.hidden) return;
     root.hidden = true; current = null; cancelAnimationFrame(raf);
-    if (opener && opener.focus) opener.focus({ preventScroll: true });
+    behindScope().forEach((el) => { el.inert = false; });
+    window.dispatchEvent(new Event('scope-closed'));     // app.js re-applies HUD inertness
+    // back to whatever opened it; if that button was removed meanwhile, to its fallback
+    const back = opener && opener.isConnected && opener !== document.body ? opener : fallback;
+    if (back && back.focus) back.focus({ preventScroll: true });
   }
   $('#scopeClose').addEventListener('click', close);
   $('#scopeCard').addEventListener('click', () => {
-    const id = current && SPECIMENS[current].card; close();
-    if (id && window.DiveUI) window.DiveUI.openCard(id);
+    const id = current && SPECIMENS[current].card;
+    const from = opener, fb = fallback;
+    close();
+    // the card remembers the same opener, so closing it returns focus to the reader's place
+    if (id && window.DiveUI) window.DiveUI.openCard(id, from && from.isConnected && from !== document.body ? from : fb);
   });
   root.addEventListener('click', (e) => { if (e.target === root) close(); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });

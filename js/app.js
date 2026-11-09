@@ -160,8 +160,9 @@
       const b = document.createElement('button'); b.type = 'button'; b.className = 'missed-btn';
       b.textContent = labelOf(id);
       b.addEventListener('click', () => {
+        // open first (so the still-connected button is remembered), then count it as found
         if (id.startsWith('scope:')) Microscope.open(id.slice(6), b);
-        else { markFound(id); openCard(id, b); }
+        else { openCard(id, b); markFound(id); }
       });
       list.appendChild(b);
     });
@@ -233,17 +234,23 @@
   }
 
   // ---------- loop ----------
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Reduced motion is read live: switching it on mid-visit freezes the scene at once.
+  const motionMq = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = motionMq.matches;
+  const onMotion = (e) => { reduced = e.matches; forceDraw = true; };
+  if (motionMq.addEventListener) motionMq.addEventListener('change', onMotion); else motionMq.addListener(onMotion);
   World.init($('scene'));
   layout();
   let cam = scrollY, t0 = performance.now();
-  let lastHud = '';
+  let lastHud = '', lastCam = -1, frameN = 0, forceDraw = true, lastHover = null;
 
   function frame(now) {
+    requestAnimationFrame(frame);
     const target = scrollY;
     cam = reduced ? target : cam + (target - cam) * 0.12;
     if (Math.abs(target - cam) < 0.3) cam = target;
-    world.style.transform = 'translate3d(0,' + (-cam).toFixed(1) + 'px,0)';
+    const moving = cam !== lastCam;
+    if (moving) world.style.transform = 'translate3d(0,' + (-cam).toFixed(1) + 'px,0)';
 
     const probeY = Math.max(PROBE_FRAC * H, U.surf * H - cam);
     const probeU = (cam + probeY) / H;
@@ -251,11 +258,18 @@
     const t = reduced ? 0 : (now - t0) / 1000;
     nowT = t;
 
-    requestAnimationFrame(frame);
-    if (innerWidth !== W || innerHeight !== H) layout();
-    World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures, hover: hoverPt, revealT: revealAt ? (reduced ? 99 : t - revealAt) : -1, reduced });
-    updateHud(depth, probeU);
-    checkpoints(depth);
+    if (innerWidth !== W || innerHeight !== H) { layout(); forceDraw = true; }
+    if (hoverPt !== lastHover) { lastHover = hoverPt; forceDraw = true; }
+    // Keep CPU/GPU light: full rate while the camera moves; at rest the ambient animation
+    // runs at half rate, and with reduced motion the static scene is not redrawn at all.
+    frameN++;
+    const draw = moving || forceDraw || (!reduced && frameN % 2 === 0);
+    if (draw) {
+      World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures, hover: hoverPt, revealT: revealAt ? (reduced ? 99 : t - revealAt) : -1, reduced });
+      forceDraw = false;
+    }
+    lastCam = cam;
+    if (moving) { updateHud(depth, probeU); checkpoints(depth); }
   }
 
   // ---------- depth checkpoints: a small pop-up each time you pass a milestone ----------
@@ -299,12 +313,16 @@
     document.body.classList.add('garden-reached');
     if (!scopeUsed) {
       scopeHint.hidden = false;
+      document.body.classList.add('hint-on');        // phones: hint takes the gauges' slot
       hintTimer = setTimeout(dismissScopeHint, 12000);
     }
   }
   function dismissScopeHint() {
+    const hadFocus = scopeHint && scopeHint.contains(document.activeElement);
     scopeUsed = true; clearTimeout(hintTimer);
     if (scopeHint) scopeHint.hidden = true;
+    document.body.classList.remove('hint-on');
+    if (hadFocus) world.querySelector('.marker.level .marker-btn')?.focus({ preventScroll: true });
   }
   function showToast(c, kind) {
     toast.querySelector('.toast-k').textContent = kind || 'Checkpoint';
@@ -316,9 +334,18 @@
     toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
   }
 
+  // Faded-out HUD controls are made inert so Tab skips them (pointer-events alone doesn't).
+  const phoneMq = matchMedia('(max-width: 700px)');
+  const rulerEl = hud.querySelector('.ruler');
+  const setInert = (el, on) => { if (el && el.inert !== on) el.inert = on; };
   function updateHud(d, probeU) {
-    hud.classList.toggle('is-hidden', cam < 0.04 * H);
-    hud.classList.toggle('at-end', cam + H * 0.55 > endTop);
+    const hidden = cam < 0.04 * H, atEnd = cam + H * 0.55 > endTop;
+    hud.classList.toggle('is-hidden', hidden);
+    hud.classList.toggle('at-end', atEnd);
+    if ($('scope').hidden) setInert(hud, hidden);   // the open microscope owns inertness meanwhile
+    setInert(rulerEl, atEnd);
+    if (atEnd && !scopeHint.hidden) dismissScopeHint();   // never cover the end panels
+    setInert($('sourcesLink'), atEnd && phoneMq.matches);
     const key = d.toFixed(1);
     if (key === lastHud) return;
     lastHud = key;
@@ -402,11 +429,13 @@
   function openCard(id, opener) {
     const c = D.cards[id]; if (!c) return;
     lastOpener = opener || null;
+    lastFallback = focusFallback(opener);
     cardTitle.textContent = c.title;
     cardTags.replaceChildren();
     if (c.evidence && c.evidence.length) cardTags.appendChild(chip('evidence', 'Evidence'));
     if (c.assumptions && c.assumptions.length) cardTags.appendChild(chip('assumption', 'Assumption'));
-    if (/fictional/i.test((c.assumptions || []).join(' '))) cardTags.appendChild(chip('fiction', 'Fictional'));
+    // Fiction chip for anything the content calls fictional or "our invention" (e.g. the probe)
+    if (/fictional|our invention|invented/i.test((c.assumptions || []).join(' '))) cardTags.appendChild(chip('fiction', 'Fictional'));
 
     cardBody.replaceChildren();
     usedTerms = new Set();
@@ -440,7 +469,17 @@
   function closeCard() {
     if (card.hidden) return;
     card.hidden = true;
-    if (lastOpener) lastOpener.focus({ preventScroll: true });
+    restoreFocus(lastOpener, lastFallback);
+  }
+  // Where focus goes back to if the opener was removed meanwhile (e.g. a "missed" button
+  // that disappears once found): the Discoveries summary it lived under.
+  let lastFallback = null;
+  function focusFallback(opener) {
+    return opener && opener.closest && opener.closest('#missedList') ? $('missedHead') : null;
+  }
+  function restoreFocus(opener, fallback) {
+    const el = opener && opener.isConnected ? opener : fallback;
+    if (el && el.focus) el.focus({ preventScroll: !world.contains(el) });
   }
   $('cardClose').addEventListener('click', closeCard);
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
@@ -448,7 +487,22 @@
     if (!card.hidden && !card.contains(e.target) && !e.target.closest('.marker-btn')) closeCard();
   });
 
-  window.DiveUI = { openCard: (id) => { markFound(id); openCard(id, null); } };
+  window.DiveUI = { openCard: (id, opener) => { markFound(id); openCard(id, opener || null); } };
+
+  // Keyboard users: #world is a fixed layer moved by the camera, so the browser can't scroll
+  // a focused label or end-screen control into view by itself. When something in the world
+  // gets focus outside the HUD-safe band, scroll the page so it sits mid-screen; the camera
+  // then glides there.
+  document.addEventListener('focusin', (e) => {
+    const el = e.target;
+    if (!world.contains(el) || el === world) return;
+    const r = el.getBoundingClientRect();
+    const topSafe = 110, botSafe = H - (phoneMq.matches ? 90 : 130);
+    if (r.top >= topSafe && r.bottom <= botSafe) return;
+    const docTop = r.top + cam;                      // world is translated by -cam
+    const y = docTop + r.height / 2 - H * 0.45;
+    window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: 'auto' });
+  });
 
   // ---------- click a creature in the scene to open the microscope ----------
   function creatureAt(x, y) {
@@ -474,9 +528,15 @@
   // every microscope view counts as a discovery, however it was opened
   if (window.Microscope) {
     const openScope = Microscope.open;
-    Microscope.open = (id, from) => { markFound('scope:' + id); openScope(id, from); dismissScopeHint(); };
+    Microscope.open = (id, from) => {
+      openScope(id, from, focusFallback(from));    // open first, so `from` is still connected
+      markFound('scope:' + id); dismissScopeHint();
+    };
   }
-  $('scopeHint').addEventListener('click', () => { if (window.Microscope) Microscope.open('grazers', $('scopeHint')); });
+  addEventListener('scope-closed', () => { lastCam = -1; });   // forces updateHud next frame
+  // the hint hides itself once used, so focus returns to the garden's food-web label instead
+  $('scopeHintGo').addEventListener('click', () => { if (window.Microscope) Microscope.open('grazers', world.querySelector('.marker.level .marker-btn')); });
+  $('scopeHintX').addEventListener('click', () => { dismissScopeHint(); });
   renderMissed();
 
   // ---------- buttons ----------
@@ -489,7 +549,7 @@
   });
 
   let rt;
-  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); lastHud = ''; }, 80); });
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); lastHud = ''; lastCam = -1; forceDraw = true; }, 80); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); });
 
   requestAnimationFrame(frame);

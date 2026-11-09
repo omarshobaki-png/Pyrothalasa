@@ -149,7 +149,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 }
 .hero-note { color: var(--muted); font-size: 18px; margin: 14px 0 0; }
 .hero-disclaimer {
-  color: var(--dim); font-size: 16px; line-height: 1.2; max-width: 46em; margin: 8px 0 0;
+  color: var(--dim); font-size: 18px; line-height: 1.2; max-width: 46em; margin: 8px 0 0;
 }
 .plus {
   display: inline-block; font-family: var(--px); color: var(--bg); background: var(--accent);
@@ -189,7 +189,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
   background: rgba(5, 12, 24, 0.9);
   border: 2px solid var(--line);
   box-shadow: var(--shadow-px);
-  padding: 7px 12px;
+  padding: 7px 12px; min-height: 44px;
 }
 .marker-btn { cursor: pointer; transition: border-color .1s, background .1s, transform .08s steps(2), box-shadow .08s steps(2); }
 .marker-btn:hover { border-color: var(--accent); background: #0b1d33; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 rgba(0,0,0,0.55); }
@@ -225,7 +225,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .end { position: absolute; left: 0; right: 0; padding: 0 16px 10vh; }
 .end-panel {
   max-width: 860px; margin: 0 auto;
-  background: rgba(5, 11, 22, 0.96);
+  background: #050b16;                /* opaque: the parked probe must not show through */
   border: 2px solid var(--accent);
   box-shadow: 8px 8px 0 rgba(0,0,0,0.6), 0 0 0 2px #04070f;
   padding: clamp(18px, 4vw, 40px);
@@ -242,6 +242,9 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .end ul, .end ol { padding-left: 1.2em; margin: 0; }
 .end li { margin: 0 0 6px; }
 .end-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; }
+/* one vertical rhythm between the end-screen sections (outer spacing of the mounts only) */
+.end-panel > #energyFlow, .end-panel > #tagGame, .end-panel > #quizEnd, .end-panel > .discoveries { margin-top: 24px; margin-bottom: 24px; }
+.end-panel > #topBtn { margin-top: 10px; }
 .flow {
   list-style: none; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch;
 }
@@ -261,7 +264,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
   font-family: var(--px); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
   border: 1px solid var(--dim); color: var(--muted); padding: 1px 5px; margin-left: 6px; white-space: nowrap;
 }
-.small { font-size: 16px; color: var(--muted); }
+.small { font-size: 18px; color: var(--muted); }
 #topBtn { margin-top: 24px; }
 
 /* ---------- HUD ---------- */
@@ -287,6 +290,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .hud-link {
   top: 14px; right: 14px; font-family: var(--px); font-size: 11px; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--ink); text-decoration: none;
+  min-height: 44px; display: flex; align-items: center;
 }
 .hud-link:hover { border-color: var(--accent); }
 .hud-found { top: 14px; right: 130px; padding: 6px 12px; pointer-events: none; }
@@ -300,28 +304,34 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 /* microscope prompt shown when you reach the garden */
 .scope-hint {
   position: absolute; left: 50%; bottom: 104px; transform: translateX(-50%);
-  pointer-events: auto; cursor: pointer; max-width: calc(100vw - 32px);
-  font: inherit; font-size: 19px; line-height: 1.2; color: var(--bg);
-  background: var(--accent); border: 2px solid #b8f4ff; padding: 8px 14px;
-  box-shadow: 4px 4px 0 #0a3a4d; animation: hint-in .3s steps(3) both, hint-bob 1.4s steps(2) .3s infinite;
+  display: flex; align-items: stretch; pointer-events: auto; max-width: calc(100vw - 32px);
+  border: 2px solid #b8f4ff; box-shadow: 4px 4px 0 #0a3a4d;
+  animation: hint-in .3s steps(3) both, hint-bob 1.4s steps(2) .3s infinite;
 }
 .scope-hint[hidden] { display: none; }
-.scope-hint:hover { background: #b8f4ff; }
-.scope-hint:focus-visible { outline: 2px solid var(--assume); outline-offset: 3px; }
+.scope-hint button {
+  font: inherit; font-size: 19px; line-height: 1.2; color: var(--bg); cursor: pointer;
+  background: var(--accent); border: 0; min-height: 44px;
+}
+.scope-hint-go { padding: 8px 14px; text-align: left; }
+.scope-hint-x { min-width: 44px; border-left: 2px solid #0a3a4d !important; font-family: var(--px) !important; font-size: 13px !important; }
+.scope-hint button:hover { background: #b8f4ff; }
+.scope-hint button:focus-visible { outline: 3px solid var(--assume); outline-offset: -3px; }
 @keyframes hint-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
 @keyframes hint-bob { 50% { transform: translate(-50%, -4px); } }
+@keyframes hint-in-m { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
 /* end screen: discoveries + what you missed */
 .discoveries { margin: 24px 0 8px; padding: 16px 18px; }
 .discoveries h3 { margin-top: 0 !important; }
 .disc-n { color: var(--ink); margin-left: 8px; }
-.disc-head { margin: 4px 0 10px; color: var(--accent); cursor: pointer; width: fit-content; }
+.disc-head { margin: 4px 0 10px; padding: 10px 0; min-height: 44px; color: var(--accent); cursor: pointer; width: fit-content; }
 .disc-head::marker { color: var(--assume); }
 .disc-head:focus-visible { outline: 2px solid var(--assume); outline-offset: 2px; }
 .missed.none-left .disc-head { color: var(--evidence); cursor: default; list-style: none; }
 .missed-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .missed-btn {
-  font: inherit; font-size: 17px; line-height: 1.15; color: var(--ink); cursor: pointer; text-align: left;
+  font: inherit; font-size: 18px; line-height: 1.15; color: var(--ink); cursor: pointer; text-align: left; min-height: 44px;
   background: #0b1d33; border: 2px dashed var(--line); padding: 5px 10px;
 }
 .missed-btn::before { content: "? "; color: var(--assume); }
@@ -339,7 +349,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .gauge-bar i { display: block; height: 100%; width: 0; background: var(--accent); }
 #tempBar { background: linear-gradient(90deg, #5d9dff, #ffb15d); }
 #lightBar { background: #ffe58a; }
-.gauge-sub { display: block; font-size: 15px; line-height: 1.1; color: var(--muted); white-space: nowrap; }
+.gauge-sub { display: block; font-size: 18px; line-height: 1.1; color: var(--muted); white-space: nowrap; }
 
 .ruler { position: absolute; top: 76px; bottom: 120px; right: 18px; width: 120px; pointer-events: none; }
 .ruler-track { position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: #0d1d30; border: 1px solid #1d3a57; }
@@ -352,7 +362,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
   position: absolute; right: 10px; transform: translateY(-50%);
   pointer-events: auto; cursor: pointer;
   font-family: var(--px); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); background: rgba(4, 8, 16, 0.78); border: 0; padding: 3px 5px 2px; white-space: nowrap;
+  color: var(--muted); background: rgba(4, 8, 16, 0.78); background-clip: content-box; border: 0; padding: 16px 8px 15px; white-space: nowrap; /* 44px tall hit area, small visible label */
 }
 .tick::after { content: " —"; color: var(--dim); }
 .tick:hover { color: var(--accent); }
@@ -389,7 +399,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .chip.fiction { background: var(--fiction); color: #120a2a; }
 .card-close {
   font: 14px var(--px); color: var(--ink); background: #3a1424; border: 2px solid var(--pink);
-  width: 32px; height: 32px; cursor: pointer; flex: none; box-shadow: 2px 2px 0 #000;
+  width: 44px; height: 44px; cursor: pointer; flex: none; box-shadow: 2px 2px 0 #000;
 }
 .card-close:hover { background: var(--pink); color: var(--bg); }
 .card-close:active { transform: translate(2px, 2px); box-shadow: none; }
@@ -412,16 +422,16 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 .card-sec.as h4 { color: var(--assume); }
 .card-sec ul { margin: 0; padding-left: 1.1em; }
 .card-sec li { margin-bottom: 4px; font-size: 19px; line-height: 1.25; }
-.card-src { margin-top: 14px; font-size: 17px; color: var(--muted); }
+.card-src { margin-top: 14px; font-size: 18px; color: var(--muted); }
 .card-src li { font-family: var(--mono); font-size: 12px; }
 .card-src ol { padding-left: 1.2em; margin: 4px 0 0; }
 
 .coins { margin: 6px 0 12px; display: grid; gap: 6px; }
-.coin-row { display: grid; grid-template-columns: 112px 1fr 64px; align-items: center; gap: 8px; font-size: 17px; }
+.coin-row { display: grid; grid-template-columns: 112px 1fr 64px; align-items: center; gap: 8px; font-size: 18px; }
 .coin-bar { height: 10px; background: #0d1d30; border: 1px solid #1d3a57; }
 .coin-bar i { display: block; height: 100%; min-width: 2px; background: var(--assume); }
 .coin-n { text-align: right; font-family: var(--px); font-size: 11px; color: var(--assume); }
-.coin-note { font-size: 16px; color: var(--muted); margin: -4px 0 10px; }
+.coin-note { font-size: 18px; color: var(--muted); margin: -4px 0 10px; }
 
 /* checkpoint pop-up */
 .toast {
@@ -449,7 +459,7 @@ button, input, select, textarea { font-variant-ligatures: none; font-feature-set
 
 /* ---------- microscope ---------- */
 body.over-creature { cursor: zoom-in; }
-.btn-small { font-size: 11px; padding: 9px 14px; letter-spacing: 0.08em; }
+.btn-small { font-size: 11px; padding: 9px 14px; letter-spacing: 0.08em; min-height: 44px; }
 .scope-open { display: block; margin: 0 0 14px; }
 .scope {
   position: fixed; inset: 0; z-index: 20;
@@ -487,7 +497,7 @@ body.over-creature { cursor: zoom-in; }
     radial-gradient(circle, transparent 62%, rgba(0,0,0,0.55) 100%);
 }
 .scope-lens canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
-.scope-scale { font-size: 16px; color: var(--muted); margin: 14px 0 0; max-width: 360px; }
+.scope-scale { font-size: 18px; color: var(--muted); margin: 14px 0 0; max-width: 360px; }
 .scope-name { font-family: var(--px); font-weight: 400; font-size: 26px; color: var(--accent); text-transform: uppercase; margin: 0 0 10px; line-height: 1.1; }
 .scope-lines { margin: 14px 0 0; padding-left: 1.1em; font-size: 20px; line-height: 1.25; }
 .scope-lines li { margin-bottom: 8px; }
@@ -512,7 +522,7 @@ body.over-creature { cursor: zoom-in; }
   .scope-head { margin: 0 -16px 14px; padding: 8px 10px 8px 16px; }
   .scope-grid { grid-template-columns: 1fr; gap: 14px; }
   .scope-lens { width: min(62vw, 260px); height: min(62vw, 260px); margin: 0 auto; }
-  .scope-scale { margin: 10px auto 0; font-size: 15px; }
+  .scope-scale { margin: 10px auto 0; font-size: 18px; }
   .scope-name { font-size: 20px; }
   .scope-lines { font-size: 18px; }
 }
@@ -533,15 +543,19 @@ body.over-creature { cursor: zoom-in; }
   .marker.zone .marker-btn, .marker.zone .marker-txt { font-size: 12px; }
   .hud-depth { top: 8px; left: 8px; min-width: 0; padding: 5px 9px; }
   .hud-value { font-size: 17px; }
-  .hud-link { top: 8px; right: 8px; font-size: 10px; padding: 6px 9px; }
-  .hud-found { top: 44px; right: 8px; padding: 4px 8px; }
+  .hud-link { top: 8px; right: 8px; font-size: 10px; padding: 6px 11px; }
+  .hud-found { top: 58px; right: 8px; padding: 4px 8px; }
   /* On phones the end panel is full width, so the top HUD boxes would cover its text */
   #hud .hud-depth, #hud .hud-link, #hud .hud-found { transition: opacity .3s; }
   #hud.at-end .hud-depth, #hud.at-end .hud-link, #hud.at-end .hud-found { opacity: 0; pointer-events: none; }
   .hud-found .hud-label { display: none; }
   .found-val { font-size: 12px; }
   .found-val::before { content: "★ "; color: var(--assume); }
-  .scope-hint { bottom: 70px; font-size: 17px; width: max-content; }
+  /* phones: while the hint shows, it takes the gauge panel's slot instead of covering labels */
+  .scope-hint { bottom: 8px; left: 8px; right: 8px; transform: none; max-width: none; animation: hint-in-m .3s steps(3) both; }
+  .scope-hint button { font-size: 18px; }
+  .scope-hint-go { flex: 1; }
+  body.hint-on #hud .hud-gauges { visibility: hidden; }
   .hud-gauges { left: 8px; right: 8px; bottom: 8px; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 5px 9px; }
   .gauge-val { font-size: 11px; }
   .gauge-bar { margin: 3px 0 0; height: 5px; }
@@ -562,3 +576,11 @@ body.over-creature { cursor: zoom-in; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* "model" / "calc." tags on the HUD gauges: the numbers come from a simplified model (Assumption) */
+.model-tag {
+  text-decoration: none; cursor: help; margin-left: 4px; padding: 0 3px;
+  font-size: 8px; letter-spacing: 0.1em; color: #1d1300; background: var(--assume); vertical-align: 1px;
+}
+/* HUD text changes every frame while scrolling; keep its layout work inside each box */
+.hud-box { contain: layout style; }

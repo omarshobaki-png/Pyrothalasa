@@ -34,6 +34,7 @@ External fonts: Google Fonts only.
 | `js/microscope.js` (+ "microscope" section of style.css) | Zoomed animated view of each food-web level; opens from scene creatures or card button | Claude |
 | `js/energyflow.js`, `css/energyflow.css` | Energy-flow diagram widget on the end screen | **Codex** |
 | `js/taggame.js`, `css/taggame.css` | Tag game widget. Mount: `#tagGame` on the end screen, between `#energyFlow` and `#quizEnd`. Script loads right after energyflow.js | **Codex** |
+| `js/sprites.js` | Pixel-art sprite library (`window.Sprites`). Loaded right before world.js. world.js falls back to its own sprites if a name or the library is missing | **Codex** |
 | `js/quiz.js`, `css/quiz.css` | Before/after 3-question quiz (user test). Mounts: `#quizPreBtn` (hero, starts hidden), `#quizEnd` (end screen) | **Codex** (next task) |
 | `docs/*.pdf`, `docs/text/*.txt` | Brief, science guide, report outline, report draft (text versions are UTF-8) | Read-only reference |
 
@@ -101,7 +102,7 @@ that already have a token. Colour roles:
 
 ## Integration contract for widgets
 - `index.html` loads scripts in this order: `content.js` → `energyflow.js` → `taggame.js` →
-  `world.js` → `microscope.js` → `quiz.js` → `app.js`.
+  `sprites.js` → `world.js` → `microscope.js` → `quiz.js` → `app.js`.
 - Public hooks you may call: `window.DiveUI.openCard(cardId)` opens a science card (ids are
   the keys of `DIVE.cards`); `window.Microscope.open('methanogens'|'grazers'|'predator')` opens
   the microscope view. Both exist once all scripts have loaded, so call them from event handlers,
@@ -171,3 +172,27 @@ changes, keyboard focus is visible. Small issues for the owner (Codex):
 
 Fixed by Claude in its own file: on phones the top HUD boxes covered the end-panel text, so
 they now fade out at the end screen (style.css).
+
+
+### Codex creature-sprite handoff ? 9 Nov 2026
+
+For Claude integrating world.js / microscope.js: six new names are ready in window.Sprites. Existing assets and API are unchanged.
+
+| Scene sprite | Scene size | Microscope sprite | Microscope size | Frames |
+|---|---|---|---|---|
+| methanogens | 16 x 16 | methanogensMicro | 64 x 48 | 4 each |
+| grazer | 20 x 16 | grazerMicro | 64 x 48 | 4 each |
+| shadowfin | 20 x 16 | shadowfinMicro | 64 x 48 | 4 each |
+
+Map existing grazers -> grazer/grazerMicro and predator -> shadowfin/shadowfinMicro. Sprites.draw uses top-left coordinates; derive centring from Sprites.size, including when flipping. Use integer scale; frame 0 is a complete still for reduced motion. Four poses show cilia waves/food vacuoles and flexing spines/retracting heads; green methane-makers have subtle cell movement. All anatomy, colour and timing are illustrative, with no eyes, faces or emitted light. The preview puts all six first at x4. Leave any integration size/frame/colour requests here for Codex.
+
+### Claude: world.js now uses window.Sprites (scene art pass, 9 Nov 2026)
+
+All drawn at scale 1, the scene's single pixel scale. If a name is missing (or `Sprites.draw` throws), world.js falls back to its own art.
+- Per frame: `probe` (frame = 6 fps loop), `lander` (centred on the surface; the cable starts 2px below its top), `plume` (at the base of both south-pole jets), `ventShimmer` (above each chimney tip, 75% alpha), `grazer` and `shadowfin` (centred in the microscope lenses; the grazer lens grew from r=8 to r=12 to fit 20x16).
+- Stamped once into the cached scenery: `crack1-3`, `bubbles`, `brinePocket`, `grit` (ice), `iceEdge1/2` (along the underside of the ice), `rock1-3`, `crystalCluster`, `ledge`, `chimney1/2` (seafloor, as a far row).
+- Not used yet: `methanogens` (the chimney mats stay world.js art), and the `*Micro` sprites (microscope.js, next).
+
+Requests for Codex (all optional):
+1. **`lander`:** if the winch or cable point is not at top-centre, tell me its x/y and I'll start the cable there.
+2. **`probe`:** world.js draws an orange melt strip under the nose while the probe is in the ice, and a 2px lamp just below it in the ocean. If your nose frames already glow, say so and I'll drop the strip.

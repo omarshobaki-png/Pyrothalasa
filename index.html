@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Hydrogen Garden</title>
   <meta name="description" content="Scroll-driven dive into a fictional ocean moon where a food web runs on hydrogen instead of sunlight. Built from real science.">
+  <meta name="theme-color" content="#04070f">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Link previews (Open Graph / Twitter) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Hydrogen Garden">
+  <meta property="og:title" content="The Hydrogen Garden: an interactive dive">
+  <meta property="og:description" content="Dive 50 km into a fictional ocean moon where life runs without sunlight. Every design choice is tied to real evidence.">
+  <meta property="og:url" content="https://omarshobaki-png.github.io/Pyrothalasa/">
+  <meta property="og:image" content="https://omarshobaki-png.github.io/Pyrothalasa/docs/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pixel-art probe descending between white vent chimneys in the dark Hydrogen Garden">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Hydrogen Garden: an interactive dive">
+  <meta name="twitter:description" content="Dive 50 km into a fictional ocean moon where life runs without sunlight. Every design choice is tied to real evidence.">
+  <meta name="twitter:image" content="https://omarshobaki-png.github.io/Pyrothalasa/docs/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&family=Silkscreen&display=swap" rel="stylesheet">
@@ -114,25 +130,28 @@
       <span class="found-val"><b id="foundN">0</b>/<span id="foundTotal">0</span></span>
       <span class="found-bar" aria-hidden="true"><i id="foundBar"></i></span>
     </div>
-    <button class="scope-hint" id="scopeHint" type="button" hidden>
-      <span aria-hidden="true">🔬</span> Tap a glowing creature to look under the microscope
-    </button>
+    <div class="scope-hint" id="scopeHint" hidden>
+      <button class="scope-hint-go" id="scopeHintGo" type="button">
+        <span aria-hidden="true">🔬</span> Tap a glowing creature to look under the microscope
+      </button>
+      <button class="scope-hint-x" id="scopeHintX" type="button" aria-label="Dismiss microscope hint">✕</button>
+    </div>
 
     <div class="hud-box hud-gauges" aria-live="off">
       <div class="gauge">
-        <span class="hud-label">Pressure</span>
+        <span class="hud-label">Pressure <abbr class="model-tag" title="Calculated: density × gravity × depth, with simplified physics. Assumption: our gauges use simplified physics (constant gravity, straight-line ice temperature, illustrative light fade). Not measurements.">calc.</abbr></span>
         <span class="gauge-val" id="presVal">0 bar</span>
         <span class="gauge-bar"><i id="presBar"></i></span>
         <span class="gauge-sub" id="presSub">no air</span>
       </div>
       <div class="gauge">
-        <span class="hud-label">Temp</span>
+        <span class="hud-label">Temp <abbr class="model-tag" title="Assumption: our gauges use simplified physics (constant gravity, straight-line ice temperature, illustrative light fade). Not measurements.">model</abbr></span>
         <span class="gauge-val" id="tempVal">−201 °C</span>
         <span class="gauge-bar"><i id="tempBar"></i></span>
         <span class="gauge-sub" id="tempSub">surface</span>
       </div>
       <div class="gauge">
-        <span class="hud-label">Sunlight</span>
+        <span class="hud-label">Sunlight <abbr class="model-tag" title="Assumption: our gauges use simplified physics (constant gravity, straight-line ice temperature, illustrative light fade). Not measurements.">model</abbr></span>
         <span class="gauge-val" id="lightVal">1.1%</span>
         <span class="gauge-bar"><i id="lightBar"></i></span>
         <span class="gauge-sub" id="lightSub">of Earth's</span>
@@ -182,6 +201,7 @@
   <script src="js/content.js"></script>
   <script src="js/energyflow.js"></script>
   <script src="js/taggame.js"></script>
+  <script src="js/sprites.js"></script>
   <script src="js/world.js"></script>
   <script src="js/microscope.js"></script>
   <script src="js/quiz.js"></script>

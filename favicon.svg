@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Pixel favicon: a white vent chimney with green microbe mats and rising cyan H2 bubbles,
+       on the site's dark background. Colours are the design tokens from css/style.css. -->
+  <rect width="16" height="16" fill="#04070f"/>
+  <rect x="0" y="14" width="16" height="2" fill="#241d1b"/>
+  <path fill="#e6f2ff" d="M7 5h2v2H7zM6 7h4v3H6zM5 10h6v4H5z"/>
+  <path fill="#b9ab8a" d="M9 5h0v0zM9 7h1v3H9zM10 10h1v4h-1z"/>
+  <path fill="#4fe0a6" d="M6 8h1v1H6zM5 11h1v1H5zM10 12h1v1h-1z"/>
+  <path fill="#ff9a3d" d="M7 4h2v1H7z"/>
+  <path fill="#5de4ff" d="M8 1h1v1H8zM6 2h1v1H6zM10 3h1v1h-1z"/>
+</svg>
