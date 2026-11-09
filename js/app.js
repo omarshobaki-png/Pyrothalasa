@@ -193,6 +193,9 @@
   D.tests.forEach((s) => { const li = document.createElement('li'); li.textContent = s; $('testsList').appendChild(li); });
   Object.entries(D.sources).forEach(([, s]) => $('sourcesList').appendChild(sourceItem(s)));
   $('credits').textContent = 'Team ' + D.meta.teamName + ': ' + D.meta.members.join(', ') + '.';
+  if (D.meta.reportUrl) $('reportLink').href = D.meta.reportUrl; else $('reportLink').hidden = true;
+  if (D.meta.videoUrl) $('videoLink').href = D.meta.videoUrl; else $('videoLink').hidden = true;
+  $('aiUse').textContent = 'AI use: ' + (D.meta.aiUse || '');
 
   function sourceItem(s) {
     const li = document.createElement('li');
@@ -223,7 +226,7 @@
     world.style.height = Math.round(total) + 'px';
     tickNodes.forEach(({ tk, b }) => { b.style.top = (fracOfU(uOfD(tk.d)) * 100) + '%'; });
     Object.keys(D.creatures).forEach((k) => {
-      creatures[k] = D.creatures[k].map((c) => ({ x: c.x, u: uOfD(FLOOR_M - c.aboveFloor) }));
+      creatures[k] = D.creatures[k].map((c) => ({ x: c.x, u: uOfD(FLOOR_M - c.aboveFloor), stage: c.stage || '' }));
     });
     World.resize(W, H, L);
     scanLayout();
@@ -430,8 +433,8 @@
     build();
     let pick = cands.find((c) => c.k === cur.place);              // sticky: only switch when it starts to collide
     if (!pick || pick.s > 0) pick = cands.reduce((a, b) => (b.s < a.s ? b : a));
-    if (pick.s > 0 && phoneMq.matches && !cur.compact) {
-      // phones: no free sheet slot -> a compact sheet (title + buttons), so the probe and creatures stay clear
+    if (pick.s > 0 && !cur.compact) {
+      // no free slot -> a compact one-row callout (title + buttons), so the probe, HUD and creatures stay clear
       cur.compact = true; sc.el.classList.add('compact'); cur.h = h = sc.el.offsetHeight;
       build(); pick = cands.reduce((a, b) => (b.s < a.s ? b : a));
     }
@@ -440,10 +443,14 @@
       let best = pick, bd = Infinity;
       const yMin = phoneMq.matches ? $('foundBox').getBoundingClientRect().bottom + 8 : 8;
       const yMax = phoneMq.matches ? hud.querySelector('.hud-gauges').getBoundingClientRect().top - 8 - h : H - h - 8;
-      for (let y = yMin; y <= yMax; y += 12) {
-        const sc2 = score({ x: pick.x, y, w, h }, obs), d = Math.abs(y - (r.y + r.h / 2 - h / 2));
-        if (sc2 < best.s || (sc2 === best.s && d < bd)) { best = { k: 'slot', x: pick.x, y, s: sc2 }; bd = d; }
-      }
+      // desktop: if this column is full, try the other side too (the leader line still joins them)
+      const xs = phoneMq.matches ? [pick.x] : [pick.x, t.m.side === 'right' ? 60 : Math.max(W / 2 + 44, W - 150 - w)];
+      xs.forEach((x, xi) => {
+        for (let y = yMin; y <= yMax; y += 12) {
+          const sc2 = score({ x, y, w, h }, obs), d = Math.abs(y - (r.y + r.h / 2 - h / 2)) + xi * 4000;
+          if (sc2 < best.s || (sc2 === best.s && d < bd)) { best = { k: 'slot', x, y, s: sc2 }; bd = d; }
+        }
+      });
       pick = best;
     }
     cur.place = pick.k;
@@ -782,6 +789,7 @@
       cardBody.appendChild(n);
     }
     (c.after || []).forEach((t) => cardBody.appendChild(para(t)));
+    if (c.lifeCycle) cardBody.appendChild(window.lifeCycleEl(c.lifeCycle));
     if (c.evidence && c.evidence.length) cardBody.appendChild(section('ev', 'What is evidence', c.evidence));
     if (c.assumptions && c.assumptions.length) cardBody.appendChild(section('as', 'What we assumed', c.assumptions));
     if (c.sources && c.sources.length) {
@@ -866,7 +874,7 @@
   renderMissed();
 
   // ---------- buttons ----------
-  $('beginBtn').addEventListener('click', () => jumpToDepth(4));
+  $('beginBtn').addEventListener('click', () => jumpToDepth(GARDEN_M + 2));
   $('scrollCue').addEventListener('click', () => jumpToDepth(4));
   $('topBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }));
   $('sourcesLink').addEventListener('click', (e) => {

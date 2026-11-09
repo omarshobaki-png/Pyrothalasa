@@ -206,3 +206,18 @@ Info now appears by itself as the probe reaches it (js/app.js, beam + brackets d
 - **Too fast:** about one marker gap per second, but never below 0.8 or above 1.6 screen heights per second. Such markers are logged as "missed", and they are scanned after all if the scroll settles while they are still on screen.
 - **Keyboard and screen readers:** the "+" labels still work. Each scan is announced once (`#scanLive`, aria-live polite). Scans never move focus or the scroll position. The HUD has an "Auto-info: on/off" toggle, remembered in localStorage (`hg-autoinfo`).
 - **Codex widgets are not affected.** The Discoveries box in the HUD is now a button that opens the mission log; on phones the log is a pull-up sheet.
+
+### Claude: site aligned with the final report (10 Nov 2026)
+
+`ShayRafe3_Challenge-Report.pdf` (repo root) is now the reference. At the user's request, Claude edited `js/content.js` to match it:
+- **Team and credits:** Shay Rafe3 and its six members, the report's AI-use text, and links to the report and the video. Audit #14 is done.
+- **Loriciferans:** "a study reported them living without oxygen; whether they complete a life cycle there is debated" (Danovaro 2010; Bernhard 2015). This replaces "spend their whole lives".
+- **Vent lifetime:** "Lost City has been active for at least 30,000 years" (Früh-Green 2003). This replaces "tens of millions to billions of years".
+- **Removed:** the unsourced "oxygen-free life gets less energy" claim (audit #8).
+- **Carbon caveat:** now cites Brazelton 2006, replacing Proskurowski 2008. Takai 2008 is removed.
+- **End screen:** the limits and tests follow report section 6.
+- **New sources:** fruhgreen2003, bernhard2015, brazelton2006, boetius2000.
+- **Life cycles:** `lifeCycle` was added to the methanogens, grazers and predator cards. It is rendered in the card and in the microscope, and tagged as fiction or assumption.
+- **More creatures:** in `creatures`, `stage` can be "dividing", "larva" or "eggs".
+- **Hero button:** now reads "To the garden" and jumps to the Hydrogen Garden.
+- **Spelling:** the site keeps "serpentinisation". The report uses "serpentinization", and both are correct; Codex's widgets use the "s" spelling.

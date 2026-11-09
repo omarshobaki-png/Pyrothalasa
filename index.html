@@ -44,7 +44,7 @@
       <ul class="hero-chips">
         <li>fictional world</li><li>real science</li><li>50 km dive</li>
       </ul>
-      <button class="btn-pixel" id="beginBtn" type="button">▼ Begin descent ▼</button>
+      <button class="btn-pixel" id="beginBtn" type="button">▼ To the garden ▼</button>
       <!-- Quiz entry (owned by js/quiz.js); hidden until the quiz script shows it -->
       <button class="btn-link" id="quizPreBtn" type="button" hidden>Take the 30-second quiz first</button>
       <p class="hero-note">Tap any label marked <span class="plus">+</span> to see the science</p>
@@ -103,7 +103,8 @@
 
         <h3>Credits</h3>
         <p id="credits"></p>
-        <p class="small">AI-use disclosure: <em>[fill in which AI tools you used, for what, and how you checked their output]</em></p>
+        <p class="end-links"><a id="reportLink" href="#" target="_blank" rel="noopener">Read our report (PDF)</a> <a id="videoLink" href="#" target="_blank" rel="noopener">Watch our video</a></p>
+        <p class="small" id="aiUse"></p>
         <p class="small">Made for a local team-selection round organised by NOVA for Astronomy and Space Science. Not issued, reviewed or endorsed by NASA.</p>
 
         <button class="btn-pixel" id="topBtn" type="button">▲ Back to the surface</button>
@@ -218,6 +219,7 @@
           <ul class="scope-lines" id="scopeLines"></ul>
           <p class="scope-eq" id="scopeEq" hidden></p>
           <ul class="scope-legend" id="scopeLegend"></ul>
+          <div class="cycle" id="scopeCycle" hidden></div>
           <button class="btn-pixel btn-small" id="scopeCard" type="button">Read the science +</button>
         </div>
       </div>

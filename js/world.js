@@ -1150,39 +1150,65 @@ window.World = (function () {
   // little "hello" hop for the creatures when the floodlights come on
   const hop = (s, i) => (s.revealT > 0 && s.revealT < 2.4) ? -Math.abs(Math.sin((s.revealT - i * 0.15) * 6)) * 3 * (1 - s.revealT / 2.4) : 0;
 
+  // Creatures, including life stages (content.js creatures[].stage):
+  //   grazers: "dividing" = one cell splitting into two; predator: "larva" (young Shadowfin), "eggs".
   function drawCreatures(s, toAy) {
     const t = s.t;
     const cr = s.creatures;
     const lit = s.revealT > 0;
     const libG = libHas('grazer') && libSize('grazer'), libP = libHas('shadowfin') && libSize('shadowfin');
-    cr.grazers.forEach((g, i) => {
-      const gx = g.x * aw + Math.sin(t * 0.3 + i * 1.7) * 3;
-      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3 + hop(s, i);
-      if (ay < -12 || ay > ah + 12) return;
-      const lr = libG ? 12 : 8;
-      hits.push({ id: 'grazers', x: gx * PX, y: (ay + 2) * PX, r: (lr + 3) * PX });
-      lens(gx, ay + 2, lr);
-      const hov = isHovered(s, gx, ay + 2);
-      if (hov || lit) lensHighlight(gx, ay + 2, lr, t + i, hov);
-      tapBadge(gx, ay + 2, lr, t);
-      if (libG && libDraw('grazer', Math.floor(t * 6 + i) % (libG.frames || 1), gx - libG.w / 2, ay + 2 - libG.h / 2, i % 2 === 1)) return;
-      sprite(GRAZER, GCOL, gx - 3, ay, 1, i % 2 === 1);
-      // beating cilia around the cell
-      ctx.fillStyle = 'rgba(255,214,223,0.85)';
+    const grazerAt = (x, y, i, flip) => {
+      if (libG && libDraw('grazer', Math.floor(t * 6 + i) % (libG.frames || 1), x - libG.w / 2, y - libG.h / 2, flip)) return;
+      sprite(GRAZER, GCOL, x - 3, y - 2, 1, flip);
+      ctx.fillStyle = 'rgba(255,214,223,0.85)';                       // beating cilia around the cell
       const f = Math.floor(t * 6 + i) % 2;
       const rim = [[-1, 2], [7, 2], [1, -1], [5, -1], [1, 5], [5, 5], [0, 0], [6, 0], [0, 4], [6, 4]];
-      rim.forEach(([dx, dy], k) => { if ((k + f) % 2 === 0) ctx.fillRect(Math.round(gx - 3 + dx), Math.round(ay + dy), 1, 1); });
+      rim.forEach(([dx, dy], k) => { if ((k + f) % 2 === 0) ctx.fillRect(Math.round(x - 3 + dx), Math.round(y - 2 + dy), 1, 1); });
+    };
+    cr.grazers.forEach((g, i) => {
+      const dividing = g.stage === 'dividing';
+      const gx = g.x * aw + Math.sin(t * 0.3 + i * 1.7) * (dividing ? 1 : 3);
+      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3 + hop(s, i);
+      if (ay < -20 || ay > ah + 20) return;
+      const cy = ay + 2;
+      const lr = dividing ? (libG ? 17 : 11) : (libG ? 12 : 8);
+      hits.push({ id: 'grazers', x: gx * PX, y: cy * PX, r: (lr + 3) * PX });
+      lens(gx, cy, lr);
+      const hov = isHovered(s, gx, cy);
+      if (hov || lit) lensHighlight(gx, cy, lr, t + i, hov);
+      tapBadge(gx, cy, lr, t);
+      if (!dividing) { grazerAt(gx, cy, i, i % 2 === 1); return; }
+      // splitting in two: the halves drift apart and snap back on a slow loop (still while reduced)
+      const gap = s.reduced ? 3 : 2 + Math.round(2 * (0.5 + 0.5 * Math.sin(t * 0.8 + i)));
+      const half = (libG ? libG.w : 7) / 2;
+      grazerAt(gx - half + 3 - gap, cy, i, false);
+      grazerAt(gx + half - 3 + gap, cy, i + 1, true);
+      ctx.fillStyle = 'rgba(255,225,232,0.9)';                         // the pinch where the cell divides
+      ctx.fillRect(Math.round(gx), Math.round(cy) - 1, 1, 3);
     });
     cr.predator.forEach((p, i) => {
+      const stage = p.stage || '';
       const ph = t * 0.16 + i;
-      const x = (p.x + Math.sin(ph) * 0.1) * aw;
-      const ay = toAy(p.u) + Math.sin(t * 0.9) * 2 + hop(s, 4 + i);
+      const swim = stage === 'eggs' ? 0 : stage === 'larva' ? 0.04 : 0.1;
+      const x = (p.x + Math.sin(ph) * swim) * aw;
+      const ay = toAy(p.u) + (stage === 'eggs' ? 0 : Math.sin(t * 0.9 + i) * 2) + hop(s, 4 + i);
       if (ay < -16 || ay > ah + 16) return;
-      hits.push({ id: 'predator', x: x * PX, y: ay * PX, r: 17 * PX });
-      lens(x, ay, 15);
+      const lr = stage === 'eggs' ? 9 : stage === 'larva' ? 11 : 15;
+      hits.push({ id: 'predator', x: x * PX, y: ay * PX, r: (lr + 2) * PX });
+      lens(x, ay, lr);
       const hov = isHovered(s, x, ay);
-      if (hov || lit) lensHighlight(x, ay, 15, t + 2, hov);
-      tapBadge(x, ay, 15, t);
+      if (hov || lit) lensHighlight(x, ay, lr, t + 2, hov);
+      tapBadge(x, ay, lr, t);
+      if (stage === 'eggs') {
+        // a small clutch of eggs resting near the chimney base
+        [[-4, -1], [0, -2], [4, -1], [-2, 2], [2, 2]].forEach(([dx, dy], k) => {
+          const ex = Math.round(x + dx) - 1, ey = Math.round(ay + dy) - 1;
+          ctx.fillStyle = '#8f78db'; ctx.fillRect(ex - 1, ey, 4, 2); ctx.fillRect(ex, ey - 1, 2, 4);
+          ctx.fillStyle = k % 2 ? '#f2ecff' : '#d6c8ff'; ctx.fillRect(ex, ey, 2, 2);
+        });
+        return;
+      }
+      if (stage === 'larva') { sprite(PRED, PRCOL, x - 5, ay - 2, 1, Math.cos(ph) > 0); return; }   // half the adult's size
       if (libP && libDraw('shadowfin', Math.floor(t * 4 + i) % (libP.frames || 1), x - libP.w / 2, ay - libP.h / 2, Math.cos(ph) > 0)) return;
       sprite(PRED, PRCOL, x - 11, ay - 5, 2, Math.cos(ph) > 0);
     });

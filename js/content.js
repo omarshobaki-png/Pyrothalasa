@@ -13,8 +13,11 @@ window.DIVE = {
   meta: {
     title: "The Hydrogen Garden",
     moonName: "Pyrothalasa",       // matches the live site; confirm the spelling with the team
-    teamName: "TEAMNAME",          // PLACEHOLDER
-    members: ["Member 1", "Member 2", "Member 3", "Member 4"], // PLACEHOLDER
+    teamName: "Shay Rafe3",
+    members: ["Omar Shoubaki", "Ahmad Sulieman", "Omar Takhman", "Alameen Abufkheida", "Mahdi Alsheikh", "Mohammad Humidan"],
+    reportUrl: "ShayRafe3_Challenge-Report.pdf",
+    videoUrl: "https://drive.google.com/file/d/1dLfS1ZW1qGngDrTg4QJEw0VGyg4zmLMQ/view",
+    aiUse: "ChatGPT (Codex) helped with writing and formatting the report. Claude reviewed the report against the rubric. Claude Code assisted with programming and ElevenLabs with narration audio. Mahdi edited the video in Adobe After Effects.",
     tagline: "Dive 50 km into a fictional ocean moon where life runs without sunlight."
   },
 
@@ -70,8 +73,10 @@ window.DIVE = {
 
   /* Where the animated organisms are drawn (aboveFloor in m, x = fraction of screen width) */
   creatures: {
-    grazers:    [ { aboveFloor: 33, x: 0.592 }, { aboveFloor: 28, x: 0.676 }, { aboveFloor: 25, x: 0.343 }, { aboveFloor: 20, x: 0.56 } ],
-    predator:   [ { aboveFloor: 15, x: 0.34 } ]
+    // stage: "dividing" = a grazer splitting in two; "larva" / "eggs" = young Shadowfin (see each card's life cycle)
+    grazers:    [ { aboveFloor: 40, x: 0.42 }, { aboveFloor: 36, x: 0.57, stage: "dividing" }, { aboveFloor: 33, x: 0.592 }, { aboveFloor: 28, x: 0.676 },
+                  { aboveFloor: 25, x: 0.343 }, { aboveFloor: 20, x: 0.56 }, { aboveFloor: 11, x: 0.44, stage: "dividing" } ],
+    predator:   [ { aboveFloor: 15, x: 0.34 }, { aboveFloor: 9, x: 0.58, stage: "larva" }, { aboveFloor: 4, x: 0.41, stage: "eggs" } ]
   },
 
   cards: {
@@ -181,22 +186,23 @@ window.DIVE = {
     engine: {
       title: "The engine: rock + water = hydrogen",
       body: [
-        "Deep down, seawater soaks into rock rich in a green mineral called olivine. The two react (geologists call it serpentinisation) and release hydrogen gas (H₂) and heat.",
-        "Saturn's pull squeezes the moon's rocky core like a stress ball (tidal heating), keeping it warm. Models of Enceladus suggest this could keep vents running for tens of millions to billions of years. That's long enough for an ecosystem to depend on it."
+        "Deep down, seawater soaks into iron-rich rock, such as the green mineral olivine. The two react (geologists call it serpentinisation) and release hydrogen gas (H₂).",
+        "Why the supply could last: Saturn's changing pull can warm the moon and keep water moving through rock (tidal heating). A model of Enceladus shows how that could work. Earth's Lost City vents have been active for at least 30,000 years. We assume our vent keeps reaching fresh rock."
       ],
       evidence: [
         "Serpentinisation powers Earth's Lost City vent field (Kelley et al. 2005).",
         "Hydrogen in Enceladus' plume suggests this is happening there (Waite et al. 2017).",
-        "Tidal heating can power long-lasting hydrothermal activity in Enceladus' core (Choblet et al. 2017)."
+        "Tidal heating can power long-lasting hydrothermal activity in Enceladus' core (Choblet et al. 2017).",
+        "Lost City has been venting for at least 30,000 years (Früh-Green et al. 2003)."
       ],
-      assumptions: ["Our moon's core works the same way and has been active for a long time."],
-      sources: ["kelley2005", "waite2017", "choblet2017"]
+      assumptions: ["Water keeps circulating through rock and supplies enough hydrogen.", "Our vent keeps reaching fresh rock."],
+      sources: ["kelley2005", "waite2017", "choblet2017", "fruhgreen2003"]
     },
     chimneys: {
       title: "The Hydrogen Garden",
       body: [
         "Our one habitat zone is a field of white carbonate chimneys on the seafloor. Warm, hydrogen-rich, very alkaline fluid seeps out of them.",
-        "It's modelled on Lost City, a real vent field in the Atlantic Ocean, where chimneys grow up to about 60 m tall and vent fluids are about 40–90 °C."
+        "It's modelled on Lost City, a real vent field in the Atlantic Ocean, where chimneys grow up to about 60 m tall and vent fluid reaches about 90 °C. In our model the open ocean is near freezing and the water around the chimneys is about 8 °C."
       ],
       evidence: ["Lost City: carbonate chimneys up to ~60 m, fluids ~40–90 °C, high pH (Kelley et al. 2005)."],
       assumptions: ["Our garden's chimneys and fluids match Lost City's."],
@@ -225,67 +231,78 @@ window.DIVE = {
       ],
       evidence: [
         "Microbes related to methane-cycling Archaea thrive in the warm porous interiors of Lost City's chimneys (Kelley et al. 2005).",
-        "An Earth methane-maker grew in the lab under Enceladus-like conditions (Taubner et al. 2018).",
-        "Some methane-makers can grow at up to 122 °C, well above our vent temperatures (Takai et al. 2008)."
+        "An Earth methane-maker made methane at 50 bar in an Enceladus-inspired lab test (Taubner et al. 2018)."
       ],
       assumptions: [
         "That such microbes exist on our moon. Habitable does not mean inhabited.",
-        "That enough carbon dioxide reaches the chimney pores. At Lost City the carbon in the vent fluid comes from the rock, not from seawater CO₂ (Proskurowski et al. 2008), so this is a real uncertainty."
+        "Warm pores contain enough H₂ and dissolved CO₂ for growth. Some Lost City vent fluids contain little dissolved inorganic carbon (Brazelton et al. 2006), so we assume enough CO₂ from the ocean reaches the same pores as the H₂."
       ],
-      sources: ["kelley2005", "taubner2018", "takai2008", "waite2017", "proskurowski2008"]
+      lifeCycle: {
+        steps: ["Takes in H₂ and CO₂ and grows", "Copies itself and splits into two cells", "The new cells join the slimy film in the pores"],
+        note: "Earth's methane-makers are single cells that multiply by splitting in two. On our moon this is an assumption, and it only works while the vent keeps bringing H₂."
+      },
+      sources: ["kelley2005", "taubner2018", "waite2017", "brazelton2006"]
     },
     nooxygen: {
       title: "Life without oxygen",
       body: [
         "On Earth, almost all the oxygen in the ocean comes from photosynthesis, which needs sunlight. Our moon has no sunlight, so we give its ocean no oxygen at all.",
-        "That rules out big animals: Earth's animals breathe oxygen. But scientists found three species of tiny animals (Loricifera) that spend their whole lives in mud with no oxygen, at the bottom of a deep Mediterranean basin. Instead of the usual energy-making parts of cells (mitochondria), they have different parts that work without oxygen.",
+        "That rules out big animals: Earth's animals breathe oxygen. But a study reported tiny animals called loriciferans living in mud with no oxygen, at the bottom of a deep Mediterranean basin. Their ability to complete a life cycle there is debated.",
         "So our whole food web is built from things that live without oxygen: microbes, single-celled grazers and one tiny animal."
       ],
       evidence: [
-        "Some single-celled organisms, and three species of Loricifera, live permanently without oxygen; the Loricifera lack mitochondria and have hydrogenosome-like organelles (Danovaro et al. 2010).",
+        "A study reported tiny animals called loriciferans living without oxygen (Danovaro et al. 2010). Whether they complete a life cycle there is debated (Bernhard et al. 2015).",
         "Earth's deep-sea vent chemistry that uses oxygen depends on oxygen made by photosynthesis (NOAA fact sheet)."
       ],
       assumptions: [
-        "Animals living without oxygen are known from only one study, in one place. We label this as a single finding.",
+        "Our grazers and Shadowfin live and feed without oxygen.",
         "Our ocean has no oxygen source. A little oxygen could come from the surface ice, as at Europa, but we leave that out."
       ],
-      sources: ["danovaro2010", "noaaFactSheet"]
+      sources: ["danovaro2010", "bernhard2015", "noaaFactSheet"]
     },
     microscopic: {
       title: "Why you need a microscope here",
       body: [
-        "Without oxygen, living things get much less energy from their food, so nothing here grows big. Every living thing in the garden is microscopic.",
+        "Every living thing in the garden is microscopic. We built the food web only from kinds of life reported without oxygen on Earth: microbes, single cells and tiny loriciferans.",
         "The creatures on screen are drawn about 300 times larger than life so you can see them. The chimneys are drawn at their real scale."
       ],
-      evidence: ["The only animals known to live entirely without oxygen are the tiny Loricifera (Danovaro et al. 2010)."],
-      assumptions: ["The ×300 magnification is a drawing choice, not a measurement.", "Oxygen-free life getting less energy from its food is textbook chemistry, but we haven't given a specific source for it yet."],
-      sources: ["danovaro2010"]
+      evidence: ["The animals reported living without oxygen are tiny loriciferans (Danovaro et al. 2010; debated by Bernhard et al. 2015)."],
+      assumptions: ["The ×300 magnification is a drawing choice, not a measurement."],
+      sources: ["danovaro2010", "bernhard2015"]
     },
     grazers: {
       title: "Level 2 · Grazers",
       body: [
-        "Single-celled creatures covered in tiny beating hairs (cilia). They swim along the chimney walls and swallow microbes whole.",
+        "Single-celled creatures covered in tiny beating hairs (cilia). They swim in the cooler water along the chimney walls and swallow microbes whole.",
         "Each one is a single cell, far too small to see without a microscope."
       ],
       evidence: [
         "Some single-celled organisms with a nucleus (protozoa) live permanently without oxygen (Danovaro et al. 2010).",
         "Vent microbes are eaten by other organisms, forming the base of the food web (NOAA fact sheet)."
       ],
-      assumptions: ["Grazers are fictional, based on Earth's oxygen-free single-celled organisms. We assume they eat the methane-makers."],
+      assumptions: ["Grazers are fictional, based on Earth's oxygen-free single-celled organisms. We assume they eat the methane-makers.", "We do not yet know whether grazers can grow on vent microbes in salty, oxygen-free water."],
+      lifeCycle: {
+        steps: ["Swims along the chimney and swallows microbes", "Grows bigger", "Splits into two grazers"],
+        note: "Fiction, modelled on Earth's single-celled protozoa, which multiply by splitting in two. Whether grazers could survive and reproduce on vent microbes is untested: a later lab feeding test would check it."
+      },
       sources: ["danovaro2010", "noaaFactSheet"]
     },
     predator: {
       title: "Level 3 · Shadowfin",
       body: [
-        "The biggest animal in the garden, and it's still smaller than 1 mm: about the size of a grain of salt. It hunts the grazers.",
-        "It is protected by a vase-shaped shell and has no eyes, because there is no light. We imagine it finding prey by sensing the chemistry of the water and the movement of other organisms."
+        "The spiny predator of the garden eats grazers, and it is still under 1 mm long: about the size of a grain of salt.",
+        "It has a spiny head, a vase-shaped shell and no eyes, because there is no light. We imagine it finding prey by sensing the chemistry of the water and the movement of other organisms."
       ],
       evidence: [
-        "Tiny Loricifera spend their whole life without oxygen (Danovaro et al. 2010). Shadowfin is based on them.",
+        "A study reported tiny loriciferans living without oxygen (Danovaro et al. 2010); whether they complete a life cycle there is debated (Bernhard et al. 2015). Shadowfin is based on them.",
         "Only about 10% of energy passes from one food-web level to the next (Pauly & Christensen 1995), which limits how big the top animal can be."
       ],
-      assumptions: ["Shadowfin, its size and its senses are fictional. We don't know what Earth's oxygen-free Loricifera eat; we assume ours eats grazers."],
-      sources: ["danovaro2010", "pauly1995"]
+      assumptions: ["Shadowfin, its size and its senses are fictional. We don't know what Earth's oxygen-free loriciferans eat; we assume ours eats grazers.", "We do not yet know whether a predator like Shadowfin could live there."],
+      lifeCycle: {
+        steps: ["A tiny egg rests near the chimney base", "A larva hatches and grows", "The adult hunts grazers and lays eggs"],
+        note: "Fiction, modelled on Earth's loriciferans, which grow from a larva into an adult. Whether loriciferans can complete their life cycle without oxygen is debated (Danovaro et al. 2010; Bernhard et al. 2015)."
+      },
+      sources: ["danovaro2010", "bernhard2015", "pauly1995"]
     },
     energy: {
       title: "Why the top predator is small",
@@ -295,16 +312,17 @@ window.DIVE = {
         "Imagine the microbes capture 1,000 energy coins:"
       ],
       after: [
-        "Only about 10 coins reach Shadowfin. And life without oxygen gets less energy out of its food in the first place, so the real number is probably even lower. That's why our food web has only three levels and its top animal is microscopic."
+        "Only about 10 coins reach Shadowfin. That's why our food web has only three levels and its top animal is microscopic.",
+        "Organisms use energy to live and release heat. Uneaten food, dead cells and waste can feed decomposer bacteria."
       ],
       evidence: ["Average transfer efficiency of ~10% between levels (Pauly & Christensen 1995)."],
-      assumptions: ["The coin numbers are illustrative, not measured. The real percentage varies a lot between ecosystems, and oxygen-free life probably passes on less."],
+      assumptions: ["The coins illustrate an Earth average. The garden's actual transfer is unknown: we have no measurement of its hydrogen supply or of how much energy reaches the predator."],
       sources: ["pauly1995"]
     },
     shutdown: {
       title: "What if the hydrogen stopped?",
       body: [
-        "Everything here depends on the chimneys venting hydrogen. If a vent shut down, the methane-makers would starve first, then the grazers, and finally Shadowfin.",
+        "Everything here depends on the chimneys venting hydrogen. If hydrogen stops flowing, methane-makers make less new food. Grazers then have less to eat, followed by Shadowfin. The food web could shrink or collapse.",
         "Earth's vent communities are similarly fragile: they depend completely on their vents. Life would only continue where new vents open and get colonised."
       ],
       evidence: ["NOAA describes hydrothermal vents as short-lived, and their food webs rest on microbes using the vent chemicals (NOAA poster)."],
@@ -315,16 +333,17 @@ window.DIVE = {
 
   /* End-of-dive panel */
   limits: [
-    "Habitable does not mean inhabited: nobody knows whether life could start in such an ocean.",
+    "A real ocean world could have conditions that support life. Whether any life exists there remains an open question.",
     "Our organisms are invented, based on Earth analogs. Life elsewhere could be very different.",
-    "Animals living entirely without oxygen are known from only one study (Danovaro et al. 2010).",
-    "We don't know how much carbon dioxide would reach the microbes in the chimney pores.",
-    "The 10% energy rule is an Earth average and varies widely.",
+    "Carbon supply: some Lost City vent fluids contain little dissolved inorganic carbon. We assume enough CO₂ from the ocean reaches the same pores as H₂ (Brazelton et al. 2006).",
+    "Survival and feeding: we do not yet know whether grazers can grow on the vent microbes in salty, oxygen-free water, or whether a predator like Shadowfin could live there (Danovaro et al. 2010; Bernhard et al. 2015).",
+    "Energy budget: we have no measurement of the garden's hydrogen supply or how much energy reaches the predator. The 10% rule is an Earth average (Pauly & Christensen 1995).",
     "Our gauges use simplified physics: constant gravity, straight-line ice temperature, illustrative light fade."
   ],
   tests: [
-    "Lab test: a microbiology lab grows the methane-maker from Taubner et al. (2018) at high, medium and low hydrogen, keeping our garden's pressure, temperature and pH. If methane output and cell numbers fall as hydrogen falls, our 'vent stops, web starves' link holds.",
-    "Mission test: a spacecraft flying through a plume measures hydrogen, CO₂ and methane. Less hydrogen than non-living chemistry predicts would be a hint (not proof) that something is using it."
+    "Lab check: a microbiology lab could grow Earth methane-makers in matched warm, salty, oxygen-free chambers at about 56 bar, with and without H₂. More methane and more cells over time with H₂ than without it would support the first living level. A chamber with no cells would check whether methane forms without microbes. A later feeding test would check whether grazers survive and reproduce on those microbes (Taubner et al. 2018).",
+    "Classroom check: a science teacher reviews the dive, and five students aged 14 to 18 take the short quiz before and after. The aim: four of five can trace the energy path, explain one survival condition and predict what happens if hydrogen stops.",
+    "What to look for in a real vent: finding H₂ and dissolved CO₂ together in warm, oxygen-free water would make the habitat more plausible."
   ],
 
   sources: {
@@ -332,13 +351,15 @@ window.DIVE = {
     hsu2015:     { cite: "Hsu, H.-W. et al. (2015). Ongoing hydrothermal activities within Enceladus. Nature, 519, 207–210.", url: "https://doi.org/10.1038/nature14262", type: "peer" },
     kelley2005:  { cite: "Kelley, D. S. et al. (2005). A serpentinite-hosted ecosystem: The Lost City hydrothermal field. Science, 307, 1428–1434.", url: "https://doi.org/10.1126/science.1102556", type: "peer" },
     taubner2018: { cite: "Taubner, R.-S. et al. (2018). Biological methane production under putative Enceladus-like conditions. Nature Communications, 9, 748.", url: "https://doi.org/10.1038/s41467-018-02876-y", type: "peer" },
-    takai2008:   { cite: "Takai, K. et al. (2008). Cell proliferation at 122 °C and isotopically heavy CH₄ production by a hyperthermophilic methanogen under high-pressure cultivation. PNAS, 105, 10949–10954.", url: "https://doi.org/10.1073/pnas.0712334105", type: "peer" },
     pauly1995:   { cite: "Pauly, D. & Christensen, V. (1995). Primary production required to sustain global fisheries. Nature, 374, 255–257.", url: "https://doi.org/10.1038/374255a0", type: "peer" },
     postberg2009:{ cite: "Postberg, F. et al. (2009). Sodium salts in E-ring ice grains from an ocean below the surface of Enceladus. Nature, 459, 1098–1101.", url: "https://doi.org/10.1038/nature08046", type: "peer" },
     choblet2017: { cite: "Choblet, G. et al. (2017). Powering prolonged hydrothermal activity inside Enceladus. Nature Astronomy, 1, 841–847.", url: "https://doi.org/10.1038/s41550-017-0289-8", type: "peer" },
     thomas2016:  { cite: "Thomas, P. C. et al. (2016). Enceladus's measured physical libration requires a global subsurface ocean. Icarus, 264, 37–47.", url: "https://doi.org/10.1016/j.icarus.2015.08.037", type: "peer" },
     danovaro2010:{ cite: "Danovaro, R. et al. (2010). The first Metazoa living in permanently anoxic conditions. BMC Biology, 8, 30.", url: "https://doi.org/10.1186/1741-7007-8-30", type: "peer" },
-    proskurowski2008: { cite: "Proskurowski, G. et al. (2008). Abiogenic hydrocarbon production at Lost City hydrothermal field. Science, 319, 604–607.", url: "https://doi.org/10.1126/science.1151194", type: "peer" },
+    fruhgreen2003: { cite: "Früh-Green, G. L. et al. (2003). 30,000 years of hydrothermal activity at the Lost City vent field. Science, 301, 495–498.", url: "https://doi.org/10.1126/science.1085582", type: "peer" },
+    bernhard2015: { cite: "Bernhard, J. M. et al. (2015). Metazoans of redoxcline sediments in Mediterranean deep-sea hypersaline anoxic basins. BMC Biology, 13, 105.", url: "https://doi.org/10.1186/s12915-015-0213-6", type: "peer" },
+    brazelton2006: { cite: "Brazelton, W. J. et al. (2006). Methane- and sulfur-metabolizing microbial communities dominate the Lost City hydrothermal field ecosystem. Applied and Environmental Microbiology, 72, 6257–6270.", url: "https://doi.org/10.1128/AEM.00574-06", type: "peer" },
+    boetius2000: { cite: "Boetius, A. et al. (2000). A marine microbial consortium apparently mediating anaerobic oxidation of methane. Nature, 407, 623–626.", url: "https://doi.org/10.1038/35036572", type: "peer" },
     jplSat:      { cite: "NASA/JPL Solar System Dynamics. Planetary satellite physical parameters.", url: "https://ssd.jpl.nasa.gov/sats/phys_par/", type: "agency" },
     nasaEnceladus: { cite: "NASA Science. Enceladus (moon overview).", url: "https://science.nasa.gov/saturn/moons/enceladus/", type: "agency" },
     nasaSaturn:  { cite: "NASA Science. Saturn: Facts.", url: "https://science.nasa.gov/saturn/facts/", type: "agency" },

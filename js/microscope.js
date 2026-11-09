@@ -4,6 +4,19 @@
    "Look under the microscope" button in a level's science card.
    Text here must only repeat facts already in js/content.js.
    ===================================================================== */
+/* Life cycle: numbered steps that loop back to the start, plus the Fiction/Assumption note. */
+window.lifeCycleEl = function (lc, el) {
+  const box = el || document.createElement('div');
+  box.className = 'cycle'; box.replaceChildren();
+  const h = document.createElement('h4'); h.textContent = 'Life cycle'; box.appendChild(h);
+  const ol = document.createElement('ol'); ol.className = 'cycle-steps';
+  lc.steps.forEach((s) => { const li = document.createElement('li'); li.textContent = s; ol.appendChild(li); });
+  const back = document.createElement('li'); back.className = 'cycle-back'; back.setAttribute('aria-hidden', 'true'); back.textContent = '↺ and again';
+  ol.appendChild(back);
+  box.appendChild(ol);
+  if (lc.note) { const p = document.createElement('p'); p.className = 'cycle-note'; p.textContent = lc.note; box.appendChild(p); }
+  return box;
+};
 window.Microscope = (function () {
   const S = 120;                       // low-res art size; CSS scales it up, pixelated
   // Read live, so switching reduced motion on while the microscope is open freezes it.
@@ -93,6 +106,8 @@ window.Microscope = (function () {
       li.append(sw, document.createTextNode(txt)); lg.appendChild(li);
     });
     $('#scopeScale').textContent = sp.scale;
+    const lc = window.DIVE && DIVE.cards[sp.card] && DIVE.cards[sp.card].lifeCycle;
+    const cy = $('#scopeCycle'); cy.hidden = !lc; if (lc) window.lifeCycleEl(lc, cy);
     root.hidden = false;
     root.classList.remove('is-open'); void root.offsetWidth; root.classList.add('is-open');
     t0 = performance.now();
