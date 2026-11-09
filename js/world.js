@@ -79,16 +79,24 @@ window.World = (function () {
     '..O..'
   ];
   const PCOL = { a: '#9fb3c8', g: '#7f90a6', W: '#dde6ef', R: '#ff5d8f', K: '#17293d', O: '#ff9d3c' };
-  const GRAZER = ['.SSS.', 'SSSSS', 'bbbbbb'];
-  const GCOL = { S: '#ff9fb4', b: '#ffd6df' };
-  const PRED = [
-    '...ddd.....',
-    '.ddddddd..d',
-    'sdddddddddd',
-    '.ddddddd..d',
-    '...d.d.....'
+  // Level 2 grazer: a single-celled ciliate (cilia are drawn separately, animated)
+  const GRAZER = [
+    '..ggg..',
+    '.gGGGg.',
+    'gGGnGGg',
+    '.gGGGg.',
+    '..ggg..'
   ];
-  const PRCOL = { d: '#b7a2ff', s: '#f2ecff' };
+  const GCOL = { g: '#ff9fb4', G: '#ff7f9f', n: '#ffe1e8' };
+  // Level 3 Shadowfin: a tiny Loricifera-like animal: spiny head + plated, vase-shaped shell
+  const PRED = [
+    's.s........',
+    '.shhnLlLlL.',
+    'sshhnLlLlLL',
+    '.shhnLlLlL.',
+    's.s........'
+  ];
+  const PRCOL = { s: '#f2ecff', h: '#d6c8ff', n: '#9d88e0', L: '#b7a2ff', l: '#8f78db' };
 
   function sprite(map, cols, x, y, sc, flip) {
     const h = map.length, w = map[0].length;
@@ -372,32 +380,43 @@ window.World = (function () {
     });
   }
 
-  // Animals are drawn above the darkness layer so they stay readable.
+  // A faint "microscope lens" circle: these organisms are drawn ~300x life size.
+  function lens(cx, cy, r) {
+    ctx.fillStyle = 'rgba(120,200,255,0.07)';
+    for (let y = -r; y <= r; y++) {
+      const hw = Math.floor(Math.sqrt(r * r - y * y));
+      ctx.fillRect(Math.round(cx - hw), Math.round(cy + y), hw * 2 + 1, 1);
+    }
+    ctx.fillStyle = 'rgba(170,230,255,0.45)';
+    const n = Math.max(16, Math.round(r * 5));
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2;
+      ctx.fillRect(Math.round(cx + Math.cos(a) * r), Math.round(cy + Math.sin(a) * r), 1, 1);
+    }
+  }
+
+  // Organisms are drawn above the darkness layer so they stay readable.
   function drawCreatures(s, toAy) {
     const t = s.t;
     const cr = s.creatures;
     cr.grazers.forEach((g, i) => {
-      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 4;
-      if (ay < -10 || ay > ah + 10) return;
-      sprite(GRAZER, GCOL, g.x * aw - 3, ay, 1, i % 2 === 1);
-    });
-    cr.fanfeeders.forEach((f, i) => {
-      const ay = toAy(f.u); if (ay < -12 || ay > ah + 12) return;
-      const bx = f.x * aw, sway = Math.sin(t * 1.2 + i) * 0.25;
-      for (let k = 0; k < 6; k++) {
-        const ang = -Math.PI / 2 + (k - 2.5) * 0.32 + sway;
-        for (let j = 1; j <= 7; j++) {
-          ctx.fillStyle = j > 5 ? '#ff9f43' : '#ffcf5a';
-          ctx.fillRect(Math.round(bx + Math.cos(ang) * j), Math.round(ay + Math.sin(ang) * j), 1, 1);
-        }
-      }
-      ctx.fillStyle = '#c98a2e'; ctx.fillRect(Math.round(bx) - 1, Math.round(ay), 3, 2);
+      const gx = g.x * aw + Math.sin(t * 0.3 + i * 1.7) * 3;
+      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3;
+      if (ay < -12 || ay > ah + 12) return;
+      lens(gx, ay + 2, 8);
+      sprite(GRAZER, GCOL, gx - 3, ay, 1, i % 2 === 1);
+      // beating cilia around the cell
+      ctx.fillStyle = 'rgba(255,214,223,0.85)';
+      const f = Math.floor(t * 6 + i) % 2;
+      const rim = [[-1, 2], [7, 2], [1, -1], [5, -1], [1, 5], [5, 5], [0, 0], [6, 0], [0, 4], [6, 4]];
+      rim.forEach(([dx, dy], k) => { if ((k + f) % 2 === 0) ctx.fillRect(Math.round(gx - 3 + dx), Math.round(ay + dy), 1, 1); });
     });
     cr.predator.forEach((p, i) => {
       const ph = t * 0.16 + i;
-      const x = (p.x + Math.sin(ph) * 0.13) * aw;
+      const x = (p.x + Math.sin(ph) * 0.1) * aw;
       const ay = toAy(p.u) + Math.sin(t * 0.9) * 2;
-      if (ay < -10 || ay > ah + 10) return;
+      if (ay < -16 || ay > ah + 16) return;
+      lens(x, ay, 15);
       sprite(PRED, PRCOL, x - 11, ay - 5, 2, Math.cos(ph) > 0);
     });
   }
