@@ -122,9 +122,34 @@
     <div class="card-body" id="cardBody"></div>
   </aside>
 
+  <!-- Microscope view (js/microscope.js) -->
+  <div id="scope" class="scope" role="dialog" aria-modal="true" aria-labelledby="scopeName" hidden>
+    <div class="scope-box px-panel">
+      <div class="scope-head">
+        <span class="scope-kicker">🔬 Microscope · <span id="scopeLevel"></span></span>
+        <button class="card-close" id="scopeClose" type="button" aria-label="Close microscope">✕</button>
+      </div>
+      <div class="scope-grid">
+        <div class="scope-lens-wrap">
+          <div class="scope-lens"><canvas id="scopeCanvas" aria-hidden="true"></canvas></div>
+          <p class="scope-scale" id="scopeScale"></p>
+        </div>
+        <div class="scope-info">
+          <h2 class="scope-name" id="scopeName"></h2>
+          <div class="card-tags" id="scopeTags"></div>
+          <ul class="scope-lines" id="scopeLines"></ul>
+          <p class="scope-eq" id="scopeEq" hidden></p>
+          <ul class="scope-legend" id="scopeLegend"></ul>
+          <button class="btn-pixel btn-small" id="scopeCard" type="button">Read the science +</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/content.js"></script>
   <script src="js/energyflow.js"></script>
   <script src="js/world.js"></script>
+  <script src="js/microscope.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

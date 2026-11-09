@@ -124,6 +124,7 @@ window.World = (function () {
   // s = { cam, t, probeY, depth, L, dOfU, uOf, creatures, lampOn }
   function draw(s) {
     if (!aw || !ah || !H) return;
+    hits = [];
     const L = s.L, cam = s.cam, t = s.t;
     const u0 = cam / H;
     const toAy = (u) => (u * H - cam) / PX;        // u -> art row on screen
@@ -394,6 +395,18 @@ window.World = (function () {
       ctx.fillRect(Math.round(cx + Math.cos(a) * r), Math.round(cy + Math.sin(a) * r), 1, 1);
     }
   }
+  // Blinking "+" badge on a lens: same "tap me" sign as the labels.
+  function tapBadge(cx, cy, r, t) {
+    const bx = Math.round(cx + r * 0.72), by = Math.round(cy - r * 0.72);
+    ctx.fillStyle = Math.floor(t * 1.6) % 2 ? '#5de4ff' : '#b8f4ff';
+    ctx.fillRect(bx - 2, by - 2, 5, 5);
+    ctx.fillStyle = '#04070f';
+    ctx.fillRect(bx - 1, by, 3, 1); ctx.fillRect(bx, by - 1, 1, 3);
+  }
+
+  // Clickable creature positions in CSS pixels, refreshed every frame (used by the microscope).
+  let hits = [];
+  function getHits() { return hits; }
 
   // Organisms are drawn above the darkness layer so they stay readable.
   function drawCreatures(s, toAy) {
@@ -403,7 +416,9 @@ window.World = (function () {
       const gx = g.x * aw + Math.sin(t * 0.3 + i * 1.7) * 3;
       const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3;
       if (ay < -12 || ay > ah + 12) return;
+      hits.push({ id: 'grazers', x: gx * PX, y: (ay + 2) * PX, r: 11 * PX });
       lens(gx, ay + 2, 8);
+      tapBadge(gx, ay + 2, 8, t);
       sprite(GRAZER, GCOL, gx - 3, ay, 1, i % 2 === 1);
       // beating cilia around the cell
       ctx.fillStyle = 'rgba(255,214,223,0.85)';
@@ -416,10 +431,12 @@ window.World = (function () {
       const x = (p.x + Math.sin(ph) * 0.1) * aw;
       const ay = toAy(p.u) + Math.sin(t * 0.9) * 2;
       if (ay < -16 || ay > ah + 16) return;
+      hits.push({ id: 'predator', x: x * PX, y: ay * PX, r: 17 * PX });
       lens(x, ay, 15);
+      tapBadge(x, ay, 15, t);
       sprite(PRED, PRCOL, x - 11, ay - 5, 2, Math.cos(ph) > 0);
     });
   }
 
-  return { init, resize, draw };
+  return { init, resize, draw, getHits };
 })();

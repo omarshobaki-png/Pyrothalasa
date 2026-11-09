@@ -31,6 +31,7 @@ External fonts: Google Fonts only.
 | `js/world.js` | Pixel-art canvas scene (`window.World`) | Claude (current task) |
 | `css/style.css` | Core design system + layout | Claude (current task) |
 | `index.html` | Page structure | Claude. Others: only inside your own mount point |
+| `js/microscope.js` (+ "microscope" section of style.css) | Zoomed animated view of each food-web level; opens from scene creatures or card button | Claude |
 | `js/energyflow.js`, `css/energyflow.css` | Energy-flow diagram widget on the end screen | **Codex** |
 | `docs/*.pdf`, `docs/text/*.txt` | Brief, science guide, report outline, report draft (text versions are UTF-8) | Read-only reference |
 
@@ -92,7 +93,12 @@ that already have a token. Colour roles:
 - Must work at 390px wide (phone) with no horizontal scroll, and with keyboard (visible focus).
 
 ## Integration contract for widgets
-- `index.html` loads scripts in this order: `content.js` → `energyflow.js` → `world.js` → `app.js`.
+- `index.html` loads scripts in this order: `content.js` → `energyflow.js` → `world.js` →
+  `microscope.js` → `app.js`.
+- Public hooks you may call: `window.DiveUI.openCard(cardId)` opens a science card (ids are
+  the keys of `DIVE.cards`); `window.Microscope.open('methanogens'|'grazers'|'predator')` opens
+  the microscope view. Both exist once all scripts have loaded, so call them from event handlers,
+  not at load time.
 - `window.DIVE` (from content.js) is available to your widget. Read data from it where it exists.
 - Render into your mount element **synchronously when the script loads**, because `app.js`
   measures the end section's height once at start-up. If your widget's height changes later

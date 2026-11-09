@@ -286,6 +286,13 @@
     if (/fictional/i.test((c.assumptions || []).join(' '))) cardTags.appendChild(chip('fiction', 'Fictional'));
 
     cardBody.replaceChildren();
+    if (window.Microscope && Microscope.has(id)) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn-pixel btn-small scope-open';
+      b.textContent = '🔬 Look under the microscope';
+      b.addEventListener('click', () => { closeCard(); Microscope.open(id, opener); });
+      cardBody.appendChild(b);
+    }
     (c.body || []).forEach((t) => cardBody.appendChild(para(t)));
     if (c.special === 'energy') {
       cardBody.appendChild(coins());
@@ -316,6 +323,29 @@
   document.addEventListener('pointerdown', (e) => {
     if (!card.hidden && !card.contains(e.target) && !e.target.closest('.marker-btn')) closeCard();
   });
+
+  window.DiveUI = { openCard: (id) => { markFound(id); openCard(id, null); } };
+
+  // ---------- click a creature in the scene to open the microscope ----------
+  function creatureAt(x, y) {
+    if (!window.World || !World.getHits) return null;
+    let best = null, bd = Infinity;
+    World.getHits().forEach((h) => {
+      const d = Math.hypot(h.x - x, h.y - y);
+      if (d <= h.r && d < bd) { best = h; bd = d; }
+    });
+    return best;
+  }
+  const isUi = (el) => el.closest && el.closest('button, a, .card, .scope, .hud-box, .end-panel');
+  addEventListener('click', (e) => {
+    if (isUi(e.target) || !window.Microscope) return;
+    const h = creatureAt(e.clientX, e.clientY);
+    if (h) { markFound(h.id); Microscope.open(h.id); }
+  });
+  addEventListener('mousemove', (e) => {
+    const on = !isUi(e.target) && !!creatureAt(e.clientX, e.clientY);
+    document.body.classList.toggle('over-creature', on);
+  }, { passive: true });
 
   // ---------- buttons ----------
   $('beginBtn').addEventListener('click', () => jumpToDepth(4));
