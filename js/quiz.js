@@ -1,4 +1,4 @@
-/* Before/after quiz. Answers stay in memory for this page visit only. */
+/* Before/after quiz. Versioned local results; in-memory fallback if storage is blocked. */
 (function () {
   'use strict';
   const entry = document.getElementById('quizPreBtn');
@@ -33,6 +33,33 @@
   ];
   let before = null;
   let after = null;
+  const storageKey = 'pyrothalasa.quiz.v2';
+  let completedAt = null;
+  let savedLocally = false;
+  // Only complete answer sets from this question version may restore a result.
+  function validAnswers(value) {
+    return value === null || (Array.isArray(value) && value.length === questions.length &&
+      value.every(function (answer, i) { return Number.isInteger(answer) && answer >= 0 && answer < questions[i].choices.length; }));
+  }
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(storageKey));
+    if (stored && stored.version === 2 && validAnswers(stored.before) && validAnswers(stored.after) &&
+        (!stored.after || (typeof stored.completedAt === 'string' && Number.isFinite(Date.parse(stored.completedAt))))) {
+      before = stored.before;
+      after = stored.after;
+      completedAt = after ? new Date(stored.completedAt).toISOString() : null;
+      savedLocally = true;
+    }
+  } catch (_) { /* Private/blocked storage or malformed data: continue in memory. */ }
+  function saveResults() {
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({
+        version: 2, before: before, after: after, completedAt: completedAt,
+        scores: { before: before ? score(before) : null, after: after ? score(after) : null }
+      }));
+      savedLocally = true;
+    } catch (_) { savedLocally = false; }
+  }
   const attempts = { before: [], after: [] };
   let phase = 'before';
   let returnFocus = entry;
@@ -85,7 +112,7 @@
     title.textContent = phase === 'before' ? 'Before your dive' : 'After your dive';
     body.innerHTML = '<p class="q-score" role="status">Your score: ' + score(answers) + ' / 3</p>';
     if (phase === 'before') {
-      body.innerHTML += '<p>Your starting score is saved for this visit. Explore the garden, then try the same questions at the end. Explanations appear after that quiz.</p>';
+      body.innerHTML += '<p>' + (savedLocally ? 'Your starting score is saved on this device.' : 'Your starting score is kept for this visit only; browser storage is unavailable.') + ' Explore the garden, then try the same questions at the end. Explanations appear after that quiz.</p>';
     } else {
       const gained = before ? after.filter(function (answer, i) {
         return answer === questions[i].correct && before[i] !== questions[i].correct;
@@ -104,10 +131,47 @@
             '<p>' + escape(q.detail) + '</p><p class="q-citations">' + sources(q) + '</p></section>';
         }).join('');
     }
+    if (phase === 'after') addExport();
     body.innerHTML += '<button type="button" class="q-button" data-done>' + (phase === 'before' ? 'Ready to dive' : 'Done') + '</button>';
+    if (phase === 'after') bindExport();
     body.querySelector('[data-done]').addEventListener('click', function () { dialog.close(); });
     dialog.scrollTop = 0;
     body.querySelector('[data-done]').focus({preventScroll: true});
+  }
+
+  function resultLine() {
+    return (data.meta && data.meta.moonName || 'Pyrothalasa') + ' quiz, before ' +
+      (before ? score(before) + '/3' : 'not taken') + ', after ' + score(after) + '/3, ' +
+      completedAt.slice(0, 10) + ' UTC';
+  }
+  function addExport() {
+    body.innerHTML += '<section class="q-export" aria-label="Share quiz results">' +
+      '<p>' + (savedLocally ? 'Results saved on this device.' : 'Browser storage is unavailable. Copy your results before leaving.') + '</p>' +
+      '<button type="button" class="q-button" data-copy>Copy results</button>' +
+      '<p data-copy-status role="status" aria-live="polite"></p>' +
+      '<label class="q-copy-fallback" hidden>Results to copy' +
+      '<textarea readonly rows="3" aria-label="Quiz results to copy"></textarea></label></section>';
+  }
+  function bindExport() {
+    const firstReview = body.querySelector('.q-review');
+    if (firstReview) firstReview.before(body.querySelector('.q-export'));
+    const button = body.querySelector('[data-copy]');
+    const status = body.querySelector('[data-copy-status]');
+    const fallback = body.querySelector('.q-copy-fallback');
+    const text = fallback.querySelector('textarea');
+    text.value = resultLine();
+    button.addEventListener('click', async function () {
+      try {
+        if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') throw new Error('Clipboard unavailable');
+        await navigator.clipboard.writeText(text.value);
+        status.textContent = 'Copied!';
+        fallback.hidden = true;
+      } catch (_) {
+        status.textContent = 'Select and copy the line below (Ctrl+C or your device copy command).';
+        fallback.hidden = false;
+        if (dialog.open && fallback.isConnected) { text.focus(); text.select(); }
+      }
+    });
   }
 
   function showQuestion() {
@@ -115,7 +179,8 @@
     const index = answers.length;
     if (index === questions.length) {
       if (phase === 'before') before = answers.slice();
-      else after = answers.slice();
+      else { after = answers.slice(); completedAt = new Date().toISOString(); }
+      saveResults();
       updateSummary();
       showResult();
       return;
@@ -163,6 +228,7 @@
   start.addEventListener('click', function () { open('after', start); });
   mount.querySelector('[data-close]').addEventListener('click', function () { dialog.close(); });
   dialog.addEventListener('close', function () { returnFocus.focus({preventScroll: true}); });
+  if (before || after) updateSummary();
   if (typeof ResizeObserver !== 'undefined') {
     let height = mount.offsetHeight;
     new ResizeObserver(function () {

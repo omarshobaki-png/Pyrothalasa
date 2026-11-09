@@ -58,3 +58,9 @@
 #quizPreBtn { min-height: 44px; min-width: 44px; }
 
 #quizEnd .q-question:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+#quizEnd .q-export { border-top: 2px solid var(--line); margin: 20px 0; padding: 12px 0; }
+#quizEnd .q-copy-fallback { display: block; padding: 0; cursor: text; }
+#quizEnd .q-copy-fallback[hidden] { display: none; }
+#quizEnd .q-copy-fallback textarea { display: block; width: 100%; margin-top: 8px; padding: 10px; border: 2px solid var(--line); background: var(--panel-solid); color: var(--ink); font: 20px/1.3 var(--body); resize: vertical; }
+#quizEnd textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
