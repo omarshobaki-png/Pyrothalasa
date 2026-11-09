@@ -60,7 +60,14 @@ window.World = (function () {
       return pts;
     });
     particles = Array.from({ length: 320 }, () => ({ x: r(), u: L.ice + r() * (L.floor - L.ice), s: 0.2 + r(), p: r() * 6.28 }));
+    // ice layers (faint strata) and glints
+    strata = Array.from({ length: 16 }, (_, i) => ({ u: L.surf + 0.25 + i * (L.ice - L.surf - 0.35) / 16 + r() * 0.08, a: 0.05 + r() * 0.07, f: r() * 10 }));
+    glints = Array.from({ length: 60 }, () => ({ x: r(), u: L.surf + 0.05 + r() * (L.ice - L.surf - 0.1), p: r() * 6.28 }));
+    // hydrogen (H2) specks rising from below, denser toward the garden
+    const h0 = L.ice + (L.garden - L.ice) * 0.55;
+    hydrogen = Array.from({ length: 150 }, () => ({ x: r(), u: h0 + Math.pow(r(), 0.45) * (L.floor - h0), s: 0.4 + r(), p: r() * 6.28 }));
   }
+  let strata = [], glints = [], hydrogen = [];
 
   // ---------- sprites ----------
   const PROBE = [
@@ -192,6 +199,24 @@ window.World = (function () {
         ctx.fillStyle = p.c > 0.5 ? 'rgba(235,250,255,0.45)' : 'rgba(10,30,55,0.35)';
         ctx.fillRect(Math.floor(p.x * aw), Math.floor(ay), p.c > 0.85 ? 2 : 1, 1);
       }
+      // strata: wavy lighter bands = layers of ice
+      for (const st of strata) {
+        const ay = toAy(st.u); if (ay < -4 || ay > ah + 4) continue;
+        ctx.fillStyle = 'rgba(200,235,255,' + st.a.toFixed(3) + ')';
+        for (let c = 0; c < aw; c += 1) {
+          const w = Math.round(Math.sin(c * 0.045 + st.f) * 2 + Math.sin(c * 0.13 + st.f * 2));
+          ctx.fillRect(c, Math.floor(ay + w), 1, 1);
+        }
+      }
+      // glints: tiny twinkles in the ice near the probe lamp
+      for (const g of glints) {
+        const ay = toAy(g.u); if (ay < 0 || ay > ah) continue;
+        const k = Math.sin(t * 2.2 + g.p);
+        if (k < 0.85) continue;
+        const gx = Math.floor(g.x * aw), gy = Math.floor(ay);
+        ctx.fillStyle = 'rgba(240,252,255,' + ((k - 0.85) * 5).toFixed(2) + ')';
+        ctx.fillRect(gx, gy, 1, 1); ctx.fillRect(gx - 1, gy, 3, 1); ctx.fillRect(gx, gy - 1, 1, 3);
+      }
       ctx.fillStyle = 'rgba(12,35,60,0.45)';
       for (const cr of cracks) {
         for (let i = 1; i < cr.length; i++) {
@@ -216,6 +241,15 @@ window.World = (function () {
         const x = (p.x + Math.sin(t * 0.3 * p.s + p.p) * 0.004) * aw;
         ctx.fillStyle = 'rgba(150,200,230,' + (0.18 + 0.2 * p.s).toFixed(2) + ')';
         ctx.fillRect(Math.floor(x), Math.floor(ay), 1, 1);
+      }
+      // underside of the ice shell: a jagged ceiling where ice meets ocean
+      const iAy = toAy(L.ice);
+      if (iAy > -12 && iAy < ah + 12) {
+        for (let c = 0; c < aw; c++) {
+          const drip = Math.floor(hash(c >> 1, 41) * 3) + (hash(c >> 2, 43) > 0.82 ? 3 + Math.floor(hash(c, 47) * 4) : 0);
+          ctx.fillStyle = rgb(COL.iceBase); ctx.fillRect(c, Math.floor(iAy) - 1, 1, drip + 1);
+          if (hash(c, 49) > 0.7) { ctx.fillStyle = 'rgba(160,210,240,0.35)'; ctx.fillRect(c, Math.floor(iAy) + drip, 1, 1); }
+        }
       }
     }
 
@@ -276,6 +310,7 @@ window.World = (function () {
       dctx.fillRect(0, 0, aw, ah);
     }
     ctx.drawImage(dark, 0, 0);
+    drawOverlays(s, toAy, px + pw / 2, pyBottom);
     if (u0 + 1 > L.garden - 0.3) drawCreatures(s, toAy);
 
     // ---- tether + probe on top ----
@@ -293,6 +328,70 @@ window.World = (function () {
     if (s.depth > 2) {                           // lamp
       ctx.fillStyle = 'rgba(255,248,210,0.9)';
       ctx.fillRect(Math.round(aw / 2) - 1, Math.round(pyBottom + bob - 1), 2, 1);
+    }
+  }
+
+  // Things drawn above the darkness so they read in the deep: H2 specks, sonar,
+  // depth checkpoint lines and the splash when the probe breaks out of the ice.
+  function drawOverlays(s, toAy, cx, cy) {
+    const L = s.L, t = s.t, d = s.depth;
+
+    // hydrogen specks (cyan pairs, like the microscope's H2), rising slowly
+    if (s.cam / H + 1 > L.ice) {
+      for (const h of hydrogen) {
+        let u = h.u - ((t * 0.006 * h.s) % 0.6);
+        if (u < h.u - 0.6) u += 0.6;
+        const ay = toAy(u); if (ay < 0 || ay > ah) continue;
+        const near = Math.min(1, Math.max(0, (u - (L.garden - 1.4)) / 1.4));   // fade in toward the garden
+        if (near <= 0) continue;
+        const x = Math.floor((h.x + Math.sin(t * 0.5 * h.s + h.p) * 0.006) * aw);
+        ctx.fillStyle = 'rgba(93,228,255,' + (0.25 + 0.55 * near).toFixed(2) + ')';
+        ctx.fillRect(x, Math.floor(ay), 1, 1); ctx.fillRect(x + 1, Math.floor(ay), 1, 1);
+      }
+    }
+
+    // depth checkpoint lines every 10 km (dashed, with a gap around the probe)
+    if (s.uOfD) {
+      for (let km = 10; km <= 40; km += 10) {
+        const ay = toAy(s.uOfD(km * 1000)); if (ay < 0 || ay > ah) continue;
+        const passed = d >= km * 1000;
+        ctx.fillStyle = passed ? 'rgba(79,224,166,0.45)' : 'rgba(93,228,255,0.3)';
+        for (let c = 0; c < aw; c += 6) {
+          if (Math.abs(c - cx) < 14) continue;
+          ctx.fillRect(c, Math.floor(ay), 3, 1);
+        }
+      }
+    }
+
+    // sonar: rings from the probe in the open ocean
+    if (d > s.iceM + 300 && d < (s.gardenM || Infinity)) {
+      const period = 2.8;
+      for (let k = 0; k < 2; k++) {
+        const ph = ((t / period) + k * 0.5) % 1;
+        const r = 6 + ph * Math.min(aw, ah) * 0.38;
+        const a = 0.5 * (1 - ph);
+        ctx.fillStyle = 'rgba(93,228,255,' + a.toFixed(3) + ')';
+        const n = Math.round(r * 2.2);
+        for (let i = 0; i < n; i++) {
+          if (i % 3 === 2) continue;                       // dashed ring
+          const ang = (i / n) * Math.PI * 2;
+          ctx.fillRect(Math.round(cx + Math.cos(ang) * r), Math.round(cy + Math.sin(ang) * r * 0.8), 1, 1);
+        }
+      }
+    }
+
+    // splash of bubbles just after breaking through the ice into the ocean
+    const since = d - s.iceM;
+    if (since > 0 && since < 2500) {
+      const k = 1 - since / 2500;
+      for (let i = 0; i < 26; i++) {
+        const life = (t * 0.9 + i * 0.137) % 1;
+        const bx = cx + (hash(i, 5) - 0.5) * 34 + Math.sin(t * 3 + i) * 1.5;
+        const by = cy + 6 - life * 46;
+        ctx.fillStyle = 'rgba(220,245,255,' + (0.8 * k * (1 - life)).toFixed(2) + ')';
+        if (i % 3) ctx.fillRect(Math.round(bx), Math.round(by), 1, 1);
+        else { ctx.fillRect(Math.round(bx) - 1, Math.round(by), 3, 1); ctx.fillRect(Math.round(bx), Math.round(by) - 1, 1, 3); }
+      }
     }
   }
 

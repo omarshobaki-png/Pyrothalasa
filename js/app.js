@@ -209,8 +209,36 @@
 
     requestAnimationFrame(frame);
     if (innerWidth !== W || innerHeight !== H) layout();
-    World.draw({ cam, t, probeY, depth, L, dOfU, iceM: ICE_M, creatures });
+    World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures });
     updateHud(depth, probeU);
+    checkpoints(depth);
+  }
+
+  // ---------- depth checkpoints: a small pop-up each time you pass a milestone ----------
+  const CHECKS = [
+    { d: 1000, text: '1 km down', sub: 'still solid ice' },
+    { d: 10000, text: '10 km', sub: 'halfway through the ice' },
+    { d: ICE_M, text: 'Through the ice!', sub: 'into the dark ocean' },
+    { d: 30000, text: '30 km', sub: 'pitch dark, almost empty' },
+    { d: 40000, text: '40 km', sub: 'hydrogen in the water' },
+    { d: GARDEN_M, text: 'Hydrogen Garden', sub: 'you made it' }
+  ];
+  const toast = $('toast');
+  let lastDepth = 0, toastTimer = 0;
+  function checkpoints(d) {
+    if (d > lastDepth) {
+      const hit = CHECKS.filter((c) => lastDepth < c.d && d >= c.d).pop();
+      if (hit && lastDepth > 0) showToast(hit);
+    }
+    lastDepth = d;
+  }
+  function showToast(c) {
+    toast.querySelector('.toast-main').textContent = c.text;
+    toast.querySelector('.toast-sub').textContent = c.sub;
+    toast.hidden = false;
+    toast.classList.remove('show'); void toast.offsetWidth; toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
   }
 
   function updateHud(d, probeU) {
