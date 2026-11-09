@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Hydrogen Garden</title>
+  <meta name="description" content="Scroll-driven dive into a fictional ocean moon where a food web runs on hydrogen instead of sunlight. Built from real science.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div id="spacer" aria-hidden="true"></div>
+
+  <main id="world">
+    <header class="hero" id="hero">
+      <p class="hero-kicker">An astrobiology concept · Challenge A</p>
+      <h1 class="hero-title" id="heroTitle">The Hydrogen Garden</h1>
+      <p class="hero-sub" id="heroSub"></p>
+      <ul class="hero-chips">
+        <li>fictional world</li><li>real science</li><li>50 km dive</li>
+      </ul>
+      <button class="btn-pixel" id="beginBtn" type="button">▼ Begin descent ▼</button>
+      <p class="hero-note">Scroll to dive · tap any label marked <span class="plus">+</span> to see the science</p>
+      <p class="hero-disclaimer">A fictional world built from real science, modelled on Saturn's moon Enceladus and Earth's Lost City vents.
+        It is not a claim that life exists anywhere beyond Earth.</p>
+    </header>
+
+    <div id="markers"></div>
+
+    <section class="end" id="end" aria-labelledby="endTitle">
+      <div class="end-panel">
+        <h2 id="endTitle" class="end-title">You reached the garden floor</h2>
+        <p class="end-lead">The whole food web, from rock to predator, with no sunlight anywhere:</p>
+        <ol class="flow">
+          <li><span class="flow-k">Source</span>Rock + water → H₂</li>
+          <li><span class="flow-k">Level 1</span>Methane-makers</li>
+          <li><span class="flow-k">Level 2</span>Scrapers</li>
+          <li><span class="flow-k">Level 3</span>Fan-feeders</li>
+          <li><span class="flow-k">Level 4</span>Shadowfin</li>
+        </ol>
+
+        <div class="end-cols">
+          <div>
+            <h3>What we don't know</h3>
+            <ul id="limitsList"></ul>
+          </div>
+          <div>
+            <h3>How scientists could test it</h3>
+            <ul id="testsList"></ul>
+          </div>
+        </div>
+
+        <h3>Sources</h3>
+        <ol class="sources" id="sourcesList"></ol>
+
+        <h3>Credits</h3>
+        <p id="credits"></p>
+        <p class="small">AI-use disclosure: <em>[fill in which AI tools you used, for what, and how you checked their output]</em></p>
+        <p class="small">Made for a local team-selection round organised by NOVA for Astronomy and Space Science. Not issued, reviewed or endorsed by NASA.</p>
+
+        <button class="btn-pixel" id="topBtn" type="button">▲ Back to the surface</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Heads-up display -->
+  <div id="hud" class="is-hidden">
+    <div class="hud-box hud-depth">
+      <span class="hud-label">Depth</span>
+      <span class="hud-value" id="depthVal">0 m</span>
+      <span class="hud-zone" id="zoneVal">Surface</span>
+    </div>
+
+    <a class="hud-box hud-link" href="#end" id="sourcesLink">Sources</a>
+
+    <div class="hud-box hud-gauges" aria-live="off">
+      <div class="gauge">
+        <span class="hud-label">Pressure</span>
+        <span class="gauge-val" id="presVal">0 bar</span>
+        <span class="gauge-bar"><i id="presBar"></i></span>
+        <span class="gauge-sub" id="presSub">no air</span>
+      </div>
+      <div class="gauge">
+        <span class="hud-label">Temp</span>
+        <span class="gauge-val" id="tempVal">−201 °C</span>
+        <span class="gauge-bar"><i id="tempBar"></i></span>
+        <span class="gauge-sub" id="tempSub">surface</span>
+      </div>
+      <div class="gauge">
+        <span class="hud-label">Sunlight</span>
+        <span class="gauge-val" id="lightVal">1.1%</span>
+        <span class="gauge-bar"><i id="lightBar"></i></span>
+        <span class="gauge-sub" id="lightSub">of Earth's</span>
+      </div>
+    </div>
+
+    <nav class="ruler" aria-label="Jump to depth">
+      <div class="ruler-track"><i id="rulerFill"></i><b id="rulerDot"></b></div>
+      <div id="rulerTicks"></div>
+    </nav>
+  </div>
+
+  <!-- Science card -->
+  <aside id="card" class="card" role="dialog" aria-modal="false" aria-labelledby="cardTitle" hidden>
+    <div class="card-head">
+      <div class="card-tags" id="cardTags"></div>
+      <button class="card-close" id="cardClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <h2 class="card-title" id="cardTitle"></h2>
+    <div class="card-body" id="cardBody"></div>
+  </aside>
+
+  <script src="js/content.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
