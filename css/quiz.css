@@ -1,1 +1,36 @@
-/* Quiz widget, owned by Codex. Scope rules under #quizEnd, #quizModal and #quizPreBtn. See AGENTS.md. */
+#quizPreBtn { margin: 12px auto; color: var(--accent); cursor: pointer; font: 12px/1.5 var(--px); }
+#quizPreBtn[hidden] { display: none; }
+#quizPreBtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+#quizEnd { margin: 24px 0; font: 20px/1.35 var(--body); color: var(--ink); }
+#quizEnd * { box-sizing: border-box; }
+#quizEnd .q-panel { padding: 18px; }
+#quizEnd .q-panel h3 { margin-top: 0; }
+#quizEnd p { margin: 12px 0; }
+#quizEnd .q-button { min-height: 44px; border: 2px solid var(--accent); background: var(--panel-solid); color: var(--accent); padding: 10px 14px; font: 11px/1.5 var(--px); cursor: pointer; box-shadow: var(--shadow-px); }
+#quizEnd dialog { width: min(680px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 20px; background: var(--panel-solid); color: var(--ink); border: 2px solid var(--accent); box-shadow: var(--shadow-px); font: 20px/1.35 var(--body); overflow: auto; overscroll-behavior: contain; }
+#quizEnd dialog::backdrop { background: var(--panel); }
+#quizEnd .q-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+#quizEnd h2 { font: 16px/1.5 var(--px); color: var(--accent); margin: 0; }
+#quizEnd fieldset { min-width: 0; margin: 22px 0; border: 2px solid var(--line); padding: 12px; }
+#quizEnd legend { padding: 0 6px; color: var(--ink); font: 22px/1.3 var(--body); }
+#quizEnd label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 6px; min-height: 44px; cursor: pointer; text-align: left; }
+#quizEnd label:has(input:checked) { color: var(--accent); background: var(--panel); }
+#quizEnd input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 4px; accent-color: var(--accent); }
+#quizEnd :is(button, input, a):focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+#quizEnd .q-score { font: 18px/1.5 var(--px); color: var(--pink); }
+#quizEnd .q-review { border-top: 2px solid var(--line); margin-top: 20px; padding-top: 6px; }
+#quizEnd .q-review h3 { font: 13px/1.5 var(--px); color: var(--ink); }
+#quizEnd .q-tag { border: 1px solid currentColor; padding: 3px 5px; font: 10px/1.5 var(--px); text-transform: uppercase; }
+#quizEnd .q-evidence { color: var(--evidence); }
+#quizEnd .q-assumption { color: var(--assume); }
+#quizEnd .q-fiction { color: var(--fiction); }
+#quizEnd a { color: var(--accent); overflow-wrap: anywhere; }
+#quizEnd .q-citations { font: 12px/1.6 var(--mono); }
+@media (max-width: 599px) {
+  #quizEnd dialog { padding: 14px; }
+  #quizEnd .q-dialog-head { align-items: flex-start; }
+  #quizEnd h2 { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #quizPreBtn, #quizEnd *, #quizEnd *::before, #quizEnd *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
