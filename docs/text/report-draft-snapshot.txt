@@ -1,0 +1,64 @@
+﻿Pyrothalasa | The Hydrogen Garden
+1. Team and selected challenge
+Team Shay Rafe3
+Challenge A — Life Without Sunlight: Design a Chemosynthetic Ocean World
+* Omar Shoubaki: Science and research lead
+* Ahmad Sulieman: Evidence and validation lead, with support on science research
+* Omar Takhman: Science co-lead, with contributions to ecology and the video script
+* Alameen Abufkheida: Ecology lead, with contributions to science discussions and report writing
+* Mahdi Alsheikh: Video specialist
+* Mohammad Humidan: Web developer
+
+
+
+
+2. Problem and intended users[a]
+Students often learn about food webs through examples that start with plants and sunlight. That can make it hard to picture how life could survive in a dark ocean beneath ice, yet that is exactly where scientists are now looking for life, on moons like Saturn’s Enceladus. We focus on one fictional vent field where life survives without sunlight or dissolved oxygen. Students trace how chemical energy supports microbes and how that energy moves through the food web.
+Our main audience is high school students ages 14–18 who are learning about ecosystems and energy transfer. Science teachers can also use the interactive dive as a short classroom example of chemosynthesis, the process some microbes use to turn chemical energy into growth.
+
+
+3. Proposed solution and how it works
+The Hydrogen Garden is a fictional vent field 50 km below the surface of Pyrothalasa, an icy moon inspired by Enceladus. In our interactive dive, students scroll through the ice and ocean, then tap labels to explore the habitat and the science behind it. Beneath the seafloor, water reacts with rock and releases hydrogen. In the garden’s oxygen-free water, methane-making microbes use hydrogen and dissolved carbon dioxide to gain energy and grow. Our model assumes that Scrapers feed on the microbes and Shadowfin feeds on Scrapers under the same conditions. The report explains the science behind the model, and a three-minute video guides viewers through the dive.
+4. Supporting science
+4a. The habitat and its conditions
+The Hydrogen Garden is a field of white carbonate chimneys on Pyrothalasa’s seafloor. Enceladus inspired the icy setting, and Earth’s Lost City inspired the chimneys (Kelley et al., 2005).
+
+
+Condition
+	Our model and its basis
+	Depth and pressure
+	50 km below the surface, through 20 km of ice and 30 km of ocean. We calculate about 56 bar from the pressure of both layers using Enceladus-like gravity of 0.113 m/s² (NASA/JPL). That is roughly the pressure at 550 m depth on Earth.
+	Temperature
+	Our open ocean is near freezing and garden water reaches about 8 °C. Lost City’s 40–90 °C discharge is an Earth comparison for the vent fluid (Kelley et al., 2005).
+	Water chemistry
+	A salty ocean surrounds alkaline, hydrogen-rich vent fluid. Lost City’s vent fluids have a pH of 9–11 (Kelley et al., 2005). We assume the ocean supplies dissolved carbon dioxide to the pores.
+	Light and food
+	Ice blocks sunlight. We assume no food from surface photosynthesis reaches the garden. Local microbes feed the food web.
+	Dissolved oxygen
+	We assume the entire garden contains no dissolved oxygen. All three levels of the food web are designed for these conditions.
+	
+
+4b. How the garden runs on hydrogen
+How the vent makes hydrogen. Water reacts with olivine-rich rock beneath the seafloor in a process called serpentinization, which releases hydrogen into the vent fluid (Kelley et al., 2005). Cassini detected hydrogen in Enceladus’s plume. From those measurements, researchers calculated that forming methane from carbon dioxide could release energy in the ocean (Waite et al., 2017).
+How microbes use it. In warm chimney pores, microbes called methanogens use hydrogen and dissolved carbon dioxide to gain energy and grow without oxygen. They release methane and water. An Earth methanogen produced methane in experiments under some simulated Enceladus-like conditions (Taubner et al., 2018).
+CO₂ + 4H₂ → CH₄ + 2H₂O
+Where the carbon comes from. Raw vent fluid at Lost City can contain very little dissolved CO₂. We assume ocean water brings enough usable dissolved carbon into the pores while they remain oxygen-free (Brazelton et al., 2006).
+What could keep the vent running. Saturn’s changing pull can warm a moon’s rocky core through tidal heating. An Enceladus model suggests this could sustain activity for tens of millions to billions of years. We assume similar heating on Pyrothalasa keeps water flowing through reactive rock and replenishes hydrogen (Choblet et al., 2017).
+4c. Design choices and evidence
+
+
+Design choice
+	What the evidence shows
+	What we assume
+	Hydrogen from rock and water
+	At Lost City, seawater reacting with mantle rock produces hydrogen-rich vent fluid (Kelley et al., 2005). Cassini detected hydrogen in Enceladus’s plume (Waite et al., 2017).
+	Water circulates through reactive rock on Pyrothalasa and supplies enough hydrogen.
+	Methane makers in warm pores
+	Lost City’s porous chimneys host methane-cycling microbes (Kelley et al., 2005). An Earth methanogen produced methane under simulated Enceladus-like conditions (Taubner et al., 2018).
+	Hydrogen and usable dissolved carbon reach the same oxygen-free pores, where our fictional microbes can grow.
+	A vent field in a salty ocean under ice
+	Enceladus’s wobble points to a global ocean (Thomas et al., 2016). Its ejected ice grains contain salts (Postberg et al., 2009). Silica grains point to hot water reacting with rock (Hsu et al., 2015).
+	Pyrothalasa has a similar ocean and one active vent field where we set the story.
+	
+
+[a]real-world relevance

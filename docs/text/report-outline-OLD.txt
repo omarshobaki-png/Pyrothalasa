@@ -1,0 +1,596 @@
+Hydrogen Garden — Report Outline & Fact Table
+
+ Hydrogen Garden — Report Outline & Fact
+ Table
+
+   Nov 9, 2026 · @​ issa
+
+ How to use this doc
+
+  This is the plan for our 4-page report (the main deliverable). Every number or claim in the
+  report, site and video must come from the Master fact table at the bottom.
+
+    1. No table row, no claim. If a fact is not in the table, it does not go in the report, the site
+       or the video.
+
+    2. Two-person rule. Anyone can add a row. The Evidence & Critic (Person 3) checks it
+       against the source and fills in "Checked by".
+
+    3. Tag everything. Each row is either Evidence (a real source says it) or Assumption (our
+       choice). Fictional organisms are marked Fiction.
+
+    4. Log every change. When we change a decision, add one line to the decision log on
+       page 4: what, why, who.
+
+    5. Plain words. Write for a high schooler. Define every science word the first time it
+       appears.
+
+  Deadline check: the brief says "submit by 10 Nov, 14:00" on pages 2 and 4, but page 3 says
+  the 24-hour window ends "9 Nov 14:00". Email the organizer today to confirm which one is
+  right.
+  Rules from the brief: at most 4 pages, text no smaller than 10 pt, including visuals and
+  references. The file is named TEAMNAME_Challenge-A_Report.pdf with no spaces in the
+  team name.
+
+ Page budget
+
+  The report fits exactly 4 pages with about 1,500 words in total. The main visual takes up
+  half of page 1.
+
+                                                                                                                                                                                                                                                    Page 1 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+Page Report sections (from                     Rubric points it  Owner                       Words
+          the brief)                           mainly earns                                  (about)
+
+1  1 Team · 2 Problem and Problem 20,                            P5 (team, visual), P4       350 +
+
+   users · 3 Solution · 5                      Clarity 10        (problem), P2 (solution) visual
+
+   Main visual
+
+2  4 Supporting science + Science 20                             P1                          450 +
+
+   evidence table                                                                            table
+
+3  4 (cont.) Food web and Science 20,                            P2 (food web), P1           450 +
+                                                                 (alternative), P3 (limits,  small
+   energy · Rejected                           Creativity 20,    validation)                 diagram
+
+   alternative · 6 Limits                      Feasibility 20
+
+   and validation
+
+4  7 Contributions ·                           Teamwork 10,      P5 (contributions, log),    300 +
+                                               Science           P3 (AI, references)         tables
+   Decision log · AI                           (sources)
+
+   disclosure ·
+
+   References
+
+Layout rules for P5: body text 10–11 pt, captions at least 10 pt. Put the site link and its QR
+code in the page-1 header, plus the video link if we make one. References in short form
+(author, year, journal, DOI) to save space.
+
+Page 1 — Who we are, the problem, our idea
+
+Section 1 · Team identification (P5, 2 lines). Team name, Challenge A: Life Without
+Sunlight, and all 6 member names with their roles.
+
+Section 2 · Problem and intended users (P4, about 120 words).
+
+     Problem: high-school students find it hard to imagine a food web with no sunlight at
+     the bottom of it. Every food chain they learn starts with a plant.
+     Users: students aged 14–18 and the science teachers who teach them. Scientists are
+     not our audience.
+     Narrow focus: one habitat zone (a vent field), one energy pathway (hydrogen), and a
+     4-level food web.
+     Starter sentence: "Every food chain in a school textbook starts with sunlight. We set
+     out to show a high schooler, in under five minutes, how a whole ecosystem could run
+     without it."
+
+                                                                                                     Page 2 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+     Add one line from the user test once it has run, for example how many of the testers
+     could name the energy source before and after using the site. Report only real
+     results.
+
+Section 3 · Proposed solution and how it works (P2 and P6, about 200 words).
+
+     The idea: the Hydrogen Garden, a fictional vent field 50 km down in the ocean of an
+     icy moon we invented, modelled on Saturn's moon Enceladus.
+     How the parts fit: (1) the report explains the science, (2) the interactive dive lets a
+     student scroll from the ice surface down to the vents and tap each label for its fact
+     and source, and (3) the video walks through it in 3 minutes.
+     Key sentence: "Rock reacts with water and releases hydrogen. Microbes turn that
+     hydrogen into food. Three levels of animals live off those microbes."
+     P6 adds 2 lines on the creature mode: at each level the student plays that creature
+     and follows where its energy goes.
+     Put the site link + QR code here.
+
+Section 5 · Main visual (P5, half the page). A cross-section from the ice down to the
+vents, with energy-flow arrows: hydrogen → methane-makers → scrapers / fan-feeders →
+Shadowfin, with the heat lost at each step. Label at least 4 conditions directly on the
+drawing (depth, pressure, temperature, chemicals, darkness). Caption: "Energy flow in the
+Hydrogen Garden. Green = evidence, amber = our assumption."
+
+Page 2 — The science (Section 4, owner P1)
+
+4a · The habitat zone and its conditions (about 150 words). The brief needs at least 4
+conditions, so we state 6:
+
+Condition    Our value                            Evidence or assumption
+Depth        50 km below the surface (20 km of
+             ice + a 30 km ocean)                 Based on Enceladus (NASA;
+Pressure                                          Thomas 2016). The exact numbers
+Temperature  about 56 bar at the seafloor, which  are our choice
+             equals ~550 m deep on Earth
+             vent fluid 40–90 °C; surrounding     Calculated: density × gravity ×
+             water about 8 °C                     depth
+
+                                                  Fluids: Lost City (Kelley 2005).
+                                                  Water at 8 °C: assumption
+
+                                                  Page 3 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+Condition     Our value                             Evidence or assumption
+Chemicals                                           Waite 2017; Postberg 2009; Kelley
+              hydrogen (H₂), carbon dioxide         2005
+Light         (CO₂), methane; salty, very alkaline
+              water                                 NASA Saturn facts + the inverse-
+Food from                                           square law
+above         none. Sunlight at Saturn is ~1% of
+              Earth's and cannot get through 20     NOAA marine snow, applied by us
+              km of ice
+
+              none (no "marine snow")
+
+4b · The energy source (about 150 words). Seawater reacts with rock rich in olivine
+(serpentinisation) and releases hydrogen gas. Methane-making microbes use it:
+
+  CO_2 + 4H_2 \rightarrow CH_4 + 2H_2O
+
+     Why it lasts: tidal heating from Saturn keeps the rocky core warm. Models suggest
+     hydrothermal activity could last tens of millions to billions of years (Choblet 2017).
+     This answers guiding question 1.
+     Where we've seen it: Lost City on Earth (Kelley 2005), and hydrogen in Enceladus'
+     plume (Waite 2017). This answers guiding question 2.
+4c · Design choices linked to evidence (the table the brief asks for).
+
+# Design choice                                Real-world evidence              Source
+
+1  Energy comes from                           Lost City's vents are driven     Kelley 2005; Waite
+                                               by this reaction; Cassini        2017
+   hydrogen made when                          found H₂ in Enceladus' plume
+
+   water reacts with rock
+
+2  Methane-making microbes Methane-cycling microbes                             Kelley 2005; Taubner
+
+   form the base of the food live at Lost City; an Earth                        2018
+
+   web                                         methane-maker grew under
+
+                                               Enceladus-like conditions
+
+3  The habitat is a vent field in Enceladus has a global                        Thomas 2016; Postberg
+
+   a dark, salty, global ocean ocean, salts in its ice grains, 2009; Hsu 2015
+
+   under ice                                   and silica grains that point to
+
+                                               hot water reacting with rock
+
+                                                                                                    Page 4 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+# Design choice                                Real-world evidence           Source
+
+4  The energy supply lasts                     Tidal heating can power       Choblet 2017
+                                               long-lived hydrothermal
+   long enough for an                          activity
+
+   ecosystem
+
+5  The food web is short and ~10% of energy passes                           Pauly & Christensen
+
+   the top predator is small                   between levels on average     1995
+
+6  Life clusters at the vents                  Earth's deep sea relies on    NOAA (marine snow)
+
+   and the open water is                       food sinking from the sunlit
+
+   nearly empty                                surface, which our moon has
+
+                                               none of
+
+Guiding question 3 (how conditions shape organisms): one sentence each. No light
+means no eyes; low energy means slow, small animals; microbes are fine at vent
+temperatures, since one methane-maker grows at up to 122 °C (Takai 2008).
+
+Page 3 — Food web, the rejected alternative, limits and testing
+
+4d · Food web and energy loss (P2, about 150 words + a small diagram by P5).
+
+  1. Methane-makers (Level 1): microbe mats on the chimneys that turn H₂ + CO₂ into
+     food.
+
+  2. Scrapers (Level 2): snail-like grazers that scrape off the mats. Fiction, based on the
+     snails and limpets at Earth's vents (NOAA poster).
+
+  3. Fan-feeders (Level 3): catch drifting microbes, scraps and scraper waste. Fiction,
+     based on filter feeders at cold seeps (NOAA poster).
+
+  4. Shadowfin (Level 4): an eyeless, hand-sized predator. Fiction.
+     Energy loss: start with 1,000 "energy coins" at Level 1. At ~10% per step (Pauly &
+     Christensen 1995) that leaves 100, then 10, then 1 coin for Shadowfin. Say clearly that
+     the coins are illustrative. This answers guiding question 4.
+     If the vent stops: the mats starve first, then the grazers and filter feeders, then
+     Shadowfin. Life continues only where new vents open (NOAA: vents are short-lived).
+     This answers guiding question 5.
+
+Creativity · The alternative we rejected (P1, about 100 words). This is worth up to 20
+points, so don't skip it.
+
+                                                                                           Page 5 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+     Alternative: copy Earth's famous black-smoker vents, with giant tubeworms living on
+     hydrogen-sulfide-eating bacteria.
+     Why we rejected it: NOAA writes that reaction as CO₂ + 4H₂S + O₂ → CH₂O + 4S +
+     3H₂O. It needs oxygen, and Earth's deep-sea oxygen comes from photosynthesis at
+     the sunlit surface. A moon with no sunlight has no such oxygen supply. Hydrogen +
+     CO₂ needs no oxygen, and both were found in Enceladus' plume (Waite 2017).
+     Starter sentence: "Earth's 'sunless' vent ecosystems secretly still depend on the Sun.
+     Ours does not."
+     Optional second comparison (1 line, our reasoning only): why a scroll-down dive
+     instead of a static poster. Scrolling makes 50 km of depth feel real.
+
+Section 6 · Feasibility, limitations and validation (P3, about 200 words).
+
+What is realistic: every chemical step has been observed on Earth or measured at
+Enceladus. Whether life actually exists there is unknown: habitable does not mean
+inhabited.
+
+Limitations (the brief asks for at least 2):
+
+     Our organisms are invented from Earth examples, and real alien life could be very
+     different.
+     The ~10% rule is an Earth average that varies a lot. Making methane also yields less
+     energy than breathing oxygen, so the real food web could be even smaller.
+     Our gauges use simplified physics: constant gravity, a straight-line temperature
+     change through the ice, and a made-up light fade rate.
+     Our depth, temperature and chimney numbers are borrowed from Enceladus and Lost
+     City. They are not measurements of our fictional moon.
+
+Validation plan, written as what / who / how / what counts as success:
+
+Test           Who                             How                      Success means
+               A microbiology lab
+Can the                                        Grow an Earth            The microbes grow
+microbes live                                  methane-maker at our     and produce methane
+there?                                         garden's pressure,
+                                               temperature, alkalinity
+                                               and gas mix, as
+                                               Taubner et al. (2018)
+                                               did for Enceladus-like
+                                               conditions
+
+                                                                        Page 6 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+Test         Who                               How                                     Success means
+Is the       A future spacecraft               Measure hydrogen,
+chemistry    that flies through the            CO₂ and methane in                      All three are present.
+there?       plume                             the jets                                If there is less
+                                                                                       hydrogen than non-
+Does our     Us, with 3–5 high-                Ask a 3-question quiz,                  living chemistry
+concept      school students                   let them use the site                   predicts, that is a
+teach?                                         for 5 minutes, then ask                 hint, not proof, that
+                                               the quiz again                          something is using it
+
+                                                                                       Our target: most
+                                                                                       testers can name the
+                                                                                       energy source and
+                                                                                       explain why the top
+                                                                                       predator is small
+                                                                                       afterwards. Report
+                                                                                       the real results,
+                                                                                       whatever they are
+
+Page 4 — Teamwork, AI disclosure, references (Section 7)
+
+7a · Contributions (P5). Be specific: name each person's actual output, never "helped with
+research". Fill in the names.
+
+Member Role                                    What they made                          Report part they
+                                                                                       wrote
+
+(name)     P1 · Science                        Habitat conditions, energy-source       4a–4c, the rejected
+           Lead                                research, the black-smoker              alternative
+                                               comparison
+
+(name)     P2 · Ecology &                      The 4-level food web, the energy-       3, 4d
+           Story                               coin model, the "vent stops"
+                                               scenario, the creature texts, the
+                                               video script
+
+(name)     P3 · Evidence &                     Checked every row of the fact           6, 7c, references
+           Critic                              table, the limitations, the validation
+                                               plan
+
+                                                                                                          Page 7 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+Member Role                                    What they made                      Report part they
+                                                                                   wrote
+(name) P4 · Video                              The 3-minute video, the user test   2
+                                               with students
+(name)  P5 · Artist &                          All art layers, the main cross-     1, 5, 7a, 7b
+(name)  Editor                                 section, the 4-page layout
+                                               The interactive dive, the creature  3 (site part)
+        P6 · Web                               mode, hosting, the QR code
+
+7b · Decision log (shared decisions and changes, newest first). This is what earns the full
+10 teamwork points. Keep adding rows.
+
+What we decided                                Why                                      Decided
+                                                                                        by
+
+Every member owns a report                     Points come from the report; the video Team (fill
+section, not only a video or site job
+                                               and site earn none on their own          in)
+
+Dropped the predator's "glow sense"            Vents at 40–90 °C are too cool to give   Team (fill
+and changed it to sensing chemistry,           off visible light                        in)
+warmth and movement
+
+Cited the NOAA poster and fact                 The lesson link in the brief returned a  Team (fill
+sheet instead of the NOAA lesson               404 error                                in)
+link
+
+Built a scroll-down dive (one of 6 site Scrolling makes the 50 km depth and             Team (fill
+                                                                                        in)
+ideas)                                         the changing conditions feel real
+
+Hydrogen + CO₂ microbes instead of Sulfide chemistry needs oxygen made Team (fill
+
+sulfide vents                                  by photosynthesis                        in)
+
+Chose Challenge A over B                       (fill in the team's reason)              Team (fill
+                                                                                        in)
+
+7c · AI-use disclosure (P3). Draft it, then edit until every word is true:
+
+                                                                                                     Page 8 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+   We used Claude (Anthropic) to brainstorm ideas, plan our work split, write code for
+   the interactive site and suggest wording. We checked every source exists by opening
+   its DOI or web page, and checked each number against its source. All final decisions
+   and edits were made by our team. Reused work: none. (List any images or tools we
+   reused.)
+
+7d · References (P3). Use short form; the brief needs at least 4, with at least 2 from an
+agency or peer-reviewed. We have 9 peer-reviewed and 6 agency sources.
+
+  1. Waite et al. (2017). Science 356, 155–159. doi:10.1126/science.aai8703
+  2. Hsu et al. (2015). Nature 519, 207–210. doi:10.1038/nature14262
+  3. Kelley et al. (2005). Science 307, 1428–1434. doi:10.1126/science.1102556
+  4. Taubner et al. (2018). Nature Communications 9, 748. doi:10.1038/s41467-018-02876-y
+  5. Takai et al. (2008). PNAS 105, 10949–10954. doi:10.1073/pnas.0712334105
+  6. Pauly & Christensen (1995). Nature 374, 255–257. doi:10.1038/374255a0
+  7. Postberg et al. (2009). Nature 459, 1098–1101. doi:10.1038/nature08046
+  8. Choblet et al. (2017). Nature Astronomy 1, 841–847. doi:10.1038/s41550-017-0289-8
+  9. Thomas et al. (2016). Icarus 264, 37–47. doi:10.1016/j.icarus.2015.08.037
+10. NASA: Enceladus
+11. NASA: Saturn facts
+12. NASA (2017): Missions provide new insights into ocean worlds
+13. NOAA: What is marine snow?
+14. NOAA Ocean Exploration: Chemosynthesis fact sheet
+15. NOAA Ocean Exploration: Life Beyond Light poster
+
+Master fact table
+
+There are 32 facts so far. 17 were pre-checked by AI against their source, and P3 must re-
+read each one and set it to Team checked. 6 still need a team check, 1 still needs a source,
+and 8 are our own choices. The site's js/content.js uses these same numbers, so
+change a number in both places.
+
+#  Claim                                       Value          Source       Type         Status
+                                                                            ​ Evidence   ​ AI pre-checked
+1  Saturn's distance                           9.5 × Earth's  NASA Saturn
+
+   from the Sun                                (9.5 AU)       facts
+
+                                                                                        Page 9 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+#   Claim                                      Value             Source             Type          Status
+
+2   Sunlight reaching                          ~1.1% of Earth's Inverse-square      ​ Calculated ​ AI pre-checked
+
+    Saturn                                     (1 ÷ 9.5²)        law, using row 1
+
+3   Enceladus surface about −201 °C NASA Enceladus ​ Evidence                                     ​ AI pre-checked
+
+    temperature
+
+4   Enceladus ice shell 20–25 km on                              NASA Enceladus ​ Evidence        ​ AI pre-checked
+
+    thickness                                  average; 1–5 km
+
+                                               at the south
+
+                                               pole
+
+5   Our moon's ice shell 20 km                                   Our choice, based ​ Assumption ​ Our choice
+                                                                 on row 4
+
+6   A global ocean                             yes               Thomas et al. 2016 ​ Evidence    ​ AI pre-checked
+
+    under the ice
+
+7   Our moon's ocean 30 km                                       Our choice         ​ Assumption  ​ Our choice
+                                                                 (Enceladus: tens
+    depth                                                        of km)
+
+8   The ocean is salty sodium salts in Postberg et al.                              ​ Evidence    ​ AI pre-checked
+                                                                                                  ​ AI pre-checked
+                                               the plume's ice 2009                               ​ AI pre-checked
+                                                                                                  ​ Needs check
+                                               grains
+
+9   Hot water reacts                           silica grains that Hsu et al. 2015;  ​ Evidence
+
+    with rock                                  form in water NASA Enceladus
+
+                                               above ~90 °C
+
+10  Hydrogen gas in the H₂ detected by Waite et al. 2017 ​ Evidence
+
+    plume                                      Cassini
+
+11  CO₂ in the plume                           present           Waite et al. 2017 ​ Evidence
+
+12  The heat supply                            tens of millions  Choblet et al.     ​ Evidence    ​ Needs check
+                                               to billions of    2017                             ​ Needs check
+    lasts                                      years                                              ​ Needs check
+                                                                                                  ​ Needs check
+13  Serpentinisation                           yes               Kelley et al. 2005 ​ Evidence
+
+    makes H₂ at Lost
+
+    City
+
+14  Lost City chimneys up to ~60 m tall; Kelley et al. 2005 ​ Evidence
+
+    and fluids                                 fluids ~40–90
+
+                                               °C; high pH
+
+15  Methane-cycling                            yes               Kelley et al. 2005 ​ Evidence
+
+    microbes at Lost
+
+    City
+
+                                                                                                          Page 10 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+#   Claim                                      Value           Source             Type          Status
+
+16  The methane-maker CO₂ + 4H₂ →                              Standard           ​ Evidence    ​ AI pre-checked
+
+    reaction                                   CH₄ + 2H₂O      chemistry;
+
+                                                               Taubner et al.
+
+                                                               2018
+
+17  A methane-maker yes, in a lab                              Taubner et al.     ​ Evidence    ​ AI pre-checked
+                                                               2018
+    grew under
+
+    Enceladus-like
+
+    conditions
+
+18  The hottest                                grows at up to  Takai et al. 2008  ​ Evidence    ​ AI pre-checked
+                                               122 °C
+    methane-maker
+
+    known
+
+19  Earth's sulfide vent CO₂ + 4H₂S + O₂ NOAA fact sheet ​ Evidence                             ​ AI pre-checked
+
+    reaction needs                             → CH₂O + 4S +
+
+    oxygen                                     3H₂O
+
+20 Tubeworms rely on yes                                       NOAA poster        ​ Evidence    ​ AI pre-checked
+           sulfide bacteria;
+           snails and limpets
+           live on vents
+
+21  Filter feeders live at sponges, corals, NOAA poster                           ​ Evidence    ​ AI pre-checked
+
+    cold seeps                                 anemones
+
+22 Vents are short-                            yes             NOAA poster        ​ Evidence    ​ AI pre-checked
+
+    lived
+
+23 Deep-sea food webs yes                                      NOAA marine        ​ Evidence    ​ AI pre-checked
+           depend on marine                                    snow
+           snow
+
+24 Energy passed                               ~10% on         Pauly &            ​ Evidence    ​ Needs check
+
+    between food-web average                                   Christensen 1995
+
+    levels
+
+25 Enceladus surface 0.113 m/s²                                none yet: find a   ​ Evidence    ​ Needs source
+           gravity                                             NASA or peer-
+                                                               reviewed page
+
+26 Pressure at our                             ~56 bar (the    Density × gravity  ​ Calculated  ​ AI pre-checked
+           seafloor                            same as ~551 m  × depth, using
+                                               deep on Earth)  rows 5, 7, 25 and
+                                                               27
+
+27 Ice and salty-water 920 and 1,030 Standard                                     ​ Assumption ​ Our choice
+
+    density                                    kg/m³           textbook values
+
+28 Water temperature ~8 °C                                     None: warmed a ​ Assumption ​ Our choice
+           in the garden                                       little by the vents
+
+                                                                                                        Page 11 of 12
+Hydrogen Garden — Report Outline & Fact Table
+
+#   Claim                                      Value            Source              Type          Status
+
+29 Temperature                                 a straight line  A simplification    ​ Assumption ​ Our choice
+           through the ice                     from −201 °C to
+                                               0 °C
+
+30 How fast light fades halves about                            None: made up       ​ Assumption ​ Our choice
+                                                                for the gauge
+    in ice                                     every metre
+
+                                               (illustrative)
+
+31  Scrapers, Fan-                             invented         Based on the        ​ Fiction     ​ Our choice
+                                                                Earth analogs in
+    feeders, Shadowfin                                          rows 20–21
+
+    and the moon's
+
+    name
+
+32 Energy coins                                1,000 → 100 → 10 Illustrative, from  ​ Calculated  ​ Our choice
+
+                                               →1               row 24
+
+Open items before submitting
+
+     P3: find a cited source for Enceladus' gravity (row 25), or remove the pressure number
+     from the report and the site
+     P3: check rows 13–15 against Kelley et al. 2005 (the full paper is paywalled, so try a
+     library or the abstract)
+     P3: check rows 11, 12 and 24 against their papers' abstracts
+     P3: re-read the 17 rows marked AI pre-checked and set each one to Team checked
+     Team: choose the moon's name and the team name (no spaces), then update
+      js/content.js and page 1
+     P4: run the user test and write down the real results for sections 2 and 6
+     P5: confirm the PDF is exactly 4 pages with no text under 10 pt
+     Someone: email the organizer to confirm the deadline (9 Nov or 10 Nov, 14:00)
+     P3: finalise the AI disclosure so that every word of it is true
+
+                                                                                                          Page 12 of 12
+

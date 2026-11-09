@@ -1,0 +1,491 @@
+LOCAL SELECTION ACTIVITY ·
+
+From Curiosity
+
+to Concept
+
+Team Selection Round
+
+24 teams. 15 places. Choose one challenge.
+Organizer            NOVA for Astronomy and Space Science
+Event location       A. M. Qattan Foundation
+Issue date           9 Nov, 2026
+Submission deadline  10 Nov, 2026 14:00 pm
+Submission link      Click Here to submit your work
+
+-​ Note: This selection round is organized locally. It has not been issued, reviewed or endorsed by NASA or the NASA Space
+      Apps program.
+Team Selection Round ·
+
+SECTION B
+
+Welcome and overview
+
+Thank you for applying. We received more applications than we have places, so we are running a short
+selection round. Fifteen of the 24 applicant teams will join our event. This round is not the
+hackathon itself. It is a chance for your team to show how it thinks, researches, decides and
+communicates.
+
+Purpose                 To see how teams solve problems, reason with evidence, create original ideas and
+                        work together, using a small, manageable task.
+Your choice
+Same yardstick          Each team chooses ONE of two challenges (A or B) and submits one solution.
+No prototype needed
+Time                    The same evaluation framework applies to both challenges: one rubric, 100 points.
+
+Results                 A clear, well-supported concept can score highly without a working prototype.
+
+                        You have 24 HOURS from 8 Nov 14:00 to 9 Nov 14:00. We expect about 4–8 hours
+                        of active team effort.
+
+                        Selected teams will be announced on 10 Nov.
+
+WHAT WE ARE LOOKING FOR
+
+ •​ Curiosity and a clear problem focus: you understand who is affected and why it matters.
+ •​ Evidence-based reasoning: you use sources well and are honest about what is assumption.
+ •​ Original, well-justified ideas: you can explain why you chose your approach over others.
+ •​ Realism: you show what is feasible, name limits and plan a simple way to test your idea.
+ •​ Clear communication and real teamwork: others can follow your thinking, and every member’s
+
+     contribution is visible.
+
+Good to know
+Ideas that are simple, clear and well reasoned will do better than complex ideas that are hard to explain.
+Expensive equipment, advanced programming and polished visuals do not earn points on their own.
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 3 of 11
+Team Selection Round ·
+
+SECTION C
+
+General instructions
+
+Original work and        The submission must be your team’s own work. Credit every source, image, dataset and
+attribution              idea you use. Do not copy another team’s solution or a previous hackathon project.
+External resources,
+code, images and         You may use freely accessible tools, code, images and public datasets, if you are allowed
+datasets                 to use them and you cite them. Say clearly what you created and what you reused.
+AI use (proposed
+policy)                  You may use AI tools responsibly, for example to brainstorm, summarize, check language
+                         or help with code. You must disclose which tools you used and for what, and your team
+Equal treatment of       must verify every claim, number, source and output. AI-generated references must be
+formats                  checked to exist.
+                         AI use earns no points. Unchecked or fabricated content will lower your scores, and
+Files and naming         missing or inaccurate disclosure may affect eligibility.
+
+Language                 Storyboards, diagrams, wireframes, models, visualizations and prototypes are all
+Deadline and updates     assessed on the same rubric. We assess what your work shows, not how technical or
+                         polished it is.
+Questions
+                         Submit one PDF report or video, named TEAMNAME_Challenge-A_Report.pdf or
+                         TEAMNAME_Challenge-A_Video.mp4 (use B for Challenge B; no spaces in the team
+                         name). Upload at the submission form
+
+                         Report or video must be in English.
+
+                         Submit by 10 Nov 14:00 pm . If you upload more than once, only the latest version
+                         received before the deadline is reviewed.
+
+                         Write to khalilmahajneh0@gmail.com. Answers to general questions may be shared
+                         with all teams to keep things fair.
+
+SECTION D
+
+Standard submission requirements
+
+Both challenges require the concept report.
+
+Item                     Requirement
+
+Concept report           One PDF, maximum four pages (text no smaller than 10 pt), including visuals and
+                         references.
+
+Optional team video      One short video, maximum three minutes, explaining the problem, your proposed
+                         solution, major design decisions and each member’s contribution. Team members
+                         can appear on camera, narrate over slides or use captions.
+
+Optional prototype link  You may add a link to a prototype. It is never required and earns no automatic
+                         bonus points. We assess what it demonstrates, not how sophisticated it is.
+
+REQUIRED REPORT SECTIONS           What to include
+   # Section                       Team name, challenge (A or B), member names.
+
+   1 Team identification and       The specific problem you chose to solve and who it is for.
+         selected challenge        Your idea and how its parts fit together.
+
+   2 Problem and intended users
+
+   3 Proposed solution and how it
+         works
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 4 of 11
+Team Selection Round ·
+
+# Section                        What to include
+
+4 Supporting science, research or The evidence behind your main choices.
+      data
+
+5 At least one meaningful visual A diagram, wireframe, chart or storyboard that explains your idea.
+
+6 Feasibility, limitations and   What is realistic, what could go wrong, and a simple way to test it.
+      validation plan
+
+7 Contributions, references and  Who did what; sources; AI tools used and how you verified outputs
+      AI-use disclosure          (write “none” if none); any reused work.
+
+How we judge communication
+Video production quality and English accent are not assessment criteria. We look for understandable
+communication and sound reasoning.
+
+SECTION E
+
+Challenge briefs
+
+Choose one challenge. Both ask for a concept-level solution, use the same submission package and are
+judged on the same rubric. Original NASA Space Apps challenge titles and sources are shown to give credit;
+the tasks below are our local adaptations.
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 5 of 11
+Team Selection Round ·
+
+A  CHALLENGE A · ASTROBIOLOGY AND OCEAN WORLDS
+
+   Life Without Sunlight: Design a Chemosynthetic Ocean
+   World
+
+Original NASA Space Beyond Sunlight: An Aquatic Chemosynthetic World
+
+Apps challenge          2024 NASA International Space Apps Challenge (held 5–6 October 2024)
+
+Official sources        2024 challenge listing:
+                        https://www.spaceappschallenge.org/nasa-space-apps-2024/challenges/
+
+                        Space Apps announcement of the 2024 challenges:
+                        https://www.spaceappschallenge.org/blog/ignite-your-ideas-with-a-challenge
+
+How we adapted it       The original challenge invites teams to design an ocean world, and its ecosystem, where
+                        chemosynthesis rather than photosynthesis sustains life. Our version narrows this to one
+                        habitat zone, one energy pathway and a small food web, and asks teams to justify each
+                        design choice with cited science. No coding or simulation is needed.
+
+BACKGROUND AND REAL-WORLD RELEVANCE
+Most life we know depends on sunlight. In Earth’s deep ocean, however, communities around hydrothermal vents
+and cold seeps are powered by chemosynthesis: microbes use chemical energy, such as from hydrogen sulfide
+or methane, to build the base of a food web.
+
+Ocean worlds beyond Earth make this idea more than a curiosity. NASA’s Cassini mission found evidence of
+hydrogen entering the ocean of Saturn’s moon Enceladus through hydrothermal activity, a possible chemical
+energy source for life. “Habitable” does not mean “inhabited”: this challenge is about reasoning carefully about
+what could be possible.
+
+PROBLEM STATEMENT
+
+   Students and the public find it hard to imagine how an ecosystem could run without sunlight. Design a
+   fictional but scientifically reasoned ocean world, focused on one habitat zone, in which
+   chemosynthesis is the base of the food web, and explain it so a non-specialist can follow your
+   reasoning.
+
+YOUR TASK
+
+ 1.​ Define your habitat zone: where it is in your ocean world and its key conditions (for example depth or
+      pressure, temperature range, main chemicals).
+
+ 2.​ Identify the energy source and show how energy passes from it through microbes to at least two further levels
+      of life.
+
+ 3.​ Justify each major design choice with real science or observations, and say what is assumption rather than
+      evidence.
+
+ 4.​ Explain the limits of your idea and how scientists could test whether such a zone is plausible.
+
+INTENDED USERS OR BENEFICIARIES
+Students and members of the public learning about astrobiology, and the educators or science communicators
+who would use your concept to teach it. Scientists exploring where life might exist beyond Earth are a secondary
+audience.
+
+FIVE GUIDING QUESTIONS
+
+ 1.​ What process supplies energy in your world, and why would that supply last long enough for an ecosystem to
+      depend on it?
+
+ 2.​ Which chemical reactions could microbes use, and where on Earth or in our solar system is there evidence of
+      something similar?
+
+ 3.​ How do conditions such as pressure, temperature, salinity and darkness shape what organisms need in order
+      to survive?
+
+ 4.​ How does energy move from its source to the largest organism in your ecosystem, and what is lost along the
+      way?
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 6 of 11
+Team Selection Round ·
+
+5.​ What would happen if the energy supply stopped, and what observation could show that your world is
+    plausible?
+
+MINIMUM SOLUTION REQUIREMENTS
+
+ •​ One named habitat zone with at least four stated conditions, including the energy source.
+ •​ An energy-flow diagram with at least three levels of life.
+ •​ At least three design decisions, each linked to a cited real-world fact.
+ •​ At least two stated limitations and a simple validation plan.
+ •​ At least four cited sources, two of them from NASA, NOAA or another space or science agency, or
+
+     peer-reviewed.
+
+SCOPE AND CONSTRAINTS
+
+ •​ In scope: fictional organisms and worlds that obey physics and chemistry you can cite; one zone, not a whole
+     planet.
+
+ •​ Out of scope: claiming that life exists on a real world; unexplained or “magic” energy sources; detailed
+     simulations or invented data presented as real.
+
+ACCEPTABLE SOLUTION FORMATS
+Annotated cross-section diagram, illustrated food web or energy map, storyboard, simple energy-budget model or
+table, short interactive page, or a photographed physical model. All formats are scored equally.
+
+STARTING RESOURCES (ALL FREE TO ACCESS)
+
+Resource                                                         How it can help
+
+NOAA Ocean Exploration: Chemosynthesis fact sheet                Explains how vent and seep microbes turn
+Chemosynthesis Fact Sheet                                        chemicals into food, giving you real reactions to
+                                                                 build on.
+
+NOAA: Chemosynthesis and Hydrothermal Vent Life                  Describes vent ecosystems and how fragile they
+https://oceanexplorer.noaa.gov/edu/learning/player/lesson05/l5t  are, which helps you think about energy supply and
+ext.htm                                                          stability.
+
+NOAA: Life Beyond Light poster (vents and seeps)                 Shows what lives where around vents and seeps,
+https://oceanexplorer.noaa.gov/edu/materials/LifeBeyondLight-    useful for building a realistic food web.
+poster.pdf
+
+NASA: Missions provide new insights into “ocean worlds”          Links hydrothermal activity and hydrogen to the
+https://science.nasa.gov/missions/cassini/nasa-missions-provid   possible habitability of Enceladus and Europa.
+e-new-insights-into-ocean-worlds-in-our-solar-system-2/
+
+CHALLENGE-SPECIFIC EVIDENCE EXPECTED
+
+ •​ Your energy-flow diagram, labeled with the energy source and each level of life.
+ •​ A short table: design choice, real-world evidence, source.
+ •​ A clear statement of assumptions and limitations, and your validation idea.
+
+COMPLETE-SUBMISSION CHECKLIST
+
+☐ Habitat zone and four conditions stated          ☐ Assumptions and 2+ limitations stated
+☐ Energy source named and explained                ☐ Validation plan included
+☐ Energy-flow diagram with 3+ levels               ☐ 4+ sources cited (2+ agency or peer-reviewed)
+☐ 3+ design choices linked to cited facts          ☐ Standard report and video completed
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 7 of 11
+Team Selection Round ·
+
+B  CHALLENGE B · EARTH OBSERVATION AND AGRICULTURE
+
+   Water Wise: A Satellite-Informed Decision Concept for
+   Farmers
+
+BACKGROUND AND REAL-WORLD RELEVANCE
+Farmers face water-related risks such as drought, flooding, or both in the same season. These affect crop health,
+income and food security. NASA satellites observe conditions that matter to these decisions, including rainfall
+(GPM), soil moisture (SMAP) and groundwater change (GRACE-FO).
+The data are free to use, but turning satellite observations into guidance a farmer can act on is difficult. Where the
+data come from, how current they are and how detailed they are all affect whether they are useful. This challenge
+is about making that connection clearly and honestly.
+
+PROBLEM STATEMENT
+
+   Farmers make time-sensitive water decisions with limited information, and free satellite data are rarely
+   presented in a form they can use. Choose one farmer and one water-related decision, then design a
+   concept that turns relevant NASA Earth observations into clear, actionable guidance, and explain its
+   limits.
+
+YOUR TASK
+
+ 1.​ Define your farmer (who, where, what type of farm) and the one water-related decision they face.
+ 2.​ Identify which kinds of satellite observation could inform that decision, and what each one can and cannot tell
+
+      the farmer.
+ 3.​ Design how the guidance reaches the farmer and what they would do with it.
+ 4.​ Explain the limits of your idea and how you would test it with farmers or local information.
+
+INTENDED USERS OR BENEFICIARIES
+Farmers of the type you choose, such as smallholder or commercial growers, and the people who support them,
+such as agricultural advisers or cooperatives. Describe your users specifically and explain why you chose them.
+
+FIVE GUIDING QUESTIONS
+
+ 1.​ Who exactly is your farmer, what water-related decision do they face and when, and what does a wrong
+      decision cost?
+
+ 2.​ What information does the farmer already use, and what is missing?
+ 3.​ Which kinds of NASA observations are relevant to this decision, and how often are they updated and how
+
+      detailed are they?
+ 4.​ How will the guidance reach the farmer, considering device, language, connectivity and trust, and in what
+
+      form?
+ 5.​ How could you check that the guidance is correct and useful before building anything large?
+
+MINIMUM SOLUTION REQUIREMENTS
+
+ •​ A farmer profile, region and one clearly stated decision.
+ •​ A data-to-decision map linking at least two observation types to the decision, noting update frequency and
+
+     detail from a cited source.
+ •​ One real NASA observation example (a screenshot or cited figure with date, place and what it shows).
+ •​ A user-flow visual such as a wireframe or storyboard.
+ •​ At least two stated limitations and a simple validation plan.
+ •​ At least four cited sources, two of them from NASA or another space agency, or peer-reviewed.
+
+SCOPE AND CONSTRAINTS
+
+ •​ In scope: one decision for one farmer type; browsing existing NASA imagery or reading NASA pages for your
+     example.
+
+ •​ Out of scope: downloading or processing datasets; building a working app; claiming accuracy you have not
+     tested; professional agronomic advice; any suggestion that NASA endorses your concept.
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 8 of 11
+Team Selection Round ·
+
+ACCEPTABLE SOLUTION FORMATS
+Wireframe or mock-up, storyboard of a farmer’s day, annotated data-to-decision diagram, simple decision
+flowchart or table, short interactive page, or a basic prototype. All formats are scored equally.
+
+STARTING RESOURCES (ALL FREE TO ACCESS)
+
+Resource                                                     How it can help
+
+NASA: From Seed to Market, NASA Brings Food to the           Gives an overview of how rainfall, soil-moisture and
+Table                                                        groundwater observations relate to farming
+                                                             decisions.
+https://www.nasa.gov/missions/gpm/from-seed-to-market-nasa-
+brings-food-to-the-table
+
+NASA GPM: Soil moisture applications                         Explains how rainfall data and soil-moisture
+https://gpm.nasa.gov/applications/soil-moisture              observations connect, useful for your
+                                                             data-to-decision map.
+
+NASA Worldview                                               Lets you browse daily satellite imagery in a web
+https://worldview.earthdata.nasa.gov                         browser, so you can find a real example without
+                                                             coding.
+
+NASA Science: SMAP mission (Soil Moisture Active             Summarizes what SMAP measures (soil moisture
+Passive)                                                     and freeze/thaw state), helping you name the right
+https://science.nasa.gov/mission/smap                        observation type for your decision.
+
+CHALLENGE-SPECIFIC EVIDENCE EXPECTED
+
+ •​ Your data-to-decision map, with each observation type and its update frequency or detail.
+ •​ One real NASA observation example, with date, location and what it shows.
+ •​ A clear statement of limitations (for example detail, delay, cloud cover or access) and your validation idea.
+
+COMPLETE-SUBMISSION CHECKLIST
+
+☐ Farmer, region and one decision stated          ☐ 2+ limitations stated, plus validation plan
+☐ 2+ observation types linked to the decision     ☐ 4+ sources cited (2+ agency or peer-reviewed)
+☐ One real NASA example with date and place       ☐ Update frequency or detail noted from a source
+☐ User-flow visual included                       ☐ Standard report and video completed
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 9 of 11
+Team Selection Round ·
+
+SECTION F
+
+Evaluation rubric
+
+One common rubric, 100 points, is used for both challenges. Each submission is scored independently by
+two judges and the scores are averaged. We do not give points simply for using AI, writing code, building
+expensive prototypes or producing visually elaborate presentations.
+
+Problem understanding and relevance 20 points
+
+Excellent   17–20  The problem and users are precisely defined and narrowed to a manageable
+                   focus. The real-world or scientific relevance is clear and the challenge’s intent is
+                   faithfully followed.
+
+Strong      12–16 The problem and users are clear with minor vagueness. Relevance is explained
+                         and the focus is mostly appropriate.
+
+Developing  6–11   The problem is broad or generic. Users or relevance are only partly explained, or
+                   the work drifts from the challenge.
+
+Limited     0–5 The problem is unclear or off-topic, only restates the challenge, or users are not
+                        identified.
+
+Scientific reasoning and use of evidence 20 points
+
+Excellent   17–20  Key claims are explained with correct science or data. Sources are accurate, meet
+                   the minimum and are tied to specific decisions. Evidence and assumptions are
+                   clearly separated.
+
+Strong      12–16 Reasoning is mostly correct and sources are linked to most decisions. There are
+                         minor gaps or unflagged assumptions.
+
+Developing  6–11   Some correct facts appear but are weakly linked to the design. Sources are listed
+                   but little used.
+
+Limited     0–5 Claims are unsupported or incorrect, or sources are missing or cannot be verified.
+
+Creativity and justification of the approach 20 points
+
+Excellent   17–20 The approach is original or a thoughtful combination of ideas. The team explains
+                         why it chose this approach and compares at least one alternative.
+
+Strong      12–16 There is a fresh element and the choice is reasonably explained.
+
+Developing  6–11 The idea is familiar and there is little justification for choosing it.
+
+Limited     0–5 The idea is generic or copied, with no justification.
+
+Feasibility and proposed validation 20 points
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 10 of 11
+Team Selection Round ·
+
+Excellent   17–20       The concept is realistic within the stated constraints. Limits and risks are named
+                        honestly, and the validation plan is specific (what, who, how, what counts as
+Strong      12–16       success) and achievable.
+Developing  6–11
+Limited      0–5        The concept is realistic and limitations are noted. The validation plan exists but is
+                        partly general.
+
+                        Feasibility is asserted rather than shown. Limits are vague and validation is
+                        generic.
+
+                        The concept is unrealistic, or limits and validation are missing.
+
+Clarity of communication 10 points
+
+Excellent   9–10        Report and video are easy to follow and logically ordered. Visuals explain the idea
+                        and terms are defined.
+
+Strong      7–8 Mostly clear, with minor lapses in order or explanation.
+
+Developing  4–6 Hard to follow in places, or visuals are decorative rather than explanatory.
+
+Limited     0–3 Key parts are confusing or missing.
+
+Team collaboration and documented contributions 10 points
+
+Excellent   9–10        Every member’s contribution is specific and credible, and there is evidence of
+                        shared decisions or iteration.
+
+Strong      7–8 Contributions are listed for all members with some detail.
+
+Developing  4–6 Contributions are generic (“everyone helped”) or very uneven.
+
+Limited     0–3 Contributions are missing or unclear.
+
+Totals and ties
+
+Total = 20 + 20 + 20 + 20 + 10 + 10 = 100 points. The 15 highest-scoring eligible teams across both
+challenges are selected; there is no quota for either challenge. Ties are broken by higher Scientific reasoning,
+then Problem understanding, then Feasibility, then an independent review.
+
+Not issued or endorsed by NASA · Organizer: NOVA for Astronomy and Space Science Page 11 of 11
+

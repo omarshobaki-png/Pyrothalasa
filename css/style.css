@@ -12,9 +12,20 @@
   --assume: #ffc24d;
   --fiction: #b9a2ff;
   --bg: #04070f;
+  --vent: #ff9a3d;              /* warm vent heat / energy (garden only) */
+  --vent-glow: rgba(255, 154, 61, 0.35);
+  --shadow-px: 4px 4px 0 rgba(0, 0, 0, 0.55);   /* hard pixel drop shadow */
   --px: 'Silkscreen', 'Courier New', monospace;
+  --body: 'Pixelify Sans', 'IBM Plex Mono', ui-monospace, monospace;
   --mono: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
   --chamfer: polygon(5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px), 0 5px);
+}
+
+/* Shared pixel panel: use for any boxed UI (labels, cards, widgets) */
+.px-panel {
+  background: var(--panel-solid);
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow-px), inset 0 0 0 2px rgba(255, 255, 255, 0.03);
 }
 
 * { box-sizing: border-box; }

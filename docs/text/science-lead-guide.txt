@@ -1,0 +1,371 @@
+Science Lead guide
+
+Science Lead guide
+
+Our ecosystem runs on hydrogen, with no oxygen and no sunlight anywhere. The science
+lead turns the sections below into report sections 4a, 4b and 4c plus the rejected-
+alternative paragraph. The text in italics is ready to paste.
+
+Locked decisions
+
+These are settled, so the report, the site and the video must all say the same thing.
+
+                                                                                                                                                                                                                                              Page 1 of 9
+Science Lead guide
+
+Decision            What we chose               Why                        Source
+
+Energy              Hydrogen from seawater      The fuel Cassini actually  Waite 2017; Kelley
+source              reacting with rock          measured at Enceladus;     2005
+                    (serpentinisation)          it needs no sunlight and
+                                                no oxygen
+
+Base of the         Methane-making              Lost City's methane        Kelley 2005;
+food web            microbes in the warm        microbes live in warm      Taubner 2018
+                    pores of the chimneys,      chimney interiors
+Oxygen              where vent hydrogen
+                    meets ocean CO₂             No sunlight means no       Reasoning from
+                                                photosynthesis, so no      the NOAA fact
+                    None anywhere               oxygen. This keeps our     sheet
+                                                argument against sulfide
+                                                vents intact
+
+Food web            3 levels: methane-makers    Only tiny organisms are    Danovaro 2010;
+                    → single-celled grazers →   known to live their        Pauly &
+                    Shadowfin (under 1 mm)      whole life without         Christensen 1995
+                                                oxygen
+
+Habitat zone        One vent field of white     Modelled on Lost City      Kelley 2005; NASA;
+                    carbonate chimneys, 50      and Enceladus              Thomas 2016
+                    km down (20 km of ice +
+                    30 km of ocean)
+
+Numbers on          Exact only where we         A precise number with —
+the gauges          calculate them (depth,      no source invites "where
+                    pressure); ranges or plain  is this from?"
+                    words elsewhere
+                                                Already on the live site —
+Moon's              Pyrothalasa (spelling to
+name                confirm)
+
+4a · Habitat and conditions
+
+The brief asks for at least 4 conditions; we give 9, and each is tagged as evidence,
+calculation or assumption.
+
+                                                                                         Page 2 of 9
+Science Lead guide
+
+Condition           Our value                           Evidence or assumption
+Depth
+                    50 km below the surface: 20 km of   Based on Enceladus (NASA; Thomas
+Pressure            ice + a 30 km ocean                 2016). The exact numbers are our
+                                                        choice
+Temperature
+                    about 56 bar at the seafloor, the   Calculated: density × gravity ×
+Chemicals           same as ~550 m deep on Earth        depth, with gravity from JPL (0.113
+Acidity                                                 m/s²)
+Salinity
+Oxygen              open ocean near freezing (~0 °C);   Vent fluid: Kelley 2005. Ocean near
+                    vent fluid <40 to 90 °C; garden     freezing: it sits under ice. 8 °C is an
+Light               water ~8 °C                         assumption
+
+Food from           hydrogen (H₂), carbon dioxide       Waite 2017 (plume); Kelley 2005
+above               (CO₂), methane (CH₄)                (Lost City)
+
+                    very alkaline, pH 9–11              Lost City's vent fluids (Kelley 2005)
+
+                    salty                               Sodium salts in the plume's ice
+                                                        grains (Postberg 2009)
+
+                    none                                Assumption: no sunlight means no
+                                                        photosynthesis, the source of
+                                                        Earth's ocean oxygen
+
+                    none. Sunlight at Saturn is ~1% of  NASA Saturn facts + the inverse-
+                    Earth's, and it can't get through   square law
+                    20 km of ice
+
+                    none                                On Earth, deep-sea life relies on
+                                                        food sinking from the sunlit surface
+                                                        (NOAA). Our surface has no life, so
+                                                        nothing sinks
+
+Ready-to-use paragraph (about 90 words):
+
+The Hydrogen Garden is a single field of white chimneys on the seafloor of
+Pyrothalasa, our fictional icy moon. It lies 50 km down, under 20 km of ice and 30 km
+of salty ocean, where the pressure is about 56 bar. No sunlight reaches it, so there is
+no photosynthesis and no oxygen. Warm, very alkaline fluid rich in hydrogen seeps
+from the chimneys into water that is otherwise near freezing. We modelled the garden
+on Lost City, a real vent field in the Atlantic, and the ocean on Saturn's moon
+Enceladus.
+
+                                                                                         Page 3 of 9
+Science Lead guide
+
+4b · The energy source
+
+As seawater soaks through rock rich in olivine, the two react (serpentinisation) and
+release hydrogen gas. Methane-making microbes then combine that hydrogen with
+carbon dioxide and use the energy released to grow:
+CO₂ + 4H₂ → CH₄ + 2H₂O
+Write the equation as plain text like this. A formula block shows up as raw code in the PDF
+export.
+
+     The strongest evidence, use it: Cassini's hydrogen measurement shows that
+     Enceladus' ocean chemistry favours making methane from CO₂ (Waite 2017). That
+     links our microbes to Enceladus itself, not only to Lost City. It answers guiding
+     question 2.
+     Where else we've seen it: at Lost City, seawater reacting with mantle rock makes
+     hydrogen- and methane-rich fluid, and methane-cycling microbes live inside the warm
+     chimneys (Kelley 2005). An Earth methane-maker also grew in the lab under
+     Enceladus-like conditions (Taubner 2018).
+     Why it lasts: tidal heating from Saturn keeps the rocky core warm, and models
+     suggest hydrothermal activity could continue for tens of millions to billions of years
+     (Choblet 2017, still to check). It answers guiding question 1.
+     Uncertainty to name: at Lost City the carbon comes from the rock, not from seawater
+     CO₂ (Proskurowski 2008), so we assume enough CO₂ reaches the chimney pores.
+Ready-to-use paragraph (about 110 words):
+
+   Our garden runs on hydrogen. When seawater soaks into rock rich in the mineral
+   olivine, the two react and release hydrogen gas, a process called serpentinisation.
+   Microbes called methanogens combine that hydrogen with carbon dioxide to make
+   methane, and they use the energy released to grow (CO₂ + 4H₂ → CH₄ + 2H₂O). This
+   needs no sunlight and no oxygen. It happens today at Lost City on Earth, and Cassini
+   found hydrogen in the plume of Saturn's moon Enceladus, at levels that favour exactly
+   this reaction. Heat from Saturn's tides could keep the rock reacting for millions of
+   years, long enough for an ecosystem to depend on it.
+
+4c · Design choices linked to evidence
+
+This is the table the brief asks for. The "What we assume" column shows judges we know
+where the evidence stops. Use at least the first 3 rows; add more if page 2 has room.
+
+                                                                                                                                                                                                                                              Page 4 of 9
+Science Lead guide
+
+# Design choice       Real-world evidence What we assume Source
+
+1  Energy comes       Lost City's vents are Water keeps         Kelley 2005;
+
+   from hydrogen      driven by this         circulating        Waite 2017
+
+   made when water reaction; Cassini         through reactive
+
+   reacts with rock   found hydrogen in      rock on our moon
+
+                      Enceladus' plume
+
+2  Methane-making     Enceladus' ocean       Such microbes      Waite 2017;
+
+   microbes form the chemistry favours       exist on our moon Kelley 2005;
+
+   base of the food   making methane         (habitable does    Taubner 2018
+
+   web                from CO₂; methane not mean
+
+                      microbes live in Lost inhabited), and
+
+                      City's chimneys; an enough CO₂
+
+                      Earth methane-         reaches them
+
+                      maker grew under
+
+                      Enceladus-like
+
+                      conditions
+
+3  The habitat is a   Enceladus has a        Our moon is built Thomas 2016;
+
+   vent field in a dark, global ocean, salts in like Enceladus  Postberg 2009;
+
+   salty, global ocean its ice grains, and                      Hsu 2015
+
+   under ice          silica grains that
+
+                      point to hot water
+
+                      reacting with rock
+
+4  The whole food     Single-celled          Life like this could Danovaro 2010
+
+   web lives without organisms and tiny      also evolve
+
+   oxygen             animals (Loricifera) elsewhere. It is
+
+                      live their whole life  one study from
+
+                      without oxygen in a one place
+
+                      Mediterranean basin
+
+5  The food web is    Only ~10% of energy Life without          Pauly &
+
+   short and its top  passes from one level oxygen passes on Christensen
+
+   predator is        to the next            even less (still   1995
+
+   microscopic                               needs a source)
+
+6  The energy supply Tidal heating can       Our moon's core Choblet 2017
+
+   lasts long enough power long-lived        has been active
+
+   for an ecosystem hydrothermal activity just as long
+
+                      at Enceladus
+
+                                                                              Page 5 of 9
+Science Lead guide
+
+Rejected alternatives (creativity, worth up to 20 points)
+
+The rubric's top band needs at least one alternative compared. We have two, and the
+second shows we tested our own design.
+
+Alternative               What it is               Why we rejected it       Source
+
+Copy Earth's black-       Tubeworms living on      That reaction needs      NOAA fact
+smoker vents              bacteria that use        oxygen (CO₂ + 4H₂S +     sheet; NOAA
+                          hydrogen sulfide         O₂ → CH₂O + 4S +         poster
+                                                   3H₂O), and Earth's
+                                                   deep-sea oxygen is
+                                                   made by sunlight.
+                                                   These "sunless" vents
+                                                   still depend on the
+                                                   Sun
+
+Let a little oxygen seep  At Europa, Juno saw      It borrows from a        Szalay 2024
+down from the surface,    the surface ice being    different moon and
+so bigger animals can     split into oxygen, a     needs oxygen to cross
+breathe                   possible supply for its  20 km of ice. If oxygen
+                          ocean                    were there, the
+                                                   sulfide pathway would
+                                                   work too, which
+                                                   undercuts our first
+                                                   argument
+
+We also rejected keeping hand-sized animals that live without oxygen: every animal
+known to live without oxygen is tiny, so it would be an unsupported claim.
+
+Ready-to-use paragraph (about 100 words):
+
+We first considered copying Earth's famous black-smoker vents, where giant
+tubeworms live on bacteria that use hydrogen sulfide. But that reaction needs oxygen,
+and the oxygen in Earth's deep sea is made by photosynthesis at the sunlit surface, so
+even these "sunless" vents depend on the Sun. We then considered letting a little
+oxygen seep down from the surface, as may happen on Europa, so that larger animals
+could breathe. We rejected that too: it is uncertain, and it would weaken our first
+argument. Instead our whole food web runs without oxygen, so its life stays
+microscopic.
+
+                                                                                    Page 6 of 9
+Science Lead guide
+
+Hand-offs from the science lead
+
+Send each teammate exactly what they need, so every part of the submission says the
+same thing.
+
+To                  Send                                  So they can
+P2 · Ecology &
+Story               The 3 levels and who eats whom;       Write section 3, 4d and the video
+P3 · Evidence &     the "no oxygen, so everything is      script
+Critic              microscopic" reason; what
+                    happens when the hydrogen stops
+P3 (validation)
+                    The 4c table, the open checks         Check the sources and write
+P5 · Artist         below, and two limits: whether        section 6
+                    enough CO₂ reaches the pores,
+P6 · Web and P4 ·   and that oxygen-free animals
+Video               come from one study
+
+                    The lab test: a lab grows the         Fill in the what / who / how /
+                    Taubner 2018 methane-maker at         success table
+                    high, medium and low hydrogen,
+                    keeping pressure, temperature
+                    and pH the same, and measures
+                    methane and cell numbers.
+                    Success = both fall as hydrogen
+                    falls
+
+                    Single-celled grazers with cilia and  Redraw the creatures for the
+                    a Shadowfin under 1 mm (spiny         report and the site
+                    head, vase-shaped shell), drawn
+                    inside a "microscope lens"
+
+                    The final condition labels from 4a    Keep the site's cards and the
+                    and the ready-to-use paragraphs       narration word-for-word
+                                                          consistent with the report
+
+Still to check before it goes in the report
+
+     Choblet 2017: confirm "tens of millions to billions of years" in the paper (its abstract
+     wasn't available to check)
+     Find a source for "life without oxygen gets less energy from its food" (try Fenchel &
+     Finlay 1990, or a biology textbook)
+     Confirm Loricifera are under 1 mm (Danovaro 2010 full text, or a zoology source)
+
+                                                                                          Page 7 of 9
+Science Lead guide
+
+    Confirm Enceladus' ~252 km radius on the JPL page, so the gravity number is fully
+    sourced
+    Re-export the PDF after these changes; the last export was missing "no oxygen"
+
+Sources for the science sections
+
+Every title and DOI has been checked. Abstracts were read for Waite, Kelley, Danovaro,
+Proskurowski and Szalay; P3 should read the rest before the report quotes them.
+
+Source                                  Supports                               Type
+
+Waite et al. (2017), Science 356, 155–  Hydrogen in the plume; the ocean's     Peer-
+159                                     chemistry favours making methane       reviewed
+                                        from CO₂
+
+Kelley et al. (2005), Science 307,      Lost City: fluids <40 to 90 °C, pH 9–  Peer-
+1428–1434                               11, chimneys 30–60 m, methane          reviewed
+                                        microbes in warm interiors
+
+Taubner et al. (2018), Nature           An Earth methane-maker grew            Peer-
+Communications 9, 748                   under Enceladus-like conditions        reviewed
+
+Danovaro et al. (2010), BMC Biology 8, Single-celled organisms and             Peer-
+                                                                               reviewed
+30                                      Loricifera living without oxygen
+
+Proskurowski et al. (2008), Science     Lost City's carbon comes from rock, Peer-
+319, 604–607
+                                        not seawater CO₂                       reviewed
+
+Thomas et al. (2016), Icarus 264, 37–47 Enceladus has a global ocean           Peer-
+                                                                               reviewed
+
+Postberg et al. (2009), Nature 459,     The ocean is salty                     Peer-
+1098–1101                                                                      reviewed
+
+Hsu et al. (2015), Nature 519, 207–210 Hot water reacting with rock            Peer-
+                                                                               reviewed
+
+Choblet et al. (2017), Nature           Long-lived heating (to check)          Peer-
+Astronomy 1, 841–847                                                           reviewed
+
+Pauly & Christensen (1995), Nature      ~10% energy passed between             Peer-
+374, 255–257                            levels                                 reviewed
+
+Szalay et al. (2024), Nature            Oxygen made at Europa's surface        Peer-
+Astronomy                               (only for the rejected alternative)    reviewed
+
+NOAA chemosynthesis fact sheet          The sulfide reaction needs oxygen Agency
+
+                                                                                     Page 8 of 9
+Science Lead guide               Supports           Type
+                                 Enceladus gravity  Agency
+  Source
+  NASA/JPL satellite parameters
+
+                                                            Page 9 of 9
+

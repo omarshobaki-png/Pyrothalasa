@@ -7,8 +7,9 @@
   <meta name="description" content="Scroll-driven dive into a fictional ocean moon where a food web runs on hydrogen instead of sunlight. Built from real science.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Pixelify+Sans:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/energyflow.css">
 </head>
 <body>
   <canvas id="scene" aria-hidden="true"></canvas>
@@ -35,12 +36,16 @@
       <div class="end-panel">
         <h2 id="endTitle" class="end-title">You reached the garden floor</h2>
         <p class="end-lead">The whole food web, from rock to predator, with no sunlight anywhere:</p>
-        <ol class="flow">
-          <li><span class="flow-k">Source</span>Rock + water → H₂</li>
-          <li><span class="flow-k">Level 1</span>Methane-makers</li>
-          <li><span class="flow-k">Level 2</span>Grazers</li>
-          <li><span class="flow-k">Level 3</span>Shadowfin</li>
-        </ol>
+        <!-- Energy-flow widget mount (owned by js/energyflow.js + css/energyflow.css).
+             The list below is the no-JS fallback; the widget replaces it. -->
+        <div id="energyFlow">
+          <ol class="flow">
+            <li><span class="flow-k">Source</span>Rock + water → H₂</li>
+            <li><span class="flow-k">Level 1</span>Methane-makers</li>
+            <li><span class="flow-k">Level 2</span>Grazers</li>
+            <li><span class="flow-k">Level 3</span>Shadowfin</li>
+          </ol>
+        </div>
 
         <div class="end-cols">
           <div>
@@ -114,6 +119,7 @@
   </aside>
 
   <script src="js/content.js"></script>
+  <script src="js/energyflow.js"></script>
   <script src="js/world.js"></script>
   <script src="js/app.js"></script>
 </body>
