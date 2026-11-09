@@ -33,6 +33,7 @@ External fonts: Google Fonts only.
 | `index.html` | Page structure | Claude. Others: only inside your own mount point |
 | `js/microscope.js` (+ "microscope" section of style.css) | Zoomed animated view of each food-web level; opens from scene creatures or card button | Claude |
 | `js/energyflow.js`, `css/energyflow.css` | Energy-flow diagram widget on the end screen | **Codex** |
+| `js/quiz.js`, `css/quiz.css` | Before/after 3-question quiz (user test). Mounts: `#quizPreBtn` (hero, starts hidden), `#quizEnd` (end screen) | **Codex** (next task) |
 | `docs/*.pdf`, `docs/text/*.txt` | Brief, science guide, report outline, report draft (text versions are UTF-8) | Read-only reference |
 
 ### Ownership rule (we work in parallel)

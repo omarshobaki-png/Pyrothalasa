@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&family=Silkscreen&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/energyflow.css">
+  <link rel="stylesheet" href="css/quiz.css">
 </head>
 <body>
   <canvas id="scene" aria-hidden="true"></canvas>
@@ -25,6 +26,8 @@
         <li>fictional world</li><li>real science</li><li>50 km dive</li>
       </ul>
       <button class="btn-pixel" id="beginBtn" type="button">▼ Begin descent ▼</button>
+      <!-- Quiz entry (owned by js/quiz.js); hidden until the quiz script shows it -->
+      <button class="btn-link" id="quizPreBtn" type="button" hidden>Take the 30-second quiz first</button>
       <p class="hero-note">Scroll to dive · tap any label marked <span class="plus">+</span> to see the science</p>
       <p class="hero-disclaimer">A fictional world built from real science, modelled on Saturn's moon Enceladus and Earth's Lost City vents.
         It is not a claim that life exists anywhere beyond Earth.</p>
@@ -46,6 +49,9 @@
             <li><span class="flow-k">Level 3</span>Shadowfin</li>
           </ol>
         </div>
+
+        <!-- Quiz mount (owned by js/quiz.js + css/quiz.css) -->
+        <div id="quizEnd"></div>
 
         <div class="end-cols">
           <div>
@@ -150,6 +156,7 @@
   <script src="js/energyflow.js"></script>
   <script src="js/world.js"></script>
   <script src="js/microscope.js"></script>
+  <script src="js/quiz.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
