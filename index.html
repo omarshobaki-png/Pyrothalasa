@@ -11,16 +11,19 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/energyflow.css">
   <link rel="stylesheet" href="css/quiz.css">
+  <link rel="stylesheet" href="css/taggame.css">
 </head>
 <body>
   <canvas id="scene" aria-hidden="true"></canvas>
   <div class="scanlines" aria-hidden="true"></div>
+  <div class="flash" id="flash" aria-hidden="true"></div>
   <div id="spacer" aria-hidden="true"></div>
 
   <main id="world">
     <header class="hero" id="hero">
       <p class="hero-kicker">An astrobiology concept · Challenge A</p>
       <h1 class="hero-title" id="heroTitle">The Hydrogen Garden</h1>
+      <p class="hero-hook" id="heroHook">No sunlight. No oxygen.<br><span>Could anything live down here?</span></p>
       <p class="hero-sub" id="heroSub"></p>
       <ul class="hero-chips">
         <li>fictional world</li><li>real science</li><li>50 km dive</li>
@@ -28,9 +31,13 @@
       <button class="btn-pixel" id="beginBtn" type="button">▼ Begin descent ▼</button>
       <!-- Quiz entry (owned by js/quiz.js); hidden until the quiz script shows it -->
       <button class="btn-link" id="quizPreBtn" type="button" hidden>Take the 30-second quiz first</button>
-      <p class="hero-note">Scroll to dive · tap any label marked <span class="plus">+</span> to see the science</p>
+      <p class="hero-note">Tap any label marked <span class="plus">+</span> to see the science</p>
       <p class="hero-disclaimer">A fictional world built from real science, modelled on Saturn's moon Enceladus and Earth's Lost City vents.
         It is not a claim that life exists anywhere beyond Earth.</p>
+      <button class="scroll-cue" id="scrollCue" type="button" aria-label="Scroll to dive">
+        <span class="scroll-cue-txt">Scroll to dive</span>
+        <span class="scroll-cue-arrows" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
     </header>
 
     <div id="markers"></div>
@@ -50,8 +57,19 @@
           </ol>
         </div>
 
+        <!-- Tag-game mount (owned by js/taggame.js + css/taggame.css) -->
+        <div id="tagGame"></div>
+
         <!-- Quiz mount (owned by js/quiz.js + css/quiz.css) -->
         <div id="quizEnd"></div>
+
+        <section class="discoveries px-panel" id="discoveries" aria-labelledby="discTitle">
+          <h3 id="discTitle">Discoveries <span class="disc-n" id="discN">0 / 0</span></h3>
+          <details class="missed" id="missedBox">
+            <summary class="disc-head" id="missedHead"></summary>
+            <div class="missed-list" id="missedList"></div>
+          </details>
+        </section>
 
         <div class="end-cols">
           <div>
@@ -91,10 +109,14 @@
       <span class="toast-main"></span>
       <span class="toast-sub"></span>
     </div>
-    <div class="hud-box hud-found" id="foundBox" title="Science facts you have opened">
-      <span class="hud-label">Facts found</span>
+    <div class="hud-box hud-found" id="foundBox" title="Science cards opened and creatures seen under the microscope">
+      <span class="hud-label">Discoveries</span>
       <span class="found-val"><b id="foundN">0</b>/<span id="foundTotal">0</span></span>
+      <span class="found-bar" aria-hidden="true"><i id="foundBar"></i></span>
     </div>
+    <button class="scope-hint" id="scopeHint" type="button" hidden>
+      <span aria-hidden="true">🔬</span> Tap a glowing creature to look under the microscope
+    </button>
 
     <div class="hud-box hud-gauges" aria-live="off">
       <div class="gauge">
@@ -159,6 +181,7 @@
 
   <script src="js/content.js"></script>
   <script src="js/energyflow.js"></script>
+  <script src="js/taggame.js"></script>
   <script src="js/world.js"></script>
   <script src="js/microscope.js"></script>
   <script src="js/quiz.js"></script>

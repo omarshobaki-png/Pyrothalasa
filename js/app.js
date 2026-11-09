@@ -78,8 +78,21 @@
     rulerFill: $('rulerFill'), rulerDot: $('rulerDot'), ticks: $('rulerTicks')
   };
 
-  // Hero text
-  $('heroTitle').textContent = D.meta.title;
+  // Hero text: the title drops in letter by letter (CSS animates each span)
+  (function titleLetters() {
+    const h = $('heroTitle'); h.textContent = '';
+    h.setAttribute('aria-label', D.meta.title);
+    let i = 0;
+    D.meta.title.split(' ').forEach((word, wi) => {
+      const w = document.createElement('span'); w.className = 'tw'; w.setAttribute('aria-hidden', 'true');
+      [...word].forEach((ch) => {
+        const s = document.createElement('span'); s.className = 'tl'; s.textContent = ch;
+        s.style.setProperty('--i', i++); w.appendChild(s);
+      });
+      if (wi) h.appendChild(document.createTextNode(' '));
+      h.appendChild(w);
+    });
+  })();
   $('heroSub').textContent = D.meta.tagline + ' Our moon, ' + D.meta.moonName + ', is fictional; every design choice is tied to real evidence.';
   document.title = D.meta.title;
 
@@ -113,18 +126,48 @@
     markerNodes.push({ m, wrap });
   });
 
-  // "Facts found" counter: a small collect-them-all game
+  // "Discoveries" counter: a small collect-them-all game. A discovery is a science card you
+  // opened, or a food-web level you looked at under the microscope.
   const found = new Set();
   const cardIds = new Set(D.markers.filter((m) => m.card && D.cards[m.card]).map((m) => m.card));
-  $('foundTotal').textContent = cardIds.size;
+  const SCOPE = { methanogens: 'Methane-makers', grazers: 'Grazers', predator: 'Shadowfin' };
+  const allIds = [...cardIds, ...Object.keys(SCOPE).map((k) => 'scope:' + k)];
+  const labelOf = (id) => id.startsWith('scope:') ? '🔬 ' + SCOPE[id.slice(6)] : D.cards[id].title;
+  $('foundTotal').textContent = allIds.length;
   function markFound(id) {
-    if (!cardIds.has(id) || found.has(id)) return;
+    if (!allIds.includes(id) || found.has(id)) return;
     found.add(id);
-    $('foundN').textContent = found.size;
     const box = $('foundBox');
+    $('foundN').textContent = found.size;
+    $('foundBar').style.width = (found.size / allIds.length * 100) + '%';
+    box.title = 'Facts ' + [...found].filter((k) => !k.startsWith('scope:')).length + '/' + cardIds.size +
+      ' · microscope ' + [...found].filter((k) => k.startsWith('scope:')).length + '/3';
     box.classList.remove('bump'); void box.offsetWidth; box.classList.add('bump');
-    box.classList.toggle('all', found.size === cardIds.size);
+    const done = found.size === allIds.length;
+    box.classList.toggle('all', done);
+    if (done) showToast({ text: 'All ' + allIds.length + ' found!', sub: 'you explored everything' }, 'Discoveries');
+    renderMissed();
   }
+  // End screen: your score plus buttons for anything you missed
+  function renderMissed() {
+    const wrap = $('discoveries'); if (!wrap) return;
+    $('discN').textContent = found.size + ' / ' + allIds.length;
+    const list = $('missedList'); list.replaceChildren();
+    const missed = allIds.filter((id) => !found.has(id));
+    $('missedHead').textContent = missed.length ? 'Show what you missed (' + missed.length + ')' : 'You found every discovery. Nice exploring!';
+    $('missedBox').classList.toggle('none-left', !missed.length);
+    missed.forEach((id) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'missed-btn';
+      b.textContent = labelOf(id);
+      b.addEventListener('click', () => {
+        if (id.startsWith('scope:')) Microscope.open(id.slice(6), b);
+        else { markFound(id); openCard(id, b); }
+      });
+      list.appendChild(b);
+    });
+    window.dispatchEvent(new Event('resize'));
+  }
+  $('missedBox').addEventListener('toggle', () => window.dispatchEvent(new Event('resize')));
 
   // Ruler ticks (click to jump)
   const TICKS = [
@@ -206,10 +249,11 @@
     const probeU = (cam + probeY) / H;
     const depth = Math.min(FLOOR_M, Math.max(0, dOfU(probeU)));
     const t = reduced ? 0 : (now - t0) / 1000;
+    nowT = t;
 
     requestAnimationFrame(frame);
     if (innerWidth !== W || innerHeight !== H) layout();
-    World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures });
+    World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures, hover: hoverPt, revealT: revealAt ? (reduced ? 99 : t - revealAt) : -1, reduced });
     updateHud(depth, probeU);
     checkpoints(depth);
   }
@@ -221,18 +265,49 @@
     { d: ICE_M, text: 'Through the ice!', sub: 'into the dark ocean' },
     { d: 30000, text: '30 km', sub: 'pitch dark, almost empty' },
     { d: 40000, text: '40 km', sub: 'hydrogen in the water' },
-    { d: GARDEN_M, text: 'Hydrogen Garden', sub: 'you made it' }
+    { d: GARDEN_M, text: 'Hydrogen Garden', sub: 'probe floodlights on' }
   ];
   const toast = $('toast');
   let lastDepth = 0, toastTimer = 0;
+  const flashEl = $('flash');
+  function flash(kind) {
+    if (reduced) return;
+    flashEl.className = 'flash'; void flashEl.offsetWidth; flashEl.className = 'flash ' + kind;
+    if (kind === 'ice') { $('scene').classList.remove('pulse'); void $('scene').offsetWidth; $('scene').classList.add('pulse'); }
+  }
   function checkpoints(d) {
     if (d > lastDepth) {
       const hit = CHECKS.filter((c) => lastDepth < c.d && d >= c.d).pop();
       if (hit && lastDepth > 0) showToast(hit);
+      if (lastDepth > 0 && lastDepth < ICE_M && d >= ICE_M) flash('ice');
+      if (lastDepth > 0 && lastDepth < GARDEN_M && d >= GARDEN_M) { flash('warm'); gardenReveal(); }
     }
     lastDepth = d;
+    // deeper = darker edges (CSS vignette); updated only when it changes noticeably
+    const dk = Math.round(Math.min(1, d / FLOOR_M) * 20) / 20;
+    if (dk !== lastDk) { lastDk = dk; document.documentElement.style.setProperty('--dk', dk); }
   }
-  function showToast(c) {
+  let lastDk = -1, hoverPt = null, revealAt = 0, nowT = 0;
+
+  // Garden arrival: chimneys light up (world.js uses revealT), and a microscope prompt
+  // appears until the reader opens the microscope once.
+  const scopeHint = $('scopeHint');
+  let hintTimer = 0, scopeUsed = false;
+  function gardenReveal() {
+    if (revealAt) return;
+    revealAt = Math.max(0.001, nowT);
+    document.body.classList.add('garden-reached');
+    if (!scopeUsed) {
+      scopeHint.hidden = false;
+      hintTimer = setTimeout(dismissScopeHint, 12000);
+    }
+  }
+  function dismissScopeHint() {
+    scopeUsed = true; clearTimeout(hintTimer);
+    if (scopeHint) scopeHint.hidden = true;
+  }
+  function showToast(c, kind) {
+    toast.querySelector('.toast-k').textContent = kind || 'Checkpoint';
     toast.querySelector('.toast-main').textContent = c.text;
     toast.querySelector('.toast-sub').textContent = c.sub;
     toast.hidden = false;
@@ -278,17 +353,37 @@
   let lastOpener = null;
 
   function chip(cls, text) { const s = document.createElement('span'); s.className = 'chip ' + cls; s.textContent = text; return s; }
+  // Key science words are shown in bold the first time they appear in each card.
+  // (Formatting only: the wording itself stays exactly as written in content.js.)
+  const TERMS = ['serpentinisation', 'chemosynthesis', 'photosynthesis', 'methanogens', 'methane-makers',
+    'biofilms', 'cilia', 'protozoa', 'Archaea', 'Loricifera', 'mitochondria', 'hydrothermal', 'plume',
+    'marine snow', 'inverse-square law', 'tidal heating', 'olivine', 'Lost City', 'habitable', 'alkaline', 'food web'];
+  const termRe = new RegExp('\\b(' + TERMS.map((s) => s.replace(/[-]/g, '\\-')).join('|') + ')\\b', 'i');
+  let usedTerms = new Set();
+  function withTerms(el, text) {
+    let rest = text;
+    while (rest) {
+      const m = termRe.exec(rest);
+      if (!m) { el.appendChild(document.createTextNode(rest)); break; }
+      const key = m[1].toLowerCase();
+      el.appendChild(document.createTextNode(rest.slice(0, m.index)));
+      if (usedTerms.has(key)) el.appendChild(document.createTextNode(m[1]));
+      else { usedTerms.add(key); const b = document.createElement('strong'); b.className = 'term'; b.textContent = m[1]; el.appendChild(b); }
+      rest = rest.slice(m.index + m[1].length);
+    }
+    return el;
+  }
   function para(text) {
     const p = document.createElement('p');
-    p.textContent = text;
-    if (/→/.test(text) && text.length < 60) p.className = 'eq';
+    if (/→/.test(text) && text.length < 60) { p.className = 'eq'; p.textContent = text; }
+    else withTerms(p, text);
     return p;
   }
   function section(cls, title, items) {
     const d = document.createElement('div'); d.className = 'card-sec ' + cls;
     const h = document.createElement('h4'); h.textContent = title; d.appendChild(h);
     const ul = document.createElement('ul');
-    items.forEach((s) => { const li = document.createElement('li'); li.textContent = s; ul.appendChild(li); });
+    items.forEach((s) => { const li = document.createElement('li'); withTerms(li, s); ul.appendChild(li); });
     d.appendChild(ul); return d;
   }
   function coins() {
@@ -314,6 +409,7 @@
     if (/fictional/i.test((c.assumptions || []).join(' '))) cardTags.appendChild(chip('fiction', 'Fictional'));
 
     cardBody.replaceChildren();
+    usedTerms = new Set();
     if (window.Microscope && Microscope.has(id)) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'btn-pixel btn-small scope-open';
@@ -368,15 +464,24 @@
   addEventListener('click', (e) => {
     if (isUi(e.target) || !window.Microscope) return;
     const h = creatureAt(e.clientX, e.clientY);
-    if (h) { markFound(h.id); Microscope.open(h.id); }
+    if (h) Microscope.open(h.id);
   });
   addEventListener('mousemove', (e) => {
-    const on = !isUi(e.target) && !!creatureAt(e.clientX, e.clientY);
-    document.body.classList.toggle('over-creature', on);
+    const h = !isUi(e.target) ? creatureAt(e.clientX, e.clientY) : null;
+    document.body.classList.toggle('over-creature', !!h);
+    hoverPt = h ? { x: h.x, y: h.y } : null;          // world.js highlights that lens
   }, { passive: true });
+  // every microscope view counts as a discovery, however it was opened
+  if (window.Microscope) {
+    const openScope = Microscope.open;
+    Microscope.open = (id, from) => { markFound('scope:' + id); openScope(id, from); dismissScopeHint(); };
+  }
+  $('scopeHint').addEventListener('click', () => { if (window.Microscope) Microscope.open('grazers', $('scopeHint')); });
+  renderMissed();
 
   // ---------- buttons ----------
   $('beginBtn').addEventListener('click', () => jumpToDepth(4));
+  $('scrollCue').addEventListener('click', () => jumpToDepth(4));
   $('topBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }));
   $('sourcesLink').addEventListener('click', (e) => {
     e.preventDefault();

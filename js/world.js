@@ -35,7 +35,8 @@ window.World = (function () {
     ocean1: [12, 44, 74], ocean2: [3, 10, 20],
     rock: [36, 29, 27], rockDeep: [16, 12, 11],
     chimL: [240, 233, 216], chimM: [214, 203, 180], chimD: [168, 155, 130],
-    film1: [70, 222, 170], film2: [40, 170, 140]
+    film1: [70, 222, 170], film2: [40, 170, 140],
+    warm: [44, 30, 26]
   };
 
   // ---------- precomputed decorations (in u units) ----------
@@ -145,7 +146,12 @@ window.World = (function () {
       else if (u < L.ice) {
         const k = (u - L.surf) / (L.ice - L.surf);
         c = k < 0.1 ? mix(COL.iceTop, COL.iceMid, q(k / 0.1, 6)) : mix(COL.iceMid, COL.iceBase, q((k - 0.1) / 0.9, 12));
-      } else if (u < L.floor) c = mix(COL.ocean1, COL.ocean2, q((u - L.ice) / (L.floor - L.ice), 14));
+      } else if (u < L.floor) {
+        c = mix(COL.ocean1, COL.ocean2, q((u - L.ice) / (L.floor - L.ice), 14));
+        // colour warms as the vent field comes into view
+        const warm = Math.min(1, Math.max(0, (u - (L.garden - 1.6)) / 1.9));
+        if (warm > 0) c = mix(c, COL.warm, q(warm, 8) * 0.38);
+      }
       else c = mix(COL.rock, COL.rockDeep, q(Math.min(1, (u - L.floor) / 0.6), 5));
       ctx.fillStyle = rgb(c);
       ctx.fillRect(0, r, aw, 1);
@@ -287,6 +293,8 @@ window.World = (function () {
     }
 
     // ---- darkness + probe lamp ----
+    // 0 -> 1 over 1.6 s after arriving in the garden (eased), used by the floodlight reveal
+    const rev = s.revealT >= 0 ? 1 - Math.pow(1 - Math.min(1, s.revealT / 1.6), 3) : 0;
     dctx.globalCompositeOperation = 'source-over';
     dctx.clearRect(0, 0, aw, ah);
     for (let r = 0; r < ah; r++) {
@@ -295,12 +303,19 @@ window.World = (function () {
       if (d <= 0) a = 0;
       else if (d < 12) a = 0.5 * (d / 12);
       else if (d < s.iceM) a = 0.5 + 0.15 * (d / s.iceM);
-      else a = 0.64;
+      else {
+        // the ocean gets darker the deeper you go, then the vents lift it a little
+        const g = s.gardenM || (s.iceM * 2.5);
+        const k = Math.min(1, (d - s.iceM) / (g - s.iceM));
+        a = 0.62 + 0.2 * k;
+        if (d > g - 1) a -= 0.12 * Math.min(1, (d - g + 1) / 30);
+        if (rev > 0 && d > g - 40) a -= 0.28 * rev;      // floodlights on: the garden lights up
+      }
       if (a > 0) { dctx.fillStyle = 'rgba(0,3,9,' + a.toFixed(3) + ')'; dctx.fillRect(0, r, aw, 1); }
     }
     if (s.depth > 2) {
       const lx = aw / 2, ly = pyBottom + 8;
-      const R = Math.min(aw, ah) * 0.42;
+      const R = Math.min(aw, ah) * 0.42 * (1 + 0.7 * rev);
       const g = dctx.createRadialGradient(lx, ly, 2, lx, ly, R);
       g.addColorStop(0, 'rgba(0,0,0,0.95)');
       g.addColorStop(0.45, 'rgba(0,0,0,0.55)');
@@ -310,6 +325,13 @@ window.World = (function () {
       dctx.fillRect(0, 0, aw, ah);
     }
     ctx.drawImage(dark, 0, 0);
+    // floodlit chimneys: redraw the cached chimneys faintly above the darkness so they stand out
+    if (rev > 0 && chimCache && u0 + 1 > L.garden - 0.3) {
+      const y0 = Math.round(toAy(chimCache.u0));
+      ctx.globalAlpha = 0.42 * rev; ctx.drawImage(chimCache.body, 0, y0);
+      ctx.globalAlpha = 0.5 * rev * (0.75 + 0.25 * Math.sin(t * 1.7)); ctx.drawImage(chimCache.mats, 0, y0);
+      ctx.globalAlpha = 1;
+    }
     drawOverlays(s, toAy, px + pw / 2, pyBottom);
     if (u0 + 1 > L.garden - 0.3) drawCreatures(s, toAy);
 
@@ -335,6 +357,39 @@ window.World = (function () {
   // depth checkpoint lines and the splash when the probe breaks out of the ice.
   function drawOverlays(s, toAy, cx, cy) {
     const L = s.L, t = s.t, d = s.depth;
+    const u0 = s.cam / H;
+
+    // parallax: a far layer drifts slower than the scene, a near layer faster
+    if (u0 + 1 > L.surf && !s.reduced) {
+      const inIce = u0 + 0.5 < L.ice;
+      const farShift = (s.cam / PX) * 0.45, nearShift = (s.cam / PX) * 1.5;
+      const sTop = toAy(L.surf) + 3;                 // never over the sky
+      for (let i = 0; i < 70; i++) {
+        const y = ((hash(i, 301) * ah * 3 - farShift) % ah + ah) % ah;
+        if (y < sTop) continue;
+        ctx.fillStyle = inIce ? 'rgba(220,240,255,0.16)' : 'rgba(120,180,220,0.14)';
+        ctx.fillRect(Math.floor(hash(i, 302) * aw), Math.floor(y), 1, 1);
+      }
+      for (let i = 0; i < 22; i++) {
+        const y = ((hash(i, 401) * ah * 3 - nearShift) % ah + ah) % ah;
+        if (y < sTop) continue;
+        ctx.fillStyle = inIce ? 'rgba(235,250,255,0.22)' : 'rgba(150,205,235,0.2)';
+        ctx.fillRect(Math.floor(hash(i, 402) * aw), Math.floor(y), 2, 2);
+      }
+    }
+
+    // warm vent glow rising from the floor as the garden comes into view
+    const fAy = toAy(L.floor);
+    const glowTop = toAy(L.garden - 1.4);
+    if (glowTop < ah && fAy > 0) {
+      const pulse = 0.85 + 0.15 * Math.sin(t * 1.3);
+      const gr = ctx.createLinearGradient(0, glowTop, 0, fAy);
+      gr.addColorStop(0, 'rgba(255,154,61,0)');
+      gr.addColorStop(0.75, 'rgba(255,140,60,' + (0.045 * pulse).toFixed(3) + ')');
+      gr.addColorStop(1, 'rgba(255,170,90,' + (0.11 * pulse).toFixed(3) + ')');
+      ctx.fillStyle = gr;
+      ctx.fillRect(0, Math.max(0, glowTop), aw, Math.min(ah, fAy) - Math.max(0, glowTop));
+    }
 
     // hydrogen specks (cyan pairs, like the microscope's H2), rising slowly
     if (s.cam / H + 1 > L.ice) {
@@ -427,13 +482,38 @@ window.World = (function () {
     const rEnd = Math.min(ah, Math.ceil(toAy(L.floor)) + 1);
     const span = L.floor - L.garden;
 
+    // Chimney bodies and microbe mats are static, so they come from a cache drawn once per
+    // layout (see buildChimneyCache); the mats "breathe" by pulsing the whole layer's alpha.
+    const cache = buildChimneyCache(L);
+    const y0 = Math.round(toAy(cache.u0));
+    ctx.drawImage(cache.body, 0, y0);
+    ctx.globalAlpha = 0.6 + 0.35 * (0.5 + 0.5 * Math.sin(t * 1.7));
+    ctx.drawImage(cache.mats, 0, y0);
+    ctx.globalAlpha = 1;
+
     CHIMNEYS.forEach((ch, i) => {
       const topU = L.floor - ch.h * span;
       const tAy = toAy(topU);
       const baseX = ch.x * aw;
-      // chimney body
-      for (let r = Math.max(rStart, Math.floor(tAy)); r < rEnd; r++) {
-        const u = uAt(r);
+      drawChimneyTop(ch, i, tAy, baseX, t, topU, toAy);   // warm shimmering fluid + rising bubbles
+    });
+  }
+
+  let chimCache = null;
+  function buildChimneyCache(L) {
+    const key = aw + 'x' + H + 'x' + PX;
+    if (chimCache && chimCache.key === key) return chimCache;
+    const u0 = L.garden - 0.1;
+    const rows = Math.ceil((L.floor + 0.02 - u0) * H / PX) + 1;
+    const body = document.createElement('canvas'), mats = document.createElement('canvas');
+    body.width = mats.width = aw; body.height = mats.height = rows;
+    const bc = body.getContext('2d'), mc = mats.getContext('2d');
+    const span = L.floor - L.garden;
+    CHIMNEYS.forEach((ch, i) => {
+      const topU = L.floor - ch.h * span;
+      const baseX = ch.x * aw;
+      for (let r = 0; r < rows; r++) {
+        const u = u0 + r * PX / H;
         if (u < topU || u > L.floor) continue;
         const k = (u - topU) / (L.floor - topU);                 // 0 = tip, 1 = base
         const row = Math.floor(u * 400);
@@ -448,19 +528,24 @@ window.World = (function () {
         const l = Math.round(cx - hw), w = Math.max(2, Math.round(hw * 2));
         const band = (isLedge && sf > 0.14) ? 0.74 : 0.92 + 0.08 * Math.sin(u * 160 + i);
         const sh = (c) => [c[0] * band, c[1] * band, c[2] * band];
-        ctx.fillStyle = rgb(sh(COL.chimL)); ctx.fillRect(l, r, Math.ceil(w * 0.35), 1);
-        ctx.fillStyle = rgb(sh(COL.chimM)); ctx.fillRect(l + Math.ceil(w * 0.35), r, Math.ceil(w * 0.35), 1);
-        ctx.fillStyle = rgb(sh(COL.chimD)); ctx.fillRect(l + Math.ceil(w * 0.7), r, w - Math.ceil(w * 0.7), 1);
-        // microbe mats (level 1)
-        const fl = 0.55 + 0.45 * Math.sin(t * 2 + row * 0.7 + i);
-        if (hash(row, i + 7) > 0.35) { ctx.fillStyle = rgb(COL.film1, fl); ctx.fillRect(l, r, 1, 1); }
-        if (hash(row, i + 8) > 0.35) { ctx.fillStyle = rgb(COL.film2, fl); ctx.fillRect(l + w - 1, r, 1, 1); }
+        bc.fillStyle = rgb(sh(COL.chimL)); bc.fillRect(l, r, Math.ceil(w * 0.35), 1);
+        bc.fillStyle = rgb(sh(COL.chimM)); bc.fillRect(l + Math.ceil(w * 0.35), r, Math.ceil(w * 0.35), 1);
+        bc.fillStyle = rgb(sh(COL.chimD)); bc.fillRect(l + Math.ceil(w * 0.7), r, w - Math.ceil(w * 0.7), 1);
+        // microbe mats (level 1), on their own layer so they can pulse
+        const fl = 0.6 + 0.4 * hash(row, i + 21);
+        if (hash(row, i + 7) > 0.35) { mc.fillStyle = rgb(COL.film1, fl); mc.fillRect(l, r, 1, 1); }
+        if (hash(row, i + 8) > 0.35) { mc.fillStyle = rgb(COL.film2, fl); mc.fillRect(l + w - 1, r, 1, 1); }
         if (hash(row, i + 13) > 0.82) {
-          ctx.fillStyle = rgb(COL.film1, 0.75);
-          ctx.fillRect(Math.round(l + hash(row, i + 14) * w), r, 2, 1);
+          mc.fillStyle = rgb(COL.film1, 0.8);
+          mc.fillRect(Math.round(l + hash(row, i + 14) * w), r, 2, 1);
         }
       }
-      // warm shimmering fluid + rising bubbles at the top
+    });
+    chimCache = { key, u0, body, mats };
+    return chimCache;
+  }
+
+  function drawChimneyTop(ch, i, tAy, baseX, t, topU, toAy) {
       if (tAy > -60 && tAy < ah + 20) {
         for (let k = 0; k < 22; k++) {
           const y = tAy - k;
@@ -477,7 +562,6 @@ window.World = (function () {
         ctx.fillStyle = 'rgba(205,240,255,' + (0.7 * (1 - ph)).toFixed(2) + ')';
         ctx.fillRect(Math.round(x), Math.round(ay), 1, 1);
       }
-    });
   }
 
   // A faint "microscope lens" circle: these organisms are drawn ~300x life size.
@@ -508,15 +592,34 @@ window.World = (function () {
   function getHits() { return hits; }
 
   // Organisms are drawn above the darkness layer so they stay readable.
+  // Hovered lens: a brighter double ring that "breathes"; after the reveal every lens pulses.
+  function lensHighlight(cx, cy, r, t, strong) {
+    const a = strong ? 0.9 : 0.35 + 0.25 * Math.sin(t * 3);
+    ctx.fillStyle = 'rgba(93,228,255,' + a.toFixed(2) + ')';
+    const rr = r + (strong ? 2 + (Math.floor(t * 4) % 2) : 1);
+    const n = Math.round(rr * 6);
+    for (let k = 0; k < n; k++) {
+      if (k % 2) continue;
+      const ang = (k / n) * Math.PI * 2;
+      ctx.fillRect(Math.round(cx + Math.cos(ang) * rr), Math.round(cy + Math.sin(ang) * rr), 1, 1);
+    }
+  }
+  const isHovered = (s, x, y, r) => s.hover && Math.hypot(s.hover.x / PX - x, s.hover.y / PX - y) < 7;
+  // little "hello" hop for the creatures when the floodlights come on
+  const hop = (s, i) => (s.revealT > 0 && s.revealT < 2.4) ? -Math.abs(Math.sin((s.revealT - i * 0.15) * 6)) * 3 * (1 - s.revealT / 2.4) : 0;
+
   function drawCreatures(s, toAy) {
     const t = s.t;
     const cr = s.creatures;
+    const lit = s.revealT > 0;
     cr.grazers.forEach((g, i) => {
       const gx = g.x * aw + Math.sin(t * 0.3 + i * 1.7) * 3;
-      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3;
+      const ay = toAy(g.u) + Math.sin(t * 0.35 + i * 2) * 3 + hop(s, i);
       if (ay < -12 || ay > ah + 12) return;
       hits.push({ id: 'grazers', x: gx * PX, y: (ay + 2) * PX, r: 11 * PX });
       lens(gx, ay + 2, 8);
+      const hov = isHovered(s, gx, ay + 2);
+      if (hov || lit) lensHighlight(gx, ay + 2, 8, t + i, hov);
       tapBadge(gx, ay + 2, 8, t);
       sprite(GRAZER, GCOL, gx - 3, ay, 1, i % 2 === 1);
       // beating cilia around the cell
@@ -528,10 +631,12 @@ window.World = (function () {
     cr.predator.forEach((p, i) => {
       const ph = t * 0.16 + i;
       const x = (p.x + Math.sin(ph) * 0.1) * aw;
-      const ay = toAy(p.u) + Math.sin(t * 0.9) * 2;
+      const ay = toAy(p.u) + Math.sin(t * 0.9) * 2 + hop(s, 4 + i);
       if (ay < -16 || ay > ah + 16) return;
       hits.push({ id: 'predator', x: x * PX, y: ay * PX, r: 17 * PX });
       lens(x, ay, 15);
+      const hov = isHovered(s, x, ay);
+      if (hov || lit) lensHighlight(x, ay, 15, t + 2, hov);
       tapBadge(x, ay, 15, t);
       sprite(PRED, PRCOL, x - 11, ay - 5, 2, Math.cos(ph) > 0);
     });

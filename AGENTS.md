@@ -33,6 +33,7 @@ External fonts: Google Fonts only.
 | `index.html` | Page structure | Claude. Others: only inside your own mount point |
 | `js/microscope.js` (+ "microscope" section of style.css) | Zoomed animated view of each food-web level; opens from scene creatures or card button | Claude |
 | `js/energyflow.js`, `css/energyflow.css` | Energy-flow diagram widget on the end screen | **Codex** |
+| `js/taggame.js`, `css/taggame.css` | Tag game widget. Mount: `#tagGame` on the end screen, between `#energyFlow` and `#quizEnd`. Script loads right after energyflow.js | **Codex** |
 | `js/quiz.js`, `css/quiz.css` | Before/after 3-question quiz (user test). Mounts: `#quizPreBtn` (hero, starts hidden), `#quizEnd` (end screen) | **Codex** (next task) |
 | `docs/*.pdf`, `docs/text/*.txt` | Brief, science guide, report outline, report draft (text versions are UTF-8) | Read-only reference |
 
@@ -88,14 +89,19 @@ that already have a token. Colour roles:
   for citations/URLs and equations. (We tried Pixelify Sans: its digits were misreadable, "2005"
   looked like "200S", so don't use it.)
 - `--shadow-px`: the hard 4px pixel drop shadow used on every panel/button.
+- `--dim` is now `#7089a6`, so it passes WCAG AA as text on every dark background. Use `--muted`
+  or `--ink` for anything longer than a label.
+- Body classes you can style against: `body.garden-reached` (set once the probe reaches the
+  garden). CSS var `--dk` on `:root` runs from 0 to 1 with depth.
+- The end screen has a `#discoveries` panel (Claude) right after `#quizEnd`.
 - Panels: use the shared `.px-panel` look (2px border plus a hard offset shadow) and `--chamfer`.
 - Motion: short and game-like (steps, bounces), and **always** disabled under
   `@media (prefers-reduced-motion: reduce)`.
 - Must work at 390px wide (phone) with no horizontal scroll, and with keyboard (visible focus).
 
 ## Integration contract for widgets
-- `index.html` loads scripts in this order: `content.js` → `energyflow.js` → `world.js` →
-  `microscope.js` → `app.js`.
+- `index.html` loads scripts in this order: `content.js` → `energyflow.js` → `taggame.js` →
+  `world.js` → `microscope.js` → `quiz.js` → `app.js`.
 - Public hooks you may call: `window.DiveUI.openCard(cardId)` opens a science card (ids are
   the keys of `DIVE.cards`); `window.Microscope.open('methanogens'|'grazers'|'predator')` opens
   the microscope view. Both exist once all scripts have loaded, so call them from event handlers,
@@ -108,6 +114,45 @@ that already have a token. Colour roles:
 - Scope all CSS under your mount id (e.g. `#energyFlow ...`) so you can't break other parts.
 
 ## Requests (leave notes here for the owner of a file)
+
+### Codex whole-site audit — 9 Nov 2026
+
+Audited localhost:8918 in Chromium at 1366, 390 and 360px, including all 20 science cards, three microscope views, hero/ice/ocean/garden/end, and all widget playthroughs. Other-owner files were read only. Parallel polish was arriving during the audit; line numbers refer to the inspected snapshot. Blockers first; these findings are pending for the responsible owners.
+
+1. **BLOCKER — Keyboard navigation — css/style.css:70; js/app.js:242.** The fixed, translated #world does not scroll when its descendants receive keyboard focus. From a fresh hero, successive Tabs leave scrollY=0 while the second marker is at y=993 and the energy action at y=10797 (1366x900). Enter can open an unseen card, but the reader cannot see which marker/control is focused or follow the dive with Tab/Enter/Escape. Suggested fix: camera-aware focusin handling that brings focused markers/end controls into the visible area with HUD-safe margins; verify every marker, widget and footer link. Also make opacity-hidden HUD controls inert/remove them from the tab order (style.css:269,540); pointer-events:none does not remove keyboard focus.
+
+2. **MAJOR — Keyboard/modal — index.html:159; js/microscope.js:58.** #scope declares aria-modal=true but does not trap focus or make the background inert. Starting at Close, Tab reaches Read the science, then leaves the microscope. Suggested fix: native dialog/showModal, or a complete focus trap plus inert background; retain Escape and a visible focus ring.
+
+3. **MAJOR — Focus restoration — js/app.js:155,164,443,451; js/microscope.js:85.** Discoveries rebuilds/removes its clicked button before openCard stores it; closing cannot restore focus to that disconnected node. Microscope -> Read the science calls DiveUI.openCard with no opener, so closing the card also loses the reader's place. Suggested fix: retain a connected trigger or a stable fallback (e.g. discoveries summary), and pass the original opener through the microscope/card transition. Re-test both routes with Tab/Enter/Escape, not only direct marker -> card -> Escape (which works).
+
+4. **MAJOR — Reduced motion — js/app.js:236; js/microscope.js:9.** Both scripts cache matchMedia.matches once. Switching reduced motion on after load stops CSS animation but both canvas images still change at rest. Reloading with reduce already enabled gives static images. Suggested fix: subscribe to the media-query change event; update camera behavior, freeze/cancel canvas animation and draw the final state immediately. Resume appropriately if the preference changes back.
+
+5. **MAJOR — Touch target sizes — css/style.css:390,452,323,351; index.html:105.** Card/microscope Close is 32x32px; Read the science is about 180x36px; discovery buttons are about 34px high; ruler targets are about 16px high and Sources about 28px high on phone. Suggested fix: minimum 44x44px hit areas without covering neighbouring controls. Codex fixed its own #quizPreBtn (previously 26px high) to 44px.
+
+6. **MAJOR — Phone HUD overlap — css/style.css:301,544; js/app.js:294.** At 390x900 and garden scrollY=8550, the cyan microscope hint overlaps the Shadowfin marker immediately above the bottom gauges. It can remain for 12 seconds and has no dismiss control independent of opening the microscope. Suggested fix: reserve a safe layout slot or dismissible placement that does not cover markers; check 360px too. The end-screen top HUD fade works.
+
+7. **MINOR — Body text below project minimum — css/style.css:151,264,323,342,424,490,515.** Explanatory copy is below 18px: hero disclaimer and footer .small 16px; coin illustration note 16px; microscope scale 15px on phone/16px desktop; discovery buttons 17px; desktop gauge explanation 15px. Suggested fix: raise sentence text to >=18px and recheck wrapping. Small pixel labels and mono citations were treated separately, not as body-copy failures.
+
+8. **MAJOR — Unsourced science inference — js/content.js:257,261,298,301.** The microscopic/energy cards assert that oxygen-free life gets less food energy and that the real transfer would probably be below the illustrative 10 coins, while the same content explicitly admits the supporting source is missing. This exceeds the locked ~10% average/illustrative model. Suggested fix for Science Lead: remove the extrapolation or supply and check a directly supporting source; keep any model choice visibly labelled Assumption. This audit checked consistency with the project sources, not the current external literature.
+
+9. **MAJOR — Missing assumption labels at point of use — js/app.js:40,50,329; index.html:122; js/content.js:63,65.** HUD temperature/light display precise-looking values derived from the illustrative linear temperature and exponential light model, without an Assumption/illustrative label. The 8 C garden value and 20+30 km geometry are choices. The 'no sunlight means no oxygen' and x300 markers also lack a local assumption/drawing-choice qualifier. Suggested fix: compact model/Assumption labels with the displays, and wording that identifies the no-oxygen setup as our choice; retain the cited evidence separately. The energy widget and card coin numbers already say illustrative.
+
+10. **MINOR — Invention/evidence tag clarity — js/content.js:128; js/app.js:407; js/microscope.js:13,29,40.** The invented probe gets only Assumption because the Fiction chip is inferred from the literal word 'fictional'; microscope x300 scale is not tagged as a drawing assumption, and the Earth-microbe Evidence chip does not also identify their presence on this moon as an assumption. Suggested fix: explicit content tags rather than substring inference; add the relevant Fiction/Assumption chips without changing the Earth evidence claim.
+
+11. **MINOR — Undefined first-use terms — js/content.js:84,92,165,198,208,227,245; js/microscope.js:26,37.** Examples include AU, hydrothermal vents, bar, alkaline/pH, photosynthesis, Archaea, hydrogenosome-like organelles, and protozoa/Loricifera in microscope tags. The new bold-term formatting in app.js:358 highlights but does not define these words. Suggested fix for Science Lead: add brief plain-language definitions at first use in each independently opened card/view; e.g. explain bar as a pressure unit rather than adding another unexplained unit.
+
+12. **MAJOR — Scroll performance — js/app.js:242,254,256; js/world.js:137.** Standalone cold-cache Chromium run at 1366x900, emulated 1.6 Mbps down/750 kbps up/750 ms latency and 4x CPU: first contentful paint 2.736 s, load event 4.130 s, fonts ready ~4.272 s. A 12.018 s hero-to-end scroll recorded 262 frame callbacks, p95 frame interval 151.6 ms, max 319.6 ms, 59 long tasks (max 324 ms), and ~453 missed 60-Hz frame opportunities. These are local headless emulation measurements, not physical-device dropped-frame telemetry. Suggested fix: profile the always-running World.draw/render loop, cache static layers, reduce per-frame canvas work and pause when offscreen/hidden/static. Confirm with the same throttling profile after changes; load time itself is less concerning than scrolling stalls.
+
+13. **MINOR — WCAG AA contrast — css/style.css:151; :root --dim at line 5.** Hero disclaimer uses #5d7896 on the dark sky: even against #04070f it is only 4.41:1 (<4.5:1 required for its normal-sized text), and about 4.07:1 against #101124. Suggested fix: use --muted or a higher-contrast text token and retain a dark backing where needed. Axe found no determinate failures but marked canvas/transparency combinations for manual review, so that automated result is not an AA pass. Codex separately fixed its own vent-off panel text (whole-panel .38 opacity made normal text about 2.1-3.3:1) by fading only illustrations, and fixed the filled energy button's same-colour focus outline.
+
+14. **MAJOR — Submission content — js/content.js:16-17; index.html:90.** Credits still show TEAMNAME and four placeholder members, conflicting with the six-person Shay Rafe3 brief, and AI-use disclosure is still a fill-in placeholder. Suggested fix: responsible human/science owner supplies verified team names/members and actual disclosure before publication/submission.
+
+15. **MINOR — Resource error — index.html:3.** /favicon.ico returns 404; this was the only browser console/resource error observed. Suggested fix: add a valid favicon link/asset in the owner's files. No runtime JavaScript errors were observed across the dive, all cards/microscope views and widget tests.
+
+**Codex fixes verified:** neutral BEFORE answer text/highlight (no q-right/q-wrong), AFTER instant feedback retained; quiz entry >=44px; readable vent-off text; distinct primary-action focus outline. Full widget keyboard playthroughs, focus return, reduced-motion final states and no horizontal document overflow passed at 1366/390/360px. No old Scrapers/Fan-feeders/hand-sized Shadowfin/4th level was found. The three-level web, reaction, 1000->100->10 example, <1mm Shadowfin and ~56bar calculation agree with the locked content. Science citations were checked for key existence and displayed attribution; external linked papers were not re-reviewed.
+
+### Earlier integration notes
+
 Integration check by Claude, 9 Nov (390px + 1366px, Chromium). Both widgets work, no console
 errors, no horizontal scroll, end-of-page height re-measures correctly after widget height
 changes, keyboard focus is visible. Small issues for the owner (Codex):
