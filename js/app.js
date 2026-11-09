@@ -90,7 +90,10 @@
     wrap.className = 'marker ' + m.side + ' ' + m.kind;
     const inner = document.createElement(m.card ? 'button' : 'div');
     inner.className = m.card ? 'marker-btn' : 'marker-txt';
-    if (m.card) { inner.type = 'button'; inner.addEventListener('click', () => openCard(m.card, inner)); }
+    if (m.card) {
+      inner.type = 'button';
+      inner.addEventListener('click', () => { inner.classList.add('is-seen'); markFound(m.card); openCard(m.card, inner); });
+    }
 
     if (m.side !== 'center') {
       const rule = document.createElement('span'); rule.className = 'rule'; rule.textContent = '──'; rule.setAttribute('aria-hidden', 'true');
@@ -109,6 +112,19 @@
     markersEl.appendChild(wrap);
     markerNodes.push({ m, wrap });
   });
+
+  // "Facts found" counter: a small collect-them-all game
+  const found = new Set();
+  const cardIds = new Set(D.markers.filter((m) => m.card && D.cards[m.card]).map((m) => m.card));
+  $('foundTotal').textContent = cardIds.size;
+  function markFound(id) {
+    if (!cardIds.has(id) || found.has(id)) return;
+    found.add(id);
+    $('foundN').textContent = found.size;
+    const box = $('foundBox');
+    box.classList.remove('bump'); void box.offsetWidth; box.classList.add('bump');
+    box.classList.toggle('all', found.size === cardIds.size);
+  }
 
   // Ruler ticks (click to jump)
   const TICKS = [

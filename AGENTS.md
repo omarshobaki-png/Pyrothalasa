@@ -80,8 +80,12 @@ that already have a token. Colour roles:
 - `--pink`: food-web level badges, current position
 - `--vent` / `--vent-glow` (warm): vent heat and energy, garden only
 - `--ink` / `--muted` / `--dim`: text levels · `--panel`, `--panel-solid`, `--line`: surfaces
-- Fonts: `--px` (Silkscreen) for headings, labels, numbers and buttons; `--body` (readable pixel
-  body font) for paragraphs. Body text at least 14px on desktop and 13px on mobile.
+- Fonts: `--px` (Silkscreen, caps-only) for headings, short labels, numbers and buttons;
+  `--body` (**VT323**, a pixel terminal font with clear digits) for sentences. VT323 renders
+  small, so use **at least 18px** for body text (cards use 20px). `--mono` (IBM Plex Mono) only
+  for citations/URLs and equations. (We tried Pixelify Sans: its digits were misreadable, "2005"
+  looked like "200S", so don't use it.)
+- `--shadow-px`: the hard 4px pixel drop shadow used on every panel/button.
 - Panels: use the shared `.px-panel` look (2px border plus a hard offset shadow) and `--chamfer`.
 - Motion: short and game-like (steps, bounces), and **always** disabled under
   `@media (prefers-reduced-motion: reduce)`.

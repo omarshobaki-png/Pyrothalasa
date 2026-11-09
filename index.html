@@ -7,7 +7,7 @@
   <meta name="description" content="Scroll-driven dive into a fictional ocean moon where a food web runs on hydrogen instead of sunlight. Built from real science.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Pixelify+Sans:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&family=Silkscreen&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/energyflow.css">
 </head>
@@ -80,6 +80,10 @@
     </div>
 
     <a class="hud-box hud-link" href="#end" id="sourcesLink">Sources</a>
+    <div class="hud-box hud-found" id="foundBox" title="Science facts you have opened">
+      <span class="hud-label">Facts found</span>
+      <span class="found-val"><b id="foundN">0</b>/<span id="foundTotal">0</span></span>
+    </div>
 
     <div class="hud-box hud-gauges" aria-live="off">
       <div class="gauge">
