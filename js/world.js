@@ -751,6 +751,8 @@ window.World = (function () {
     drawOverlays(s, toAy, px + pw / 2, pyBottom, sc0);
     if (u0 + 1 > L.garden - 0.3) drawCreatures(s, toAy);
 
+    if (s.scan) drawScan(s.scan);
+
     // ---- melt channel, tether + probe on top ----
     if (s.depth > 0.5) drawChannel(s, toAy, px, pw, pyTop, camRow, sAy);
     const bob = s.depth > 20000 ? Math.round(Math.sin(t * 1.6)) : 0;
@@ -796,6 +798,36 @@ window.World = (function () {
       ctx.fillStyle = 'rgba(255,214,140,0.8)';
       for (let r = cTop + ((48 - ((cTop + camRow) % 48)) % 48); r < cBot; r += 48) ctx.fillRect(cx - 1, r, 3, 1);
     }
+  }
+
+  // Probe scan (app.js): a dashed beam from the probe's nose to the feature (first 250 ms),
+  // then pixel corner brackets that snap in around it and stay while the callout is open.
+  // sc = { bx, by (CSS px, probe nose), rect {x,y,w,h} (CSS px), age (s), alpha, reduced }
+  function drawScan(sc) {
+    const x0 = Math.round(sc.bx / PX), y0 = Math.round(sc.by / PX), r = sc.rect;
+    const rx = Math.round(r.x / PX), ry = Math.round(r.y / PX), rw = Math.max(1, Math.round(r.w / PX)), rh = Math.max(1, Math.round(r.h / PX));
+    const tx = Math.max(rx, Math.min(x0, rx + rw)), ty = Math.max(ry, Math.min(y0, ry + rh));
+    const age = sc.age;
+    if (!sc.reduced && age < 0.5) {
+      const p = Math.min(1, age / 0.25), fade = age < 0.25 ? 1 : 1 - (age - 0.25) / 0.25;
+      const n = Math.max(1, Math.round(Math.hypot(tx - x0, ty - y0))), m = Math.round(n * p);
+      ctx.fillStyle = rgba('93,228,255', 0.9 * fade * sc.alpha);
+      for (let i = 0; i <= m; i++) if (i % 3 !== 2) ctx.fillRect(Math.round(x0 + (tx - x0) * i / n), Math.round(y0 + (ty - y0) * i / n), 1, 1);
+      if (p < 1) {                                     // bright head of the beam
+        ctx.fillStyle = '#e8fbff';
+        ctx.fillRect(Math.round(x0 + (tx - x0) * m / n) - 1, Math.round(y0 + (ty - y0) * m / n) - 1, 3, 3);
+      }
+    }
+    const ba = sc.reduced ? 1 : age - 0.25;
+    if (ba < 0) return;
+    const snap = sc.reduced ? 0 : Math.max(0, 4 - Math.floor(ba / 0.025));   // 4 px out -> 0 in 100 ms
+    const pad = 2 + snap, Lc = 4;
+    const x1 = rx - pad, y1 = ry - pad, x2 = rx + rw + pad - 1, y2 = ry + rh + pad - 1;
+    ctx.fillStyle = rgba('93,228,255', sc.alpha);
+    ctx.fillRect(x1, y1, Lc, 1); ctx.fillRect(x1, y1, 1, Lc);
+    ctx.fillRect(x2 - Lc + 1, y1, Lc, 1); ctx.fillRect(x2, y1, 1, Lc);
+    ctx.fillRect(x1, y2, Lc, 1); ctx.fillRect(x1, y2 - Lc + 1, 1, Lc);
+    ctx.fillRect(x2 - Lc + 1, y2, Lc, 1); ctx.fillRect(x2, y2 - Lc + 1, 1, Lc);
   }
 
   // Open-water life of the scene (no organisms): drifting sediment, currents, lamp, lit particles.

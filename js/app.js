@@ -147,6 +147,7 @@
     box.classList.toggle('all', done);
     if (done) showToast({ text: 'All ' + allIds.length + ' found!', sub: 'you explored everything' }, 'Discoveries');
     renderMissed();
+    renderLog();
   }
   // End screen: your score plus buttons for anything you missed
   function renderMissed() {
@@ -225,6 +226,7 @@
       creatures[k] = D.creatures[k].map((c) => ({ x: c.x, u: uOfD(FLOOR_M - c.aboveFloor) }));
     });
     World.resize(W, H, L);
+    scanLayout();
   }
 
   function jumpToDepth(d) {
@@ -232,6 +234,341 @@
     const top = d <= 0 ? 0 : u * H - PROBE_FRAC * H + 2;
     window.scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' });
   }
+
+  // =====================================================================
+  // Probe scan: info appears by itself as the probe reaches it.
+  //  - A feature (a marker, or a garden specimen) is "reached" when it crosses the scan line.
+  //  - Normal speed: a scan beam + corner brackets (drawn by world.js), then a callout that
+  //    types out the marker's own text (no new wording), with "Read more" -> the full card.
+  //  - Faster than about one marker gap per second: logged as "missed" instead (and scanned
+  //    after all if the scroll settles while it is still on screen).
+  //  - Seen vs discovered: every scan is "seen" in the mission log; the Discoveries counter
+  //    still counts what you opened (cards, microscope), so scrolling alone can't fill it.
+  //  - Never moves the scroll position and never moves focus.
+  // =====================================================================
+  const SCAN_LINE = 0.62;                       // fraction of screen height where a feature is reached
+  const sc = {
+    el: $('scanCallout'), leader: $('scanLeader'), title: $('scanTitle'), tags: $('scanTags'),
+    full: $('scanFull'), typed: $('scanTyped'), sr: $('scanSr'), kicker: $('scanKicker'),
+    more: $('scanMore'), scope: $('scanScope'), x: $('scanX')
+  };
+  const liveEl = $('scanLive'), autoBtn = $('autoBtn'), logEl = $('missionLog'), logList = $('logList');
+  let autoOn = true;
+  try { autoOn = localStorage.getItem('hg-autoinfo') !== 'off'; } catch (e) { /* storage blocked: stay on */ }
+
+  const SPECIMEN = { grazers: 'grazers', predator: 'predator' };   // card id -> creature group drawn in the scene
+  const targets = markerNodes.filter(({ m }) => m.card && D.cards[m.card]).map(({ m, wrap }) => ({
+    m, wrap, card: m.card,
+    scope: window.Microscope && Microscope.has(m.card) ? m.card : null,
+    crit: SPECIMEN[m.card] || null,
+    yw: 0, thr: 1, state: '', prevY: null, rect: null, box: null, li: null, btn: null
+  }));
+
+  function scanLayout() {
+    targets.forEach((t) => {
+      const w = t.wrap, center = t.m.side === 'center';
+      const top = parseFloat(w.style.top) - (center ? 0 : w.offsetHeight / 2);
+      t.box = { x: w.offsetLeft - (center ? w.offsetWidth / 2 : 0), y: top, w: w.offsetWidth, h: w.offsetHeight };
+      let y = top + w.offsetHeight / 2;
+      if (t.crit && creatures[t.crit]) creatures[t.crit].forEach((c) => { y = Math.min(y, c.u * H); });
+      t.yw = y; t.prevY = null;
+    });
+    targets.sort((a, b) => a.yw - b.yw);
+    targets.forEach((t, i) => {
+      const gaps = [];
+      if (i > 0) gaps.push(t.yw - targets[i - 1].yw);
+      if (i < targets.length - 1) gaps.push(targets[i + 1].yw - t.yw);
+      // about one marker gap per second, but never below 0.8 screens/s (garden labels are close together)
+      t.thr = Math.min(1.6, Math.max(0.8, Math.min.apply(null, gaps) / H));
+    });
+    hudRects = null;
+    if (!logBuilt) buildLog();
+  }
+
+  // scroll speed in screen heights per second, smoothed over ~0.25 s
+  let lastSY = scrollY, lastST = performance.now(), speed = 0;
+  function trackSpeed() {
+    const now = performance.now();               // wall-clock time (frame timestamps can lag it)
+    const dt = Math.max(1, now - lastST) / 1000;
+    const v = Math.abs(scrollY - lastSY) / H / dt;
+    speed += (v - speed) * Math.min(1, dt / 0.25);
+    lastSY = scrollY; lastST = now;
+  }
+
+  let cur = null;                               // the open callout
+  function scanTick(now, probeY) {
+    if (!autoOn) return;
+    const S = SCAN_LINE * H;
+    for (const t of targets) {
+      const y = t.yw - cam;
+      if (t.prevY !== null && t.prevY > S && y <= S) reached(t, now);
+      t.prevY = y;
+    }
+    if (!cur && speed < 0.25 && !(logOpen && phoneMq.matches)) {   // caught up after a fast scroll
+      for (let i = targets.length - 1; i >= 0; i--) {
+        const t = targets[i], y = t.yw - cam;
+        if (t.state === 'missed' && y > 0.15 * H && y <= S) { openScan(t, now); break; }
+      }
+    }
+    if (cur) updateScan(now, probeY);
+  }
+  function reached(t, now) {
+    if (t.state === 'scanned') return;
+    if (found.has(t.card) || (logOpen && phoneMq.matches)) { setState(t, 'scanned'); return; }
+    if (speed > t.thr) { setState(t, 'missed'); return; }
+    openScan(t, now);
+  }
+  function tagChips(c) {
+    const out = [];
+    if (c.evidence && c.evidence.length) out.push(chip('evidence', 'Evidence'));
+    if (c.assumptions && c.assumptions.length) out.push(chip('assumption', 'Assumption'));
+    if (/fictional|our invention|invented/i.test((c.assumptions || []).join(' '))) out.push(chip('fiction', 'Fictional'));
+    return out;
+  }
+  function announce(text) {
+    liveEl.textContent = '';
+    setTimeout(() => { liveEl.textContent = text; }, 60);
+  }
+  function openScan(t, now) {
+    if (cur && sc.el.contains(document.activeElement)) { setState(t, 'scanned'); return; }   // never pull focus away
+    if (cur) hideScan();
+    setState(t, 'scanned');
+    const c = D.cards[t.card], text = t.m.text;
+    sc.kicker.textContent = t.scope ? 'Specimen detected' : 'Probe scan';
+    sc.title.textContent = c.title;
+    sc.tags.replaceChildren.apply(sc.tags, tagChips(c));
+    sc.full.textContent = text; sc.sr.textContent = text;
+    sc.typed.textContent = reduced ? text : '';
+    sc.scope.hidden = !t.scope;
+    sc.el.classList.toggle('specimen', !!t.scope);
+    sc.el.dataset.side = t.m.side === 'right' ? 'right' : 'left';
+    sc.el.classList.remove('is-open', 'is-closing', 'compact');
+    sc.el.hidden = false;
+    void sc.el.offsetWidth;
+    sc.el.classList.add('is-open');
+    cur = { t, start: now, closing: 0, place: null, w: sc.el.offsetWidth, h: sc.el.offsetHeight, typedN: reduced ? text.length : 0 };
+    hudRects = null;
+    announce((t.scope ? 'Specimen detected: ' : 'Probe scan: ') + c.title + '. ' + text);
+    forceDraw = true;
+  }
+  function hideScan() {
+    sc.el.hidden = true; sc.leader.hidden = true;
+    sc.el.classList.remove('is-open', 'is-closing');
+    cur = null; forceDraw = true;
+  }
+  function closeScan() {
+    if (!cur || cur.closing) return;
+    if (reduced) { hideScan(); return; }
+    cur.closing = performance.now();
+    sc.el.classList.add('is-closing'); sc.leader.hidden = true;
+    forceDraw = true;
+  }
+  function updateScan(now, probeY) {
+    const t = cur.t, age = (now - cur.start) / 1000;
+    if (cur.closing) { forceDraw = true; if (now - cur.closing > 170) hideScan(); return; }
+    const yc = t.yw - cam;
+    const focused = sc.el.contains(document.activeElement);
+    if (!focused && (yc < 0.06 * H || yc > 0.96 * H)) { closeScan(); return; }   // left the visible band
+    if (!reduced) {                              // ~25 ms per character; any line done within 1.5 s
+      const per = Math.min(25, 1500 / t.m.text.length);
+      const n = Math.max(0, Math.min(t.m.text.length, Math.floor((age - 0.4) * 1000 / per)));
+      if (n !== cur.typedN) { cur.typedN = n; sc.typed.textContent = t.m.text.slice(0, n); }
+    }
+    t.rect = featureRect(t);
+    position(t, probeY);
+    if (age < 0.75) forceDraw = true;
+  }
+  function featureRect(t) {
+    if (t.crit && window.World && World.getHits) {
+      let best = null;
+      const S = SCAN_LINE * H;
+      World.getHits().forEach((h) => { if (h.id === t.crit && (!best || Math.abs(h.y - S) < Math.abs(best.y - S))) best = h; });
+      if (best) return { x: best.x - best.r, y: best.y - best.r, w: best.r * 2, h: best.r * 2 };
+    }
+    const b = t.box;
+    return { x: b.x, y: b.y - cam, w: b.w, h: b.h };
+  }
+
+  // Placement: never over the HUD, the probe or a tappable creature. Desktop: beside the
+  // feature on its own side; phones: a bottom sheet above the gauges (or under the top HUD).
+  let hudRects = null;
+  const overlap = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  function obstacles(probeY) {
+    if (!hudRects) {
+      hudRects = [...hud.querySelectorAll('.hud-box, .ruler, .mlog')].map((e) => e.getBoundingClientRect())
+        .filter((r) => r.width && r.height).map((r) => ({ x: r.left - 6, y: r.top - 6, w: r.width + 12, h: r.height + 12 }));
+    }
+    const ph = phoneMq.matches ? 2 : 3;
+    const list = hudRects.slice();
+    list.push({ x: W / 2 - 12 * ph, y: probeY - 40 * ph, w: 24 * ph, h: 46 * ph });      // the probe (+ its lamp)
+    if (window.World && World.getHits) World.getHits().forEach((h) => list.push({ x: h.x - h.r - 4, y: h.y - h.r - 4, w: h.r * 2 + 8, h: h.r * 2 + 8 }));
+    return list;
+  }
+  function score(r, obs) {
+    let s = 0;
+    obs.forEach((o) => { s += overlap(r, o); });
+    if (r.y < 6) s += (6 - r.y) * r.w * 4;
+    if (r.y + r.h > H - 6) s += (r.y + r.h - H + 6) * r.w * 4;
+    return s;
+  }
+  function position(t, probeY) {
+    const r = t.rect, obs = obstacles(probeY);
+    let w = cur.w, h = cur.h, cands;
+    const build = () => {
+      if (phoneMq.matches) {
+        const g = hud.querySelector('.hud-gauges').getBoundingClientRect();
+        const fb = $('foundBox').getBoundingClientRect();
+        cands = [{ k: 'bottom', x: 8, y: Math.min(H - 8, g.top) - 8 - h }, { k: 'top', x: 8, y: fb.bottom + 8 }];
+      } else {
+        const right = t.m.side === 'right';
+        let x = right ? r.x + r.w - w : r.x;
+        x = right ? Math.max(W / 2 + 44, Math.min(W - 150 - w, x)) : Math.max(60, Math.min(W / 2 - 44 - w, x));
+        cands = [{ k: 'below', x, y: r.y + r.h + 14 }, { k: 'above', x, y: r.y - 14 - h }];
+      }
+      cands.forEach((c) => { c.s = score({ x: c.x, y: c.y, w, h }, obs); });
+    };
+    build();
+    let pick = cands.find((c) => c.k === cur.place);              // sticky: only switch when it starts to collide
+    if (!pick || pick.s > 0) pick = cands.reduce((a, b) => (b.s < a.s ? b : a));
+    if (pick.s > 0 && phoneMq.matches && !cur.compact) {
+      // phones: no free sheet slot -> a compact sheet (title + buttons), so the probe and creatures stay clear
+      cur.compact = true; sc.el.classList.add('compact'); cur.h = h = sc.el.offsetHeight;
+      build(); pick = cands.reduce((a, b) => (b.s < a.s ? b : a));
+    }
+    if (pick.s > 0) {
+      // both slots collide -> the nearest free slot in the same column (phones: between the HUD rows)
+      let best = pick, bd = Infinity;
+      const yMin = phoneMq.matches ? $('foundBox').getBoundingClientRect().bottom + 8 : 8;
+      const yMax = phoneMq.matches ? hud.querySelector('.hud-gauges').getBoundingClientRect().top - 8 - h : H - h - 8;
+      for (let y = yMin; y <= yMax; y += 12) {
+        const sc2 = score({ x: pick.x, y, w, h }, obs), d = Math.abs(y - (r.y + r.h / 2 - h / 2));
+        if (sc2 < best.s || (sc2 === best.s && d < bd)) { best = { k: 'slot', x: pick.x, y, s: sc2 }; bd = d; }
+      }
+      pick = best;
+    }
+    cur.place = pick.k;
+    sc.el.style.transform = 'translate(' + Math.round(pick.x) + 'px,' + Math.round(pick.y) + 'px)';
+    // 1px leader line from the feature to the callout (desktop; on phones the beam does this job)
+    if (phoneMq.matches) { sc.leader.hidden = true; return; }
+    const lx = Math.round(Math.max(pick.x + 10, Math.min(pick.x + w - 10, r.x + r.w / 2)));
+    const under = pick.y > r.y + r.h / 2;
+    const y1 = under ? r.y + r.h + 2 : pick.y + h, y2 = under ? pick.y : r.y - 2;
+    const age = (performance.now() - cur.start) / 1000;
+    sc.leader.hidden = !(y2 > y1 && (reduced || age > 0.3));
+    sc.leader.style.transform = 'translate(' + lx + 'px,' + Math.round(y1) + 'px)';
+    sc.leader.style.height = Math.round(y2 - y1) + 'px';
+  }
+  function scanDrawState(now, probeY) {
+    if (!cur || !cur.t.rect) return null;
+    return {
+      bx: W / 2, by: probeY, rect: cur.t.rect, age: (now - cur.start) / 1000, reduced,
+      alpha: cur.closing ? Math.max(0, 1 - (now - cur.closing) / 170) : 1
+    };
+  }
+  sc.x.addEventListener('click', () => closeScan());
+  sc.more.addEventListener('click', () => {
+    if (!cur) return;
+    openCard(cur.t.card, sc.more); markFound(cur.t.card);
+    lastFallback = $('foundBox');                 // if the callout has folded away by the time the card closes
+  });
+  sc.scope.addEventListener('click', () => { if (cur && window.Microscope) Microscope.open(cur.t.scope, sc.more); });
+  // Escape closes the card first; a second Escape closes the callout
+  let cardOpenAtKey = false;
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') cardOpenAtKey = !card.hidden; }, true);
+  addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || cardOpenAtKey) return;
+    if (logOpen) { setLog(false); return; }
+    if (cur) closeScan();
+  });
+
+  // ---------- zone banners: big chapter titles, words taken from the zone markers ----------
+  const zb = { el: $('zoneBanner'), k: $('zbK'), title: $('zbTitle'), sub: $('zbSub') };
+  const BANNERS = [['iceshell', 50], ['ocean', ICE_M], ['chimneys', GARDEN_M], ['shutdown', FLOOR_M - 1]].map(([id, d]) => {
+    const m = D.markers.find((x) => x.card === id && x.kind === 'zone');
+    const parts = m ? m.text.split(' · ') : ['', ''];
+    return { d, title: parts[0], sub: parts.slice(1).join(' · '), shown: false };
+  });
+  let bannerLast = null, bannerTimer = 0, lastAtEnd = null;
+  function showBanner(b, kicker) {
+    b.shown = true;
+    if (!autoOn || !b.title) return;
+    toast.hidden = true;                          // the banner owns the top of the screen
+    zb.k.textContent = kicker; zb.title.textContent = b.title; zb.sub.textContent = b.sub;
+    zb.el.hidden = false;
+    zb.el.classList.remove('show'); void zb.el.offsetWidth; zb.el.classList.add('show');
+    clearTimeout(bannerTimer);
+    bannerTimer = setTimeout(() => { zb.el.hidden = true; }, 2600);
+    if (!cur) announce(kicker + ': ' + b.title + (b.sub ? ', ' + b.sub : ''));
+  }
+  function bannerCheck(d) {
+    if (bannerLast !== null && d > bannerLast) {
+      BANNERS.forEach((b, i) => { if (!b.shown && bannerLast < b.d && d >= b.d) showBanner(b, i === 3 ? 'Arrived' : 'Entering'); });
+    }
+    bannerLast = d;
+  }
+  function atEndChanged(atEnd) {
+    if (!phoneMq.matches && innerWidth >= 1240 && !logTouched) setLog(atEnd);   // fill the wide end-screen gutter
+    if (atEnd) closeScan();
+  }
+
+  // ---------- mission log ----------
+  let logBuilt = false, logOpen = false, logTouched = false;
+  function buildLog() {
+    logBuilt = true;
+    targets.forEach((t) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button'); b.type = 'button';
+      const ic = document.createElement('span'); ic.className = 'ml-ic'; ic.setAttribute('aria-hidden', 'true');
+      const tx = document.createElement('span'); tx.className = 'ml-t'; tx.textContent = D.cards[t.card].title;
+      b.append(ic, tx);
+      b.addEventListener('click', () => { openCard(t.card, b); markFound(t.card); });
+      li.appendChild(b); logList.appendChild(li);
+      t.li = li; t.btn = b;
+    });
+    renderLog();
+  }
+  function setState(t, s) { if (t.state !== s) { t.state = s; renderLog(); } }
+  function renderLog() {
+    if (!logBuilt) return;
+    let n = 0;
+    targets.forEach((t) => {
+      const st = found.has(t.card) ? 'read' : t.state;
+      t.li.className = 'ml-' + (st || 'todo');
+      const reachedYet = !!st;
+      t.btn.hidden = false;
+      t.btn.disabled = !reachedYet;
+      t.li.setAttribute('aria-hidden', reachedYet ? 'false' : 'true');
+      const word = st === 'read' ? 'read' : st === 'missed' ? 'missed (passed too fast)' : 'scanned';
+      t.btn.setAttribute('aria-label', reachedYet ? D.cards[t.card].title + ', ' + word : 'not reached yet');
+      t.btn.title = reachedYet ? D.cards[t.card].title + ' · ' + word : '';
+      if (reachedYet) n++;
+    });
+    $('logN').textContent = n + '/' + targets.length;
+  }
+  function setLog(open) {
+    logOpen = open;
+    logEl.classList.toggle('open', open);
+    $('logToggle').setAttribute('aria-expanded', String(open));
+    $('foundBox').setAttribute('aria-expanded', String(open));
+    hudRects = null;
+    if (open && phoneMq.matches) hideScan();     // the log sheet and a callout sheet never share the screen
+  }
+  $('logToggle').addEventListener('click', () => { logTouched = true; setLog(!logOpen); });
+  $('logClose').addEventListener('click', () => { logTouched = true; setLog(false); $('foundBox').focus({ preventScroll: true }); });
+  $('foundBox').addEventListener('click', () => { logTouched = true; setLog(!logOpen); });
+
+  // ---------- Auto-info toggle (remembered) ----------
+  function setAuto(on) {
+    autoOn = on;
+    autoBtn.setAttribute('aria-pressed', String(on));
+    autoBtn.querySelector('b').textContent = on ? 'on' : 'off';
+    try { localStorage.setItem('hg-autoinfo', on ? 'on' : 'off'); } catch (e) { /* not remembered */ }
+    if (!on) { if (cur) hideScan(); zb.el.hidden = true; }
+    targets.forEach((t) => { t.prevY = null; });  // re-arm without firing for what passed meanwhile
+    bannerLast = null;
+  }
+  autoBtn.addEventListener('click', () => setAuto(!autoOn));
+  setAuto(autoOn);
 
   // ---------- loop ----------
   // Reduced motion is read live: switching it on mid-visit freezes the scene at once.
@@ -246,6 +583,7 @@
 
   function frame(now) {
     requestAnimationFrame(frame);
+    const f0 = window.__frameProf ? performance.now() : 0;   // opt-in timing for tests
     const target = scrollY;
     cam = reduced ? target : cam + (target - cam) * 0.12;
     if (Math.abs(target - cam) < 0.3) cam = target;
@@ -263,23 +601,27 @@
     // Keep CPU/GPU light: full rate while the camera moves; at rest the ambient animation
     // runs at half rate, and with reduced motion the static scene is not redrawn at all.
     frameN++;
+    trackSpeed(now);
+    scanTick(now, probeY);
+    if (moving) bannerCheck(depth);
     const draw = moving || forceDraw || (!reduced && frameN % 2 === 0);
     if (draw) {
-      World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures, hover: hoverPt, revealT: revealAt ? (reduced ? 99 : t - revealAt) : -1, reduced });
+      World.draw({ cam, t, probeY, depth, L, dOfU, uOfD, iceM: ICE_M, gardenM: GARDEN_M, creatures, hover: hoverPt, revealT: revealAt ? (reduced ? 99 : t - revealAt) : -1, reduced, scan: scanDrawState(now, probeY) });
       forceDraw = false;
     }
     lastCam = cam;
     if (moving) { updateHud(depth, probeU); checkpoints(depth); }
+    if (f0) window.__frameProf.push(performance.now() - f0);
   }
 
   // ---------- depth checkpoints: a small pop-up each time you pass a milestone ----------
   const CHECKS = [
     { d: 1000, text: '1 km down', sub: 'still solid ice' },
     { d: 10000, text: '10 km', sub: 'halfway through the ice' },
-    { d: ICE_M, text: 'Through the ice!', sub: 'into the dark ocean' },
+    { d: ICE_M, text: 'Through the ice!', sub: 'into the dark ocean', zone: true },
     { d: 30000, text: '30 km', sub: 'pitch dark, almost empty' },
     { d: 40000, text: '40 km', sub: 'hydrogen in the water' },
-    { d: GARDEN_M, text: 'Hydrogen Garden', sub: 'probe floodlights on' }
+    { d: GARDEN_M, text: 'Hydrogen Garden', sub: 'probe floodlights on', zone: true }
   ];
   const toast = $('toast');
   let lastDepth = 0, toastTimer = 0;
@@ -292,7 +634,7 @@
   function checkpoints(d) {
     if (d > lastDepth) {
       const hit = CHECKS.filter((c) => lastDepth < c.d && d >= c.d).pop();
-      if (hit && lastDepth > 0) showToast(hit);
+      if (hit && lastDepth > 0 && !(autoOn && hit.zone)) showToast(hit);
       if (lastDepth > 0 && lastDepth < ICE_M && d >= ICE_M) flash('ice');
       if (lastDepth > 0 && lastDepth < GARDEN_M && d >= GARDEN_M) { flash('warm'); gardenReveal(); }
     }
@@ -303,28 +645,15 @@
   }
   let lastDk = -1, hoverPt = null, revealAt = 0, nowT = 0;
 
-  // Garden arrival: chimneys light up (world.js uses revealT), and a microscope prompt
-  // appears until the reader opens the microscope once.
-  const scopeHint = $('scopeHint');
-  let hintTimer = 0, scopeUsed = false;
+  // Garden arrival: the probe's floodlights light up the chimneys (world.js uses revealT).
+  // (The microscope prompt is now the "Specimen detected" probe scan.)
   function gardenReveal() {
     if (revealAt) return;
     revealAt = Math.max(0.001, nowT);
     document.body.classList.add('garden-reached');
-    if (!scopeUsed) {
-      scopeHint.hidden = false;
-      document.body.classList.add('hint-on');        // phones: hint takes the gauges' slot
-      hintTimer = setTimeout(dismissScopeHint, 12000);
-    }
-  }
-  function dismissScopeHint() {
-    const hadFocus = scopeHint && scopeHint.contains(document.activeElement);
-    scopeUsed = true; clearTimeout(hintTimer);
-    if (scopeHint) scopeHint.hidden = true;
-    document.body.classList.remove('hint-on');
-    if (hadFocus) world.querySelector('.marker.level .marker-btn')?.focus({ preventScroll: true });
   }
   function showToast(c, kind) {
+    if (!zb.el.hidden) return;                    // never on top of a zone banner
     toast.querySelector('.toast-k').textContent = kind || 'Checkpoint';
     toast.querySelector('.toast-main').textContent = c.text;
     toast.querySelector('.toast-sub').textContent = c.sub;
@@ -344,7 +673,7 @@
     hud.classList.toggle('at-end', atEnd);
     if ($('scope').hidden) setInert(hud, hidden);   // the open microscope owns inertness meanwhile
     setInert(rulerEl, atEnd);
-    if (atEnd && !scopeHint.hidden) dismissScopeHint();   // never cover the end panels
+    if (atEnd !== lastAtEnd) { if (lastAtEnd !== null) atEndChanged(atEnd); lastAtEnd = atEnd; }
     setInert($('sourcesLink'), atEnd && phoneMq.matches);
     const key = d.toFixed(1);
     if (key === lastHud) return;
@@ -530,13 +859,10 @@
     const openScope = Microscope.open;
     Microscope.open = (id, from) => {
       openScope(id, from, focusFallback(from));    // open first, so `from` is still connected
-      markFound('scope:' + id); dismissScopeHint();
+      markFound('scope:' + id);
     };
   }
   addEventListener('scope-closed', () => { lastCam = -1; });   // forces updateHud next frame
-  // the hint hides itself once used, so focus returns to the garden's food-web label instead
-  $('scopeHintGo').addEventListener('click', () => { if (window.Microscope) Microscope.open('grazers', world.querySelector('.marker.level .marker-btn')); });
-  $('scopeHintX').addEventListener('click', () => { dismissScopeHint(); });
   renderMissed();
 
   // ---------- buttons ----------

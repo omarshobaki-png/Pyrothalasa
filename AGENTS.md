@@ -27,7 +27,7 @@ External fonts: Google Fonts only.
 | File | Purpose | Who edits |
 |---|---|---|
 | `js/content.js` | ALL science text, card content, gauge numbers, sources (`window.DIVE`) | Science team. Agents: don't change facts/wording |
-| `js/app.js` | Scroll camera, depth mapping, HUD gauges, markers, cards | Claude (current task) |
+| `js/app.js` | Scroll camera, depth mapping, HUD gauges, markers, cards, probe scan (auto-info callouts, zone banners, mission log) | Claude (current task) |
 | `js/world.js` | Pixel-art canvas scene (`window.World`) | Claude (current task) |
 | `css/style.css` | Core design system + layout | Claude (current task) |
 | `index.html` | Page structure | Claude. Others: only inside your own mount point |
@@ -196,3 +196,13 @@ All drawn at scale 1, the scene's single pixel scale. If a name is missing (or `
 Requests for Codex (all optional):
 1. **`lander`:** if the winch or cable point is not at top-centre, tell me its x/y and I'll start the cable there.
 2. **`probe`:** world.js draws an orange melt strip under the nose while the probe is in the ice, and a 2px lamp just below it in the ocean. If your nose frames already glow, say so and I'll drop the strip.
+
+### Claude: probe scan / auto-info (10 Nov 2026)
+
+Info now appears by itself as the probe reaches it (js/app.js, beam + brackets drawn in js/world.js). For everyone:
+- **No new wording.** A callout shows the card's `title`, its Evidence/Assumption/Fiction chips, and the marker's own `text`. The zone banners split the zone markers' text at " · " (for example "THE ICE SHELL" / "~20 km thick"). If you change marker or card wording in content.js, the scans follow automatically.
+- **Seen vs discovered.** Automatic scans count as *seen* in the mission log. The Discoveries counter still counts only *discovered*: cards opened and creatures viewed under the microscope.
+- **Garden:** level markers with a microscope specimen show "Specimen detected" with a "Look under the microscope" button. This replaces the old floating microscope hint (audit #6). Grazers and Shadowfin bracket the creature itself.
+- **Too fast:** about one marker gap per second, but never below 0.8 or above 1.6 screen heights per second. Such markers are logged as "missed", and they are scanned after all if the scroll settles while they are still on screen.
+- **Keyboard and screen readers:** the "+" labels still work. Each scan is announced once (`#scanLive`, aria-live polite). Scans never move focus or the scroll position. The HUD has an "Auto-info: on/off" toggle, remembered in localStorage (`hg-autoinfo`).
+- **Codex widgets are not affected.** The Discoveries box in the HUD is now a button that opens the mission log; on phones the log is a pull-up sheet.

@@ -125,17 +125,43 @@
       <span class="toast-main"></span>
       <span class="toast-sub"></span>
     </div>
-    <div class="hud-box hud-found" id="foundBox" title="Science cards opened and creatures seen under the microscope">
+    <button class="hud-box hud-found" id="foundBox" type="button" aria-controls="missionLog" aria-expanded="false" title="Discoveries: science cards opened and creatures seen under the microscope. Opens the mission log.">
       <span class="hud-label">Discoveries</span>
       <span class="found-val"><b id="foundN">0</b>/<span id="foundTotal">0</span></span>
       <span class="found-bar" aria-hidden="true"><i id="foundBar"></i></span>
+    </button>
+    <button class="hud-box hud-auto" id="autoBtn" type="button" aria-pressed="true">Auto-info: <b>on</b></button>
+
+    <!-- Probe scan: zone banner, callout + leader line, mission log (js/app.js) -->
+    <div class="zone-banner" id="zoneBanner" aria-hidden="true" hidden>
+      <span class="zb-k" id="zbK"></span>
+      <span class="zb-title" id="zbTitle"></span>
+      <span class="zb-sub" id="zbSub"></span>
     </div>
-    <div class="scope-hint" id="scopeHint" hidden>
-      <button class="scope-hint-go" id="scopeHintGo" type="button">
-        <span aria-hidden="true">🔬</span> Tap a glowing creature to look under the microscope
-      </button>
-      <button class="scope-hint-x" id="scopeHintX" type="button" aria-label="Dismiss microscope hint">✕</button>
-    </div>
+    <div class="scan-leader" id="scanLeader" aria-hidden="true" hidden></div>
+    <section class="scan" id="scanCallout" aria-labelledby="scanTitle" hidden>
+      <div class="scan-head">
+        <span class="scan-k" id="scanKicker">Probe scan</span>
+        <button class="scan-x" id="scanX" type="button" aria-label="Close scan">✕</button>
+      </div>
+      <h3 class="scan-title" id="scanTitle"></h3>
+      <div class="card-tags" id="scanTags"></div>
+      <p class="scan-text"><span class="scan-full" id="scanFull" aria-hidden="true"></span><span class="scan-typed" id="scanTyped" aria-hidden="true"></span><span class="sr-only" id="scanSr"></span></p>
+      <div class="scan-btns">
+        <button class="btn-pixel btn-small" id="scanScope" type="button" hidden><span aria-hidden="true">🔬</span><span class="lbl"> Look under the microscope</span></button>
+        <button class="btn-pixel btn-small" id="scanMore" type="button"><span class="lbl">Read more </span>+</button>
+      </div>
+    </section>
+    <nav class="mlog" id="missionLog" aria-label="Mission log">
+      <div class="mlog-head">
+        <button class="mlog-toggle" id="logToggle" type="button" aria-expanded="false" aria-controls="logList" title="Mission log: everything the probe scanned or missed">
+          <span class="mlog-name">Log</span> <b id="logN">0</b>
+        </button>
+        <button class="mlog-x" id="logClose" type="button" aria-label="Close mission log">✕</button>
+      </div>
+      <p class="mlog-note" id="logNote">Scanned features. Open one to read its card.</p>
+      <ol class="mlog-list" id="logList"></ol>
+    </nav>
 
     <div class="hud-box hud-gauges" aria-live="off">
       <div class="gauge">
@@ -197,6 +223,9 @@
       </div>
     </div>
   </div>
+
+  <!-- one polite announcement per probe scan / zone (outside #hud, which is inert at the hero) -->
+  <div class="sr-only" id="scanLive" aria-live="polite" aria-atomic="true"></div>
 
   <script src="js/content.js"></script>
   <script src="js/energyflow.js"></script>
