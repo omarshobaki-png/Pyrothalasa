@@ -1,64 +1,125 @@
-﻿Pyrothalasa | The Hydrogen Garden
-1. Team and selected challenge
+PYROTHALASA | THE HYDROGEN GARDEN
+Team Shay Rafe3 | Challenge A: Life Without Sunlight
+Updated scientific draft for docs/text/report-draft-snapshot.txt
+
+EDITOR NOTE: This is a working concept-report draft, not a claim of completed experiments or a final laid-out four-page PDF. The final submission must fit four pages at 10 pt minimum. Preserve citations and label all fictional claims.
+
+1. TEAM AND SELECTED CHALLENGE
+
 Team Shay Rafe3
-Challenge A — Life Without Sunlight: Design a Chemosynthetic Ocean World
-* Omar Shoubaki: Science and research lead
-* Ahmad Sulieman: Evidence and validation lead, with support on science research
-* Omar Takhman: Science co-lead, with contributions to ecology and the video script
-* Alameen Abufkheida: Ecology lead, with contributions to science discussions and report writing
-* Mahdi Alsheikh: Video specialist
-* Mohammad Humidan: Web developer
+Challenge A — A Life Without Sunlight: Design a Chemosynthetic Ocean World
 
+Omar Shoubaki — Science and research lead
+Ahmad Sulieman — Evidence and validation lead, with science research support
+Omar Takhman — Science co-lead; ecology and video-script support
+Alameen Abufkheida — Ecology lead; science discussions and report writing
+Mahdi Alsheikh — Video specialist
+Mohammad Humidan — Web developer
 
+2. PROBLEM AND INTENDED USERS
 
+Students usually meet food webs through examples that start with plants and sunlight. This makes an ocean ecosystem beneath thick ice difficult to imagine. Yet chemical reactions can provide energy for microbial life even without photosynthesis. Our challenge is to communicate that possibility while distinguishing observation from speculation. We focus on one fictional hydrothermal vent field rather than claiming an entire moon is inhabited.
 
-2. Problem and intended users[a]
-Students often learn about food webs through examples that start with plants and sunlight. That can make it hard to picture how life could survive in a dark ocean beneath ice, yet that is exactly where scientists are now looking for life, on moons like Saturn’s Enceladus. We focus on one fictional vent field where life survives without sunlight or dissolved oxygen. Students trace how chemical energy supports microbes and how that energy moves through the food web.
-Our main audience is high school students ages 14–18 who are learning about ecosystems and energy transfer. Science teachers can also use the interactive dive as a short classroom example of chemosynthesis, the process some microbes use to turn chemical energy into growth.
+Our main audience is high-school students aged 14–18, with science teachers as secondary users. An interactive dive, diagram and short explanatory video help learners trace energy from rock-water chemistry through three possible levels of life. The fictional organisms are teaching models, not discoveries. We must not report any user-test results unless the team has actually conducted the test.
 
+3. PROPOSED SOLUTION AND HOW IT WORKS
 
-3. Proposed solution and how it works
-The Hydrogen Garden is a fictional vent field 50 km below the surface of Pyrothalasa, an icy moon inspired by Enceladus. In our interactive dive, students scroll through the ice and ocean, then tap labels to explore the habitat and the science behind it. Beneath the seafloor, water reacts with rock and releases hydrogen. In the garden’s oxygen-free water, methane-making microbes use hydrogen and dissolved carbon dioxide to gain energy and grow. Our model assumes that Scrapers feed on the microbes and Shadowfin feeds on Scrapers under the same conditions. The report explains the science behind the model, and a three-minute video guides viewers through the dive.
-4. Supporting science
-4a. The habitat and its conditions
-The Hydrogen Garden is a field of white carbonate chimneys on Pyrothalasa’s seafloor. Enceladus inspired the icy setting, and Earth’s Lost City inspired the chimneys (Kelley et al., 2005).
+The Hydrogen Garden is a fictional field of white carbonate chimneys on the seafloor of Pyrothalasa, an icy moon inspired by Saturn's Enceladus. The habitat lies 50 km beneath the surface: 20 km of ice above 30 km of salty ocean. Our model deliberately assumes negligible dissolved oxygen; this is not proven merely by the absence of sunlight. The habitat is powered by hydrogen released when water reacts with olivine-rich rock (serpentinization). Methane-making microorganisms (methanogens) use hydrogen and biologically available inorganic carbon to obtain energy and produce biomass.
 
+The proposed three-level food web is: (1) methane-makers, (2) fictional single-celled grazers supported by a wider microbial food community, and (3) Shadowfin, a fictional microscopic predator below 1 mm. Methanogens' growth is supported by Earth-based experiments under some Enceladus-like conditions. Feeding links and Shadowfin's anaerobic metabolism remain unverified hypotheses. The website visualizes the journey, while the PDF separates evidence from assumptions.
 
-Condition
-	Our model and its basis
-	Depth and pressure
-	50 km below the surface, through 20 km of ice and 30 km of ocean. We calculate about 56 bar from the pressure of both layers using Enceladus-like gravity of 0.113 m/s² (NASA/JPL). That is roughly the pressure at 550 m depth on Earth.
-	Temperature
-	Our open ocean is near freezing and garden water reaches about 8 °C. Lost City’s 40–90 °C discharge is an Earth comparison for the vent fluid (Kelley et al., 2005).
-	Water chemistry
-	A salty ocean surrounds alkaline, hydrogen-rich vent fluid. Lost City’s vent fluids have a pH of 9–11 (Kelley et al., 2005). We assume the ocean supplies dissolved carbon dioxide to the pores.
-	Light and food
-	Ice blocks sunlight. We assume no food from surface photosynthesis reaches the garden. Local microbes feed the food web.
-	Dissolved oxygen
-	We assume the entire garden contains no dissolved oxygen. All three levels of the food web are designed for these conditions.
-	
+4. SUPPORTING SCIENCE
 
-4b. How the garden runs on hydrogen
-How the vent makes hydrogen. Water reacts with olivine-rich rock beneath the seafloor in a process called serpentinization, which releases hydrogen into the vent fluid (Kelley et al., 2005). Cassini detected hydrogen in Enceladus’s plume. From those measurements, researchers calculated that forming methane from carbon dioxide could release energy in the ocean (Waite et al., 2017).
-How microbes use it. In warm chimney pores, microbes called methanogens use hydrogen and dissolved carbon dioxide to gain energy and grow without oxygen. They release methane and water. An Earth methanogen produced methane in experiments under some simulated Enceladus-like conditions (Taubner et al., 2018).
+4a. HABITAT CONDITIONS
+
+Condition | Our model | Evidence versus assumption
+Depth | Seafloor 50 km below surface; 20 km ice and 30 km water | Fictional dimensions informed by Enceladus ocean models (Thomas et al., 2016; NASA).
+Pressure | Approximately 56 bar at the floor | Calculated hydrostatic approximation: 920 kg/m3 × 0.113 m/s2 × 20,000 m plus 1,030 kg/m3 × 0.113 m/s2 × 30,000 m ≈ 5.57 MPa. Density and constant gravity are simplifications; surface pressure is neglected.
+Temperature | Open ocean near freezing; garden water approximately 8 °C; vent fluid broadly comparable to Lost City's approximately 40–90 °C | Lost City provides an Earth analogue (Kelley et al., 2005); garden water temperature is a fictional assumption. Warm pore conditions must be distinguished from surrounding water.
+Water chemistry | Salty ocean, alkaline vent fluid around pH 9–11, hydrogen and dissolved inorganic carbon | Enceladus salts (Postberg et al., 2009), hydrogen (Waite et al., 2017) and Lost City chemistry (Kelley et al., 2005) are evidence; exact chemistry at Pyrothalasa is assumed.
+Light | No sunlight reaches the garden beneath 20 km of ice | The shielding is physically plausible. The website's light-fade scale is illustrative.
+Oxygen | Negligible free dissolved oxygen | Explicit model assumption. Lack of photosynthesis does NOT imply oxygen is impossible: non-biological production and transport are possible.
+Food from above | No photosynthesis-derived food rains down from the ice | Assumption. The energy pathway considered here is local chemical production, not an assertion that all ocean water must be sterile.
+
+4b. HYDROGEN-POWERED PRIMARY PRODUCTION
+
+As water interacts with olivine-rich rock, serpentinization can release molecular hydrogen. At Earth's Lost City hydrothermal field, this type of reaction supplies reduced chemicals (Kelley et al., 2005). Cassini measured molecular hydrogen in Enceladus' plume, supporting the possibility of ongoing water-rock reactions and chemical energy there (Waite et al., 2017). Earth methanogens can use the following reaction under appropriate conditions:
+
 CO₂ + 4H₂ → CH₄ + 2H₂O
-Where the carbon comes from. Raw vent fluid at Lost City can contain very little dissolved CO₂. We assume ocean water brings enough usable dissolved carbon into the pores while they remain oxygen-free (Brazelton et al., 2006).
-What could keep the vent running. Saturn’s changing pull can warm a moon’s rocky core through tidal heating. An Enceladus model suggests this could sustain activity for tens of millions to billions of years. We assume similar heating on Pyrothalasa keeps water flowing through reactive rock and replenishes hydrogen (Choblet et al., 2017).
-4c. Design choices and evidence
 
+The reaction releases usable chemical energy; organisms use it to grow. Taubner et al. (2018) demonstrated biological methane production under some simulated Enceladus-like laboratory conditions. That does not demonstrate growth under every combination of our proposed temperature, pH, pressure and nutrient supply.
 
-Design choice
-	What the evidence shows
-	What we assume
-	Hydrogen from rock and water
-	At Lost City, seawater reacting with mantle rock produces hydrogen-rich vent fluid (Kelley et al., 2005). Cassini detected hydrogen in Enceladus’s plume (Waite et al., 2017).
-	Water circulates through reactive rock on Pyrothalasa and supplies enough hydrogen.
-	Methane makers in warm pores
-	Lost City’s porous chimneys host methane-cycling microbes (Kelley et al., 2005). An Earth methanogen produced methane under simulated Enceladus-like conditions (Taubner et al., 2018).
-	Hydrogen and usable dissolved carbon reach the same oxygen-free pores, where our fictional microbes can grow.
-	A vent field in a salty ocean under ice
-	Enceladus’s wobble points to a global ocean (Thomas et al., 2016). Its ejected ice grains contain salts (Postberg et al., 2009). Silica grains point to hot water reacting with rock (Hsu et al., 2015).
-	Pyrothalasa has a similar ocean and one active vent field where we set the story.
-	
+A central uncertainty is usable carbon. In very alkaline water, dissolved inorganic carbon tends to occur mainly as bicarbonate and carbonate rather than freely dissolved CO₂. We assume circulation transports enough biologically accessible inorganic carbon into the warm chimney pores. Pyrothalasa's carbon concentration and uptake pathways are not measured; high hydrogen alone cannot ensure microbial growth. The abiotic carbon chemistry at Lost City also differs from the simple picture of seawater CO₂ entering the vents (Proskurowski et al., 2008).
 
-[a]real-world relevance
+Tidal heating could help water circulate through reactive rock for an extended period, as explored in models of Enceladus (Choblet et al., 2017). The duration and rate on our fictional moon are assumptions, not measured values.
+
+4c. MAJOR DESIGN DECISIONS AND EVIDENCE
+
+Decision 1 — Hydrogen from water-rock reactions.
+Evidence: Lost City has hydrogen-rich hydrothermal chemistry; Cassini found hydrogen in Enceladus' plume (Kelley et al., 2005; Waite et al., 2017).
+Assumption: Pyrothalasa maintains an adequate supply of reactive rock, fluid circulation and sustained hydrogen flux.
+
+Decision 2 — Methanogens in warm chimney pores.
+Evidence: Methane-related microbial communities occur at Lost City; biological methane formation was tested under some Enceladus-like conditions (Kelley et al., 2005; Taubner et al., 2018).
+Assumption: Similar organisms exist on Pyrothalasa, with enough hydrogen and usable inorganic carbon at suitable pH and temperature. Habitable does not mean inhabited.
+
+Decision 3 — One dark, salty subsurface vent field.
+Evidence: Measurements and modelling support Enceladus' global ocean, plume salts, and hydrothermal indications (Thomas et al., 2016; Postberg et al., 2009; Hsu et al., 2015).
+Assumption: Our fictional moon has comparable physical properties, and the chosen garden is representative of one active vent field.
+
+Decision 4 — A short, microscopic, anaerobic food web.
+Evidence: Anaerobic protists can consume certain bacteria (Hirakata et al., 2020); a report of permanently anaerobic Loricifera exists but its interpretation has been challenged (Danovaro et al., 2010; Bernhard et al., 2015; Danovaro et al., 2016).
+Assumption: A viable microbial food community, specialized grazers and Shadowfin could function together without oxygen. Neither the complete food chain nor the predator has been demonstrated.
+
+4d. ENERGY FLOW AND FOOD WEB
+
+SOURCE: Rock + water → hydrogen (H₂)
+LEVEL 1 — METHANE-MAKERS: Methanogens use H₂ and available inorganic carbon to gain energy and build biomass.
+LEVEL 2 — GRAZERS: Fictional anaerobic single-celled consumers. We hypothesize that they eat suitable bacteria supported by organic matter made and recycled within the local microbial community. They are NOT proven to survive on methanogenic archaea alone. Hirakata et al. (2020) found that some test methanogenic archaea did not support anaerobic protist growth.
+LEVEL 3 — SHADOWFIN: Fictional, eyeless, shell-bearing microscopic predator under 1 mm, proposed to feed on grazers. Its entire anaerobic life cycle and energy budget are hypothetical. The Loricifera literature is debated and provides inspiration, not proof.
+
+Energy is not fully transferred to the next feeding level: some is used in metabolism or dissipated as heat, and some remains in uneaten material and waste. The 1,000 → 100 → 10 'energy coin' illustration assumes 10% transfer at each step. These are NOT measured values or a prediction for Pyrothalasa. The actual energy fluxes and whether they support a predator are unknown. If hydrogen becomes limiting, primary production would decrease and downstream consumers could lose food; the rate and order of any population collapse are speculative.
+
+REJECTED ALTERNATIVE
+
+We considered an Earth-style black-smoker food web with large tubeworms and sulfide-oxidizing symbionts. Many such Earth pathways require oxygen supplied ultimately by surface photosynthesis. We rejected reliance on a substantial oxygen supply for our chosen habitat and instead assumed negligible dissolved oxygen, using hydrogen-powered methanogenesis as the base. Darkness alone does not prove oxygen is absent, and oxygen-independent sulfur metabolisms can also exist; our choice is a deliberate, narrowly defined design decision rather than proof that all sulfide-based ecosystems are impossible.
+
+6. FEASIBILITY, LIMITATIONS AND VALIDATION
+
+What is plausible: serpentinization can generate H₂, and some Earth methanogens can produce methane without sunlight or oxygen. What is NOT established: sufficient carbon supply, a self-sustaining microbial biomass budget, grazer nutrition, and Shadowfin's oxygen-free predation and reproduction.
+
+Limitations:
+(1) Chemical supply: high pH may limit free CO₂; the availability, replenishment and biological use of inorganic carbon are unknown.
+(2) Feeding: a grazer cannot automatically grow on methanogens. We assume a suitable secondary bacterial community, but its organic-carbon and energy sources require verification (Hirakata et al., 2020).
+(3) Predator: claims of permanently anaerobic Loricifera have been disputed. Shadowfin is fictional, and no evidence establishes the complete life cycle or adequate prey energy budget (Danovaro et al., 2010; Bernhard et al., 2015; Danovaro et al., 2016).
+(4) Model simplification: oxygen scarcity, 8 °C garden water, constant gravity and a 10% trophic efficiency are assumptions or teaching approximations.
+
+Validation plan (proposed; no tests claimed completed):
+TEST A — Can the base grow? Who: a qualified microbiology lab. How: compare a suitable Earth methanogen under controlled combinations representing the garden's pressure, pH, temperature, gas mixture and plausible dissolved inorganic carbon range. Measure biomass and methane production, with non-biological and low-substrate controls. Success: reproducible biomass growth coupled with methane production at the proposed available carbon and hydrogen levels. This validates only Level 1.
+TEST B — Can grazers obtain food? Who: microbial ecology researchers. How: compare anaerobic protists offered methanogen biomass alone, a justified mixed bacterial community, and controls. Measure ingestion, sustained population growth and reproduction. Success: sustained growth on food that the proposed garden could actually supply. This tests Level 2, not Shadowfin.
+TEST C — Could a predator be supported? Who: ecosystem modellers. How: estimate hydrogen flux, microbial growth yield, bacterial recycling, grazer production and consumer energy needs. Success: a transparent, positive energy budget across plausible parameter ranges. A model cannot prove Shadowfin exists or evolved.
+
+Optional observational test: a spacecraft could measure H₂, methane and carbon-bearing species in an Enceladus-like plume. These can constrain chemistry, but methane alone is not proof of life.
+
+7. CONTRIBUTIONS, REFERENCES AND AI DISCLOSURE
+
+Contributions: The roles listed in Section 1 describe responsibilities, not verified deliverables. Before submission, each member should state their actual tangible contribution and the team should record at least one shared decision or revision. Ahmad's evidence/validation contribution is the source-claim audit, scientific limitations and the proposed test design; edit this line to match work actually completed.
+
+AI disclosure — verify before use: Our team used AI assistance to brainstorm, review wording, evaluate scientific claims and support the interactive website. We checked claims against the sources cited below and retained responsibility for final decisions. [Replace with an accurate list of tools used and checks actually completed; do not claim verification not performed.]
+
+Selected references (retain only sources cited in the final four-page version):
+Kelley et al. (2005), Science 307, 1428–1434. https://doi.org/10.1126/science.1102556
+Waite et al. (2017), Science 356, 155–159. https://doi.org/10.1126/science.aai8703
+Taubner et al. (2018), Nature Communications 9, 748. https://doi.org/10.1038/s41467-018-02876-y
+Proskurowski et al. (2008), Science 319, 604–607. https://doi.org/10.1126/science.1151194
+Hirakata et al. (2020), ISME Journal 14, 1873–1885. https://doi.org/10.1038/s41396-020-0660-0
+Danovaro et al. (2010), BMC Biology 8, 30. https://doi.org/10.1186/1741-7007-8-30
+Bernhard et al. (2015), BMC Biology 13, 105. https://doi.org/10.1186/s12915-015-0213-6
+Danovaro et al. (2016), BMC Biology 14, 43. https://doi.org/10.1186/s12915-016-0263-4
+Thomas et al. (2016), Icarus 264, 37–47. https://doi.org/10.1016/j.icarus.2015.08.037
+Postberg et al. (2009), Nature 459, 1098–1101. https://doi.org/10.1038/nature08046
+Hsu et al. (2015), Nature 519, 207–210. https://doi.org/10.1038/nature14262
+Choblet et al. (2017), Nature Astronomy 1, 841–847. https://doi.org/10.1038/s41550-017-0289-8
+NASA/JPL Satellite Physical Parameters: https://ssd.jpl.nasa.gov/sats/phys_par/
+
+SUBMISSION CHECK: Official brief states 10 November 2026 at 14:00 on pages 2 and 4 but a conflicting window ending 9 November at 14:00 on page 3. Confirm organizer instructions; report maximum four pages, minimum 10 pt font, with visual, named contributions, references and accurate AI disclosure. Do not claim a prototype, experiment or user-test outcome was measured unless it was.
