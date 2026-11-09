@@ -21,6 +21,6 @@ Fonts load from Google Fonts; without internet the page falls back to a plain mo
 - AI-use disclosure line in `index.html` (search for "AI-use disclosure")
 
 ## Check before submitting
-- Enceladus surface gravity (0.113 m/s²) still needs a cited source.
-- Lost City numbers (chimneys up to ~60 m, fluids ~40–90 °C, high pH) should be checked against Kelley et al. (2005).
+- Gravity (0.113 m/s²) now cites the JPL satellite table (GM 7.21 km³/s²); confirm the ~252 km radius on the same page.
+- The food web is oxygen-free (Option A): methane-makers → single-celled grazers → Shadowfin (under 1 mm, based on Loricifera, Danovaro et al. 2010). Two claims still need a source: that oxygen-free life gets less energy from its food, and that Loricifera are under 1 mm.
 - Light fade rate in ice (`lightEfoldM`) and garden water temperature (`gardenWaterTempC`) are illustrative assumptions and are labelled as such.

@@ -12,7 +12,7 @@ window.DIVE = {
 
   meta: {
     title: "The Hydrogen Garden",
-    moonName: "Nadira",            // PLACEHOLDER: your fictional moon's name
+    moonName: "Pyrothalasa",       // matches the live site; confirm the spelling with the team
     teamName: "TEAMNAME",          // PLACEHOLDER
     members: ["Member 1", "Member 2", "Member 3", "Member 4"], // PLACEHOLDER
     tagline: "Dive 50 km into a fictional ocean moon where life runs without sunlight."
@@ -59,19 +59,19 @@ window.DIVE = {
 
     { aboveFloor: 58, side: "left",  kind: "zone", text: "THE HYDROGEN GARDEN · white chimneys up to 60 m tall", card: "chimneys" },
     { aboveFloor: 50, side: "right", kind: "note", text: "why not copy Earth's famous black-smoker vents?", card: "whynot" },
-    { aboveFloor: 42, side: "left",  kind: "level", level: 1, text: "Methane-makers: microbe mats on the chimneys", card: "methanogens" },
-    { aboveFloor: 32, side: "right", kind: "level", level: 2, text: "Scrapers: slow grazers", card: "grazers" },
-    { aboveFloor: 22, side: "left",  kind: "level", level: 3, text: "Fan-feeders: catch drifting scraps", card: "fanfeeders" },
-    { aboveFloor: 13, side: "right", kind: "level", level: 4, text: "Shadowfin: the top predator, only hand-sized", card: "predator" },
-    { aboveFloor: 6, side: "left",  kind: "note", text: "why is the top predator so small?", card: "energy" },
+    { aboveFloor: 45, side: "left",  kind: "level", level: 1, text: "Methane-makers: microbes living inside the warm chimneys", card: "methanogens" },
+    { aboveFloor: 38, side: "right", kind: "note", text: "no sunlight means no oxygen. So how can anything live here?", card: "nooxygen" },
+    { aboveFloor: 30, side: "left",  kind: "level", level: 2, text: "Grazers: single-celled, they eat the microbes", card: "grazers" },
+    { aboveFloor: 21, side: "right", kind: "note", text: "magnified ×300: everything alive here is microscopic", card: "microscopic" },
+    { aboveFloor: 14, side: "left",  kind: "level", level: 3, text: "Shadowfin: the top predator, smaller than 1 mm", card: "predator" },
+    { aboveFloor: 6, side: "right", kind: "note", text: "why is the top predator so small?", card: "energy" },
     { aboveFloor: 0, side: "center",kind: "zone", text: "SEAFLOOR · 50 km down", card: "shutdown" }
   ],
 
   /* Where the animated organisms are drawn (aboveFloor in m, x = fraction of screen width) */
   creatures: {
-    grazers:    [ { aboveFloor: 34, x: 0.592 }, { aboveFloor: 29, x: 0.676 }, { aboveFloor: 25, x: 0.343 } ],
-    fanfeeders: [ { aboveFloor: 23, x: 0.272 }, { aboveFloor: 20, x: 0.705 }, { aboveFloor: 17, x: 0.355 } ],
-    predator:   [ { aboveFloor: 13, x: 0.30 } ]
+    grazers:    [ { aboveFloor: 33, x: 0.592 }, { aboveFloor: 28, x: 0.676 }, { aboveFloor: 25, x: 0.343 }, { aboveFloor: 20, x: 0.56 } ],
+    predator:   [ { aboveFloor: 15, x: 0.34 } ]
   },
 
   cards: {
@@ -164,9 +164,9 @@ window.DIVE = {
         "Pressure comes from the weight of the ice and water above you, and weight depends on gravity. Our moon's gravity is only about 1% of Earth's (0.113 m/s²).",
         "So even at the seafloor, 50 km down, the pressure is only about 56 bar. On Earth you'd feel that just ~550 m deep. Watch the pressure gauge: we calculate it as density × gravity × depth."
       ],
-      evidence: ["Enceladus-like surface gravity of ~0.113 m/s² (to verify in a cited source)."],
+      evidence: ["Enceladus' mass and radius give a surface gravity of ~0.113 m/s² (JPL satellite parameters: GM = 7.21 km³/s²)."],
       assumptions: ["We keep gravity the same all the way down. In reality it changes slightly with depth.", "Ice density 920 kg/m³, salty-water density 1,030 kg/m³."],
-      sources: []
+      sources: ["jplSat"]
     },
     nosnow: {
       title: "No food from above",
@@ -221,47 +221,71 @@ window.DIVE = {
       body: [
         "The base of the food web. These microbes combine hydrogen with carbon dioxide and use the energy released to grow:",
         "CO₂ + 4H₂ → CH₄ (methane) + 2H₂O",
-        "They form slimy mats (biofilms) on the chimneys. No sunlight and no oxygen are needed."
+        "They live as slimy films (biofilms) in the warm, porous insides of the chimneys, where hydrogen from the vent meets ocean water carrying carbon dioxide. No sunlight and no oxygen are needed."
       ],
       evidence: [
-        "Methane-cycling microbes live at Lost City (Kelley et al. 2005).",
+        "Microbes related to methane-cycling Archaea thrive in the warm porous interiors of Lost City's chimneys (Kelley et al. 2005).",
         "An Earth methane-maker grew in the lab under Enceladus-like conditions (Taubner et al. 2018).",
         "Some methane-makers can grow at up to 122 °C, well above our vent temperatures (Takai et al. 2008)."
       ],
-      assumptions: ["That such microbes exist on our moon. Habitable does not mean inhabited."],
-      sources: ["kelley2005", "taubner2018", "takai2008", "waite2017"]
+      assumptions: [
+        "That such microbes exist on our moon. Habitable does not mean inhabited.",
+        "That enough carbon dioxide reaches the chimney pores. At Lost City the carbon in the vent fluid comes from the rock, not from seawater CO₂ (Proskurowski et al. 2008), so this is a real uncertainty."
+      ],
+      sources: ["kelley2005", "taubner2018", "takai2008", "waite2017", "proskurowski2008"]
     },
-    grazers: {
-      title: "Level 2 · Scrapers",
+    nooxygen: {
+      title: "Life without oxygen",
       body: [
-        "Slow, snail-like animals that creep over the chimneys and scrape off the microbe mats with a rough tongue.",
-        "They move slowly and stay small, because their food supplies only a little energy."
+        "On Earth, almost all the oxygen in the ocean comes from photosynthesis, which needs sunlight. Our moon has no sunlight, so we give its ocean no oxygen at all.",
+        "That rules out big animals: Earth's animals breathe oxygen. But scientists found three species of tiny animals (Loricifera) that spend their whole lives in mud with no oxygen, at the bottom of a deep Mediterranean basin. Instead of the usual energy-making parts of cells (mitochondria), they have different parts that work without oxygen.",
+        "So our whole food web is built from things that live without oxygen: microbes, single-celled grazers and one tiny animal."
       ],
       evidence: [
-        "At Earth's vents, microbes form mats, and snails and limpets live on the chimneys (NOAA poster).",
-        "Vent microbes are eaten by other animals, forming the base of the food web (NOAA fact sheet)."
+        "Some single-celled organisms, and three species of Loricifera, live permanently without oxygen; the Loricifera lack mitochondria and have hydrogenosome-like organelles (Danovaro et al. 2010).",
+        "Earth's deep-sea vent chemistry that uses oxygen depends on oxygen made by photosynthesis (NOAA fact sheet)."
       ],
-      assumptions: ["Scrapers are fictional animals based on those Earth analogs, and we assume they eat the mats directly."],
-      sources: ["noaaPoster", "noaaFactSheet"]
+      assumptions: [
+        "Animals living without oxygen are known from only one study, in one place. We label this as a single finding.",
+        "Our ocean has no oxygen source. A little oxygen could come from the surface ice, as at Europa, but we leave that out."
+      ],
+      sources: ["danovaro2010", "noaaFactSheet"]
     },
-    fanfeeders: {
-      title: "Level 3 · Fan-feeders",
+    microscopic: {
+      title: "Why you need a microscope here",
       body: [
-        "Animals fixed to ledges on the chimneys. They spread feathery fans to catch microbes, scraps and scraper waste drifting in the warm water."
+        "Without oxygen, living things get much less energy from their food, so nothing here grows big. Every living thing in the garden is microscopic.",
+        "The creatures on screen are drawn about 300 times larger than life so you can see them. The chimneys are drawn at their real scale."
       ],
-      evidence: ["Sponges, corals and anemones (animals that catch food from the water) live at Earth's cold seeps (NOAA poster)."],
-      assumptions: ["Fan-feeders are fictional animals based on that Earth analog. We assume they also eat scraper waste."],
-      sources: ["noaaPoster"]
+      evidence: ["The only animals known to live entirely without oxygen are the tiny Loricifera (Danovaro et al. 2010)."],
+      assumptions: ["The ×300 magnification is a drawing choice, not a measurement.", "Oxygen-free life getting less energy from its food is textbook chemistry, but we haven't given a specific source for it yet."],
+      sources: ["danovaro2010"]
+    },
+    grazers: {
+      title: "Level 2 · Grazers",
+      body: [
+        "Single-celled creatures covered in tiny beating hairs (cilia). They swim along the chimney walls and swallow microbes whole.",
+        "Each one is a single cell, far too small to see without a microscope."
+      ],
+      evidence: [
+        "Some single-celled organisms with a nucleus (protozoa) live permanently without oxygen (Danovaro et al. 2010).",
+        "Vent microbes are eaten by other organisms, forming the base of the food web (NOAA fact sheet)."
+      ],
+      assumptions: ["Grazers are fictional, based on Earth's oxygen-free single-celled organisms. We assume they eat the methane-makers."],
+      sources: ["danovaro2010", "noaaFactSheet"]
     },
     predator: {
-      title: "Level 4 · Shadowfin",
+      title: "Level 3 · Shadowfin",
       body: [
-        "The largest animal in the garden, and it's only about the size of your hand. It hunts scrapers and fan-feeders.",
-        "With no light, it has no eyes. We imagine it finding prey by sensing the chemistry and warmth of the water and the movements of other animals."
+        "The biggest animal in the garden, and it's still smaller than 1 mm: about the size of a grain of salt. It hunts the grazers.",
+        "It is protected by a vase-shaped shell and has no eyes, because there is no light. We imagine it finding prey by sensing the chemistry of the water and the movement of other organisms."
       ],
-      evidence: ["Only about 10% of energy passes from one food-web level to the next (Pauly & Christensen 1995), which limits how big the top animal can be."],
-      assumptions: ["Shadowfin and its senses are fictional."],
-      sources: ["pauly1995"]
+      evidence: [
+        "Tiny Loricifera spend their whole life without oxygen (Danovaro et al. 2010). Shadowfin is based on them.",
+        "Only about 10% of energy passes from one food-web level to the next (Pauly & Christensen 1995), which limits how big the top animal can be."
+      ],
+      assumptions: ["Shadowfin, its size and its senses are fictional. We don't know what Earth's oxygen-free Loricifera eat; we assume ours eats grazers."],
+      sources: ["danovaro2010", "pauly1995"]
     },
     energy: {
       title: "Why the top predator is small",
@@ -271,16 +295,16 @@ window.DIVE = {
         "Imagine the microbes capture 1,000 energy coins:"
       ],
       after: [
-        "Only about 1 coin reaches Shadowfin. Making methane also gives microbes less energy than oxygen-breathing life gets. Our food web stays short, and its top animal stays small and rare."
+        "Only about 10 coins reach Shadowfin. And life without oxygen gets less energy out of its food in the first place, so the real number is probably even lower. That's why our food web has only three levels and its top animal is microscopic."
       ],
       evidence: ["Average transfer efficiency of ~10% between levels (Pauly & Christensen 1995)."],
-      assumptions: ["The coin numbers are illustrative, not measured. The real percentage varies a lot between ecosystems."],
+      assumptions: ["The coin numbers are illustrative, not measured. The real percentage varies a lot between ecosystems, and oxygen-free life probably passes on less."],
       sources: ["pauly1995"]
     },
     shutdown: {
       title: "What if the hydrogen stopped?",
       body: [
-        "Everything here depends on the chimneys venting hydrogen. If a vent shut down, the microbe mats would starve first, then the scrapers and fan-feeders, and finally Shadowfin.",
+        "Everything here depends on the chimneys venting hydrogen. If a vent shut down, the methane-makers would starve first, then the grazers, and finally Shadowfin.",
         "Earth's vent communities are similarly fragile: they depend completely on their vents. Life would only continue where new vents open and get colonised."
       ],
       evidence: ["NOAA describes hydrothermal vents as short-lived, and their food webs rest on microbes using the vent chemicals (NOAA poster)."],
@@ -293,11 +317,13 @@ window.DIVE = {
   limits: [
     "Habitable does not mean inhabited: nobody knows whether life could start in such an ocean.",
     "Our organisms are invented, based on Earth analogs. Life elsewhere could be very different.",
+    "Animals living entirely without oxygen are known from only one study (Danovaro et al. 2010).",
+    "We don't know how much carbon dioxide would reach the microbes in the chimney pores.",
     "The 10% energy rule is an Earth average and varies widely.",
     "Our gauges use simplified physics: constant gravity, straight-line ice temperature, illustrative light fade."
   ],
   tests: [
-    "Lab test: grow Earth methane-makers under our garden's pressure, temperature, pH and gas mix, as Taubner et al. (2018) did for Enceladus-like conditions.",
+    "Lab test: a microbiology lab grows the methane-maker from Taubner et al. (2018) at high, medium and low hydrogen, keeping our garden's pressure, temperature and pH. If methane output and cell numbers fall as hydrogen falls, our 'vent stops, web starves' link holds.",
     "Mission test: a spacecraft flying through a plume measures hydrogen, CO₂ and methane. Less hydrogen than non-living chemistry predicts would be a hint (not proof) that something is using it."
   ],
 
@@ -311,6 +337,9 @@ window.DIVE = {
     postberg2009:{ cite: "Postberg, F. et al. (2009). Sodium salts in E-ring ice grains from an ocean below the surface of Enceladus. Nature, 459, 1098–1101.", url: "https://doi.org/10.1038/nature08046", type: "peer" },
     choblet2017: { cite: "Choblet, G. et al. (2017). Powering prolonged hydrothermal activity inside Enceladus. Nature Astronomy, 1, 841–847.", url: "https://doi.org/10.1038/s41550-017-0289-8", type: "peer" },
     thomas2016:  { cite: "Thomas, P. C. et al. (2016). Enceladus's measured physical libration requires a global subsurface ocean. Icarus, 264, 37–47.", url: "https://doi.org/10.1016/j.icarus.2015.08.037", type: "peer" },
+    danovaro2010:{ cite: "Danovaro, R. et al. (2010). The first Metazoa living in permanently anoxic conditions. BMC Biology, 8, 30.", url: "https://doi.org/10.1186/1741-7007-8-30", type: "peer" },
+    proskurowski2008: { cite: "Proskurowski, G. et al. (2008). Abiogenic hydrocarbon production at Lost City hydrothermal field. Science, 319, 604–607.", url: "https://doi.org/10.1126/science.1151194", type: "peer" },
+    jplSat:      { cite: "NASA/JPL Solar System Dynamics. Planetary satellite physical parameters.", url: "https://ssd.jpl.nasa.gov/sats/phys_par/", type: "agency" },
     nasaEnceladus: { cite: "NASA Science. Enceladus (moon overview).", url: "https://science.nasa.gov/saturn/moons/enceladus/", type: "agency" },
     nasaSaturn:  { cite: "NASA Science. Saturn: Facts.", url: "https://science.nasa.gov/saturn/facts/", type: "agency" },
     nasaOceanWorlds: { cite: "NASA (2017). NASA missions provide new insights into 'ocean worlds' in our solar system.", url: "https://science.nasa.gov/missions/cassini/nasa-missions-provide-new-insights-into-ocean-worlds-in-our-solar-system-2/", type: "agency" },

@@ -249,7 +249,7 @@
   }
   function coins() {
     const wrap = document.createElement('div'); wrap.className = 'coins';
-    [['Methane-makers', 1000], ['Scrapers', 100], ['Fan-feeders', 10], ['Shadowfin', 1]].forEach(([n, v]) => {
+    [['Methane-makers', 1000], ['Grazers', 100], ['Shadowfin', 10]].forEach(([n, v]) => {
       const row = document.createElement('div'); row.className = 'coin-row';
       const a = document.createElement('span'); a.textContent = n;
       const bar = document.createElement('span'); bar.className = 'coin-bar';
