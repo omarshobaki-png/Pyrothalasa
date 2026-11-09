@@ -48,7 +48,7 @@
   function citation(key, label) {
     const source = data.sources && data.sources[key];
     if (!source || !/^https?:\/\//.test(source.url)) return escape(label);
-    return '<a href="' + escape(source.url) + '">' + escape(label) + '</a>';
+    return '<a href="' + escape(source.url) + '" target="_blank" rel="noopener">' + escape(label) + '</a>';
   }
 
   function icon(node) {
@@ -93,7 +93,7 @@
     'Illustrative numbers, not measurements. ~10% passes on per level on average (' +
     citation('pauly1995', 'Pauly & Christensen 1995') + '). ' +
     'The rest is lost, mostly as heat. Coin motion is a drawing choice.</p>' +
-    '<div class="ef-controls"><button type="button" class="ef-action" data-follow>' +
+    '<div class="ef-controls"><button type="button" class="ef-action ef-invite" data-follow>' +
     '▶ Follow the energy</button><button type="button" class="ef-action" data-vent ' +
     'aria-pressed="false" aria-controls="ef-shutdown">Switch off the vent</button></div>' +
     '<p class="ef-status" role="status" aria-live="polite">1000 → 100 → 10 illustrative energy coins.</p>' +
@@ -112,6 +112,7 @@
   const links = Array.from(mount.querySelectorAll('[data-link]'));
   const counters = Array.from(mount.querySelectorAll('[data-count]'));
   const follow = mount.querySelector('[data-follow]');
+  mount.querySelector('.ef-intro').after(mount.querySelector('.ef-controls'));
   const vent = mount.querySelector('[data-vent]');
   const status = mount.querySelector('.ef-status');
   const sourceState = mount.querySelector('.ef-source-state');
@@ -131,6 +132,7 @@
     timers = [];
     links.forEach(function (link) { link.classList.remove('ef-flowing'); });
     running = false;
+    mount.classList.remove('ef-payoff');
     follow.disabled = ventOff;
     follow.textContent = '▶ Follow the energy';
   }
@@ -143,14 +145,22 @@
     counters.forEach(function (counter, index) { counter.textContent = values[index]; });
   }
 
+  function tickCounter(index) {
+    for (let step = 1; step <= 10; step++) {
+      later(function () { counters[index].textContent = Math.round(amounts[index] * step / 10); }, step * 55);
+    }
+  }
+
   function completeFlow() {
     cancelStages();
     setCounters(amounts);
-    status.textContent = '1000 → 100 → 10. About 90% is lost at each feeding step, mostly as heat.';
+    mount.classList.add('ef-payoff');
+    status.textContent = 'Only 10 make it to Shadowfin! 1000 \u2192 100 \u2192 10 illustrative coins; about 90% is lost at each feeding step, mostly as heat.';
   }
 
   function followEnergy() {
     if (ventOff || running) return;
+    follow.classList.remove('ef-invite');
     cancelStages();
     if (motion.matches) {
       completeFlow();
@@ -163,14 +173,14 @@
     status.textContent = 'Hydrogen fuels the methane-makers. Follow the amber coins.';
     links[0].classList.add('ef-flowing');
     later(function () {
-      counters[0].textContent = amounts[0];
+      tickCounter(0);
       links[1].classList.add('ef-flowing');
     }, 900);
     later(function () {
-      counters[1].textContent = amounts[1];
+      tickCounter(1);
       links[2].classList.add('ef-flowing');
     }, 2300);
-    later(function () { counters[2].textContent = amounts[2]; }, 3700);
+    later(function () { tickCounter(2); }, 3700);
     later(completeFlow, 4500);
   }
 
@@ -190,13 +200,13 @@
         function starve() {
           panel.classList.add('ef-starved');
           counters[index].textContent = '—';
-          if (index === 2) status.textContent = 'Vent off: methane-makers, then grazers, then Shadowfin lose their food supply.';
+          if (index === 2) status.textContent = 'No hydrogen, no food web. The methane-makers starve first; the grazers and Shadowfin lose their food in turn.';
         }
         if (motion.matches) starve();
         else later(starve, (index + 1) * 600);
       });
       status.textContent = motion.matches ?
-        'Vent off: methane-makers, then grazers, then Shadowfin lose their food supply.' :
+        'No hydrogen, no food web. The methane-makers starve first; the grazers and Shadowfin lose their food in turn.' :
         'Vent off: watch the food supply stop from the bottom of the food web upward.';
     } else {
       status.textContent = 'Vent restored. 1000 → 100 → 10 illustrative energy coins.';

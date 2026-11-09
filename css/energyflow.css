@@ -34,7 +34,7 @@
 #energyFlow .ef-coin { position: absolute; left: 0; top: 12px; width: 7px; height: 7px; background: var(--assume); opacity: 0; pointer-events: none; }
 #energyFlow .ef-flowing .ef-coin { animation: ef-coin-pass 850ms steps(10) both; animation-delay: calc(var(--coin) * 45ms); }
 #energyFlow .ef-flowing .ef-loss { animation-name: ef-coin-heat; box-shadow: 0 0 8px var(--vent-glow); }
-#energyFlow .ef-off .ef-arrow, #energyFlow .ef-off .ef-fuel { color: var(--dim); }
+#energyFlow.ef-off .ef-arrow, #energyFlow.ef-off .ef-fuel { color: var(--dim); }
 #energyFlow .ef-starved { opacity: .48; filter: grayscale(1); }
 #energyFlow .ef-note { margin: 14px 0; color: var(--assume); }
 #energyFlow a { color: var(--accent); text-underline-offset: 3px; }
@@ -84,4 +84,24 @@
   #energyFlow .ef-chain { grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr) 52px minmax(0, 1fr) 52px minmax(0, 1fr); }
   #energyFlow .ef-equation { font-size: 10px; }
   #energyFlow .ef-heat { width: 74px; }
+}
+
+/* First action and a brief, finite heat burst. */
+#energyFlow .ef-controls { margin: 18px 0; }
+#energyFlow [data-follow] { background: var(--accent); color: var(--panel-solid); }
+#energyFlow .ef-invite:not(:disabled) { animation: ef-invite 2.4s steps(4) infinite; }
+#energyFlow .ef-flowing .ef-loss { animation-name: ef-heat-burst; }
+#energyFlow.ef-payoff .ef-status { color: var(--assume); border-left: 4px solid var(--assume); padding-left: 12px; }
+#energyFlow.ef-payoff [data-node="3"] .ef-counter { animation: ef-arrival 360ms steps(3); }
+#energyFlow .ef-starved { opacity: .38; filter: grayscale(1); }
+#energyFlow .ef-node { transition: opacity 420ms steps(4), filter 420ms steps(4); }
+#energyFlow.ef-off .ef-status { color: var(--vent); }
+@keyframes ef-invite { 50% { box-shadow: var(--shadow-px), 0 0 0 3px var(--line); transform: translateY(-2px); } }
+@keyframes ef-arrival { 50% { transform: translateY(-5px); } }
+@keyframes ef-heat-burst {
+  0% { opacity: 0; left: 0; transform: translate(0, 0); }
+  22% { opacity: 1; left: 35%; background: var(--assume); transform: scale(1); }
+  45% { opacity: 1; left: 45%; background: var(--vent); transform: translate(calc((var(--coin) - 4) * 3px), -14px) scale(1.7); }
+  65% { opacity: 1; left: 30%; background: var(--vent); transform: translate(calc((var(--coin) - 4) * 4px), -38px) scale(1.2); }
+  100% { opacity: 0; left: 50%; background: var(--vent); transform: translate(calc((var(--coin) - 4) * 5px), -76px) scale(.5); }
 }
