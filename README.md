@@ -4,7 +4,7 @@ A scroll-driven dive from the surface of a fictional icy moon down to a hydrogen
 
 **[Open the live interactive dive](https://omarshobaki-png.github.io/Pyrothalasa/)**
 
-**[Open the video](YOUR_GOOGLE_DRIVE_LINK)**
+**[Open the video](https://drive.google.com/file/d/1dLfS1ZW1qGngDrTg4QJEw0VGyg4zmLMQ/view?usp=sharing)**
 
 ## Open it
 Double-click `index.html`. It runs in any modern browser with no build step.
