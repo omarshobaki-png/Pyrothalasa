@@ -157,6 +157,20 @@ of at least 44 px.
 
 ---
 
+### Why hydrogen, and not something else?
+
+We tested three other ways to power the garden. Each failed the same question: *if the Sun switched off, would it still work?*
+
+| Idea we rejected | Why it's tempting | Why it fails here | Source |
+|---|---|---|---|
+| Copy Earth's black-smoker vents (tubeworms + sulfide-eating bacteria) | Best-known example of life without light | Those bacteria need oxygen (CO₂ + 4H₂S + O₂ → CH₂O + 4S + 3H₂O), and Earth's deep-sea oxygen comes from sunlit plants and algae | [NOAA fact sheet](https://oceanexplorer.noaa.gov/edu/materials/chemosynthesis-fact-sheet.pdf) |
+| Plants or algae under thin ice | Photosynthesis is what students already know | Sunlight at Saturn is about 1% of Earth's, and it can't get through kilometres of ice | [NASA: Saturn facts](https://science.nasa.gov/saturn/facts/) |
+| Methane-eating microbes, like at Earth's cold seeps | Our garden is full of methane | They need oxygen or sulfate to use methane, and we have no evidence the garden has either. Here methane is the waste, not the food | [Boetius et al. 2000](https://doi.org/10.1038/35036572) |
+
+**Every rejected idea secretly depended on the Sun.** Hydrogen from rock and water is the only option that doesn't, so that's what the garden runs on.
+
+---
+
 ## 🧪 The science at a glance
 
 | | Our model | Basis |
