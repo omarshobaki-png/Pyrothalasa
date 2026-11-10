@@ -82,7 +82,14 @@ Energy is not fully transferred to the next feeding level: some is used in metab
 
 REJECTED ALTERNATIVE
 
-We considered an Earth-style black-smoker food web with large tubeworms and sulfide-oxidizing symbionts. Many such Earth pathways require oxygen supplied ultimately by surface photosynthesis. We rejected reliance on a substantial oxygen supply for our chosen habitat and instead assumed negligible dissolved oxygen, using hydrogen-powered methanogenesis as the base. Darkness alone does not prove oxygen is absent, and oxygen-independent sulfur metabolisms can also exist; our choice is a deliberate, narrowly defined design decision rather than proof that all sulfide-based ecosystems are impossible.
+Before choosing hydrogen, we tested other ways to power the garden. Each one failed the same test: if the Sun switched off, would it still work?
+
+Alternative | Why it's tempting | Why we rejected it | Source
+Copy Earth's famous black-smoker vents, with tubeworms living on sulfide-eating bacteria | It's the best-known example of life without light | Those bacteria need oxygen: CO₂ + 4H₂S + O₂ → CH₂O + 4S + 3H₂O. Earth's deep-sea oxygen is made by sunlit plants and algae. Our garden has none. | NOAA chemosynthesis fact sheet
+Plants or algae under thin ice | Photosynthesis is what students already know | Sunlight at Saturn is only about 1% as strong as on Earth, and even the thinnest ice on Enceladus is 1–5 km thick. Almost no light gets through. | NASA Saturn and Enceladus facts
+Methane-eating microbes (methanotrophs), like those at Earth's cold seeps | Our garden is full of methane | On Earth, methane-eaters need oxygen or sulfate to "burn" the methane. We have no evidence of either in Enceladus's ocean. In our garden, methane is the waste, not the food. | Boetius et al. (2000)
+
+Every rejected option secretly depended on the Sun, through its light or its oxygen. Hydrogen from rock and water is the only option on our list that doesn't. That is why the Hydrogen Garden runs on it.
 
 6. FEASIBILITY, LIMITATIONS AND VALIDATION
 
