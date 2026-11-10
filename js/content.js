@@ -58,6 +58,7 @@ window.DIVE = {
     { depth: 20500, side: "right", kind: "zone", text: "THE DARK OCEAN · global and salty", card: "ocean" },
     { depth: 27000, side: "left",  kind: "note", text: "pressure check: lower than you'd think", card: "pressure" },
     { depth: 34000, side: "right", kind: "note", text: "no food falls from above. The open ocean is almost empty", card: "nosnow" },
+    { depth: 38000, side: "left",  kind: "note", text: "water, energy, chemistry: does this ocean tick the boxes for life?", card: "checklist" },
     { depth: 42000, side: "left",  kind: "note", text: "hydrogen in the water: we're getting close", card: "engine" },
 
     { aboveFloor: 58, side: "left",  kind: "zone", text: "THE HYDROGEN GARDEN · white chimneys up to 60 m tall", card: "chimneys" },
@@ -182,6 +183,22 @@ window.DIVE = {
       evidence: ["Earth's deep-sea food webs depend heavily on marine snow from the surface (NOAA)."],
       assumptions: ["Our ocean has no other food source in open water."],
       sources: ["noaaMarineSnow"]
+    },
+      checklist: {
+      title: "Does this ocean tick the boxes for life?",
+      body: [
+        "NASA lists three main ingredients for life as we know it: liquid water, a source of energy, and the right chemical building blocks (mainly carbon, hydrogen, nitrogen, oxygen, phosphorus and sulfur).",
+        "Enceladus has nearly all of them: a global salty ocean (water), hydrogen made when rock reacts with water (energy), and carbon dioxide in its plume (building blocks). In 2017, Cassini had not yet shown phosphorus or sulfur in the ocean. In 2023, scientists found phosphorus, as phosphates, in ice grains that came from the ocean.",
+        "Our fictional moon copies this checklist. But having the ingredients makes a place habitable, not inhabited. Nobody has found life there."
+      ],
+      evidence: [
+        "Life as we know it needs liquid water, an energy source and the right chemical ingredients (NASA 2017).",
+        "Enceladus has a global ocean under its ice (Thomas et al. 2016).",
+        "Hydrogen and CO₂ are both present in Enceladus' plume (Waite et al. 2017).",
+        "Phosphates from Enceladus' ocean were found in ice grains Cassini collected in Saturn's E ring (Postberg et al. 2023)."
+      ],
+      assumptions: ["Our moon has the same ingredients as Enceladus, including enough nitrogen, phosphorus and sulfur."],
+      sources: ["nasaOceanWorlds", "thomas2016", "waite2017", "postberg2023"]
     },
     engine: {
       title: "The engine: rock + water = hydrogen",
@@ -353,6 +370,7 @@ window.DIVE = {
     taubner2018: { cite: "Taubner, R.-S. et al. (2018). Biological methane production under putative Enceladus-like conditions. Nature Communications, 9, 748.", url: "https://doi.org/10.1038/s41467-018-02876-y", type: "peer" },
     pauly1995:   { cite: "Pauly, D. & Christensen, V. (1995). Primary production required to sustain global fisheries. Nature, 374, 255–257.", url: "https://doi.org/10.1038/374255a0", type: "peer" },
     postberg2009:{ cite: "Postberg, F. et al. (2009). Sodium salts in E-ring ice grains from an ocean below the surface of Enceladus. Nature, 459, 1098–1101.", url: "https://doi.org/10.1038/nature08046", type: "peer" },
+    postberg2023:{ cite: "Postberg, F. et al. (2023). Detection of phosphates originating from Enceladus's ocean. Nature, 618, 489–493.", url: "https://doi.org/10.1038/s41586-023-05987-9", type: "peer" },
     choblet2017: { cite: "Choblet, G. et al. (2017). Powering prolonged hydrothermal activity inside Enceladus. Nature Astronomy, 1, 841–847.", url: "https://doi.org/10.1038/s41550-017-0289-8", type: "peer" },
     thomas2016:  { cite: "Thomas, P. C. et al. (2016). Enceladus's measured physical libration requires a global subsurface ocean. Icarus, 264, 37–47.", url: "https://doi.org/10.1016/j.icarus.2015.08.037", type: "peer" },
     danovaro2010:{ cite: "Danovaro, R. et al. (2010). The first Metazoa living in permanently anoxic conditions. BMC Biology, 8, 30.", url: "https://doi.org/10.1186/1741-7007-8-30", type: "peer" },
