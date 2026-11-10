@@ -151,6 +151,29 @@ of at least 44 px.
 
 ---
 
+## 🍎 For teachers: a 20-minute lesson
+
+A suggested way to use the dive in one class period.
+
+| Time | Step | What students do |
+|---|---|---|
+| 2 min | Before quiz | Tap "Take the 30-second quiz first" on the opening screen |
+| 8 min | The dive | Scroll to the garden floor, opening at least five **+** labels and one creature under the microscope |
+| 3 min | Follow the energy | Press "Follow the energy", then "Switch off the vent" and watch what happens |
+| 3 min | Science or storytelling? | Sort the six claims into Evidence, Assumption or Fiction |
+| 2 min | After quiz | Take the quiz again and compare scores |
+| 2 min | Discuss | Use the questions below |
+
+**Questions to discuss**
+
+1. Trace the energy from the rock to Shadowfin. Where does most of it go at each step?
+2. Pick one condition in the garden (darkness, no oxygen, pressure, warmth). How does it shape what can live there?
+3. What happens to each level if the hydrogen stops? Which level goes first, and why?
+4. Find one claim on the site that is fiction. Which real Earth example inspired it?
+5. Why does "habitable" not mean "inhabited"?
+
+---
+
 ## ✨ Features
 
 - **Scroll-driven dive.** A pixel-art canvas world 50 km deep, with live depth, pressure, temperature and
