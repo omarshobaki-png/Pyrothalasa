@@ -249,8 +249,14 @@ Google Fonts; without internet the page falls back to a monospace font.
 
 ## 👥 Team Shay Rafe3
 
-Omar Shoubaki · Ahmad Sulieman · Omar Takhman · Alameen Abufkheida · Mahdi Alsheikh · Mohammad Humidan
-
+| Member | Role | What they did |
+|---|---|---|
+| Omar Shoubaki | Science and research lead | Researched serpentinization and Cassini's hydrogen finding; chose hydrogen over three alternatives |
+| Ahmad Sulieman | Evidence and validation lead | Wrote the limits and the lab/classroom checks; checked each citation against its source |
+| Omar Takhman | Science co-lead | YOUR SPECIFIC LINE: what you researched, which sources, what you wrote |
+| Alameen Abufkheida | Ecology lead | Designed the three food-web levels and Shadowfin; wrote sections 2 and 4 |
+| Mahdi Alsheikh | Video specialist | Edited the 3-minute video in After Effects; added the ElevenLabs narration |
+| Mohammad Humidan | Web developer | Programmed the dive: gauges, switch-off-vent button and quizzes |
 **AI use:** ChatGPT (Codex) helped with writing and formatting the report. Claude reviewed the report
 against the rubric. Claude Code assisted with programming and ElevenLabs with narration audio. Mahdi edited
 the video in Adobe After Effects.
