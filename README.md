@@ -303,7 +303,7 @@ Google Fonts; without internet the page falls back to a monospace font.
 |---|---|---|
 | Omar Shoubaki | Science and research lead | Researched serpentinization and Cassini's hydrogen finding; chose hydrogen over three alternatives |
 | Ahmad Sulieman | Evidence and validation lead | Wrote the limits and the lab/classroom checks; checked each citation against its source |
-| Omar Takhman | Science co-lead | Researched and wrote the three rejected alternatives behind "Why we chose hydrogen" (NOAA, NASA, Boetius et al. 2000); added the "Does this ocean tick the boxes for life?" card to the site (NASA 2017, Postberg et al. 2023); worked on the food web; co-wrote the video script |
+| Omar Takhman | Science co-lead | Researched and wrote the three rejected alternatives; Video script and animation |
 | Alameen Abufkheida | Ecology lead | Designed the three food-web levels and Shadowfin; wrote sections 2 and 4 |
 | Mahdi Alsheikh | Video specialist | Edited the 3-minute video in After Effects; added the ElevenLabs narration |
 | Mohammad Humidan | Web developer | Programmed the dive: gauges, switch-off-vent button and quizzes |
