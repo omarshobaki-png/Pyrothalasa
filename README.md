@@ -151,7 +151,7 @@ of at least 44 px.
 - **Evidence / Assumption / Fiction game**, which teaches the habit the whole project is built on.
 - **Before/after quiz** for our classroom user test. Answers aren't revealed before the dive, so the before
   score is a fair baseline, and testers can copy their results to send to the team.
-- **Discoveries counter (0/23)** that rewards exploring, plus a "what you missed" list at the end.
+- **Discoveries counter (0/24)** that rewards exploring, plus a "what you missed" list at the end.
 - **Hand-made pixel art**: a 4-frame melting probe, lander, plumes, ice fractures, carbonate ledges and
   creature sprites, all drawn in code. [Sprite sheet ↓](#-pixel-art)
 
@@ -267,10 +267,11 @@ Google Fonts; without internet the page falls back to a monospace font.
 |---|---|---|
 | Omar Shoubaki | Science and research lead | Researched serpentinization and Cassini's hydrogen finding; chose hydrogen over three alternatives |
 | Ahmad Sulieman | Evidence and validation lead | Wrote the limits and the lab/classroom checks; checked each citation against its source |
-| Omar Takhman | Science co-lead | YOUR SPECIFIC LINE: what you researched, which sources, what you wrote |
+| Omar Takhman | Science co-lead | Researched and wrote the three rejected alternatives behind "Why we chose hydrogen" (NOAA, NASA, Boetius et al. 2000); added the "Does this ocean tick the boxes for life?" card to the site (NASA 2017, Postberg et al. 2023); worked on the food web; co-wrote the video script |
 | Alameen Abufkheida | Ecology lead | Designed the three food-web levels and Shadowfin; wrote sections 2 and 4 |
 | Mahdi Alsheikh | Video specialist | Edited the 3-minute video in After Effects; added the ElevenLabs narration |
 | Mohammad Humidan | Web developer | Programmed the dive: gauges, switch-off-vent button and quizzes |
+
 **AI use:** ChatGPT (Codex) helped with writing and formatting the report. Claude reviewed the report
 against the rubric. Claude Code assisted with programming and ElevenLabs with narration audio. Mahdi edited
 the video in Adobe After Effects.
@@ -289,7 +290,7 @@ the video in Adobe After Effects.
 - Thomas, P. C. et al. (2016). Enceladus's measured physical libration requires a global subsurface ocean. *Icarus*, 264, 37–47.
 - Brazelton, W. J. et al. (2006). Methane- and sulfur-metabolizing microbial communities dominate the Lost City hydrothermal field ecosystem. *Applied and Environmental Microbiology*, 72, 6257–6270.
 
-The full list of 20 sources, with links, is in the site's **Sources** panel and in [`js/content.js`](js/content.js).
+The full list of 21 sources, with links, is in the site's **Sources** panel and in [`js/content.js`](js/content.js).
 
 <div align="center">
 <br>
