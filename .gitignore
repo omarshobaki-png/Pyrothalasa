@@ -19,6 +19,8 @@ out/
 Thumbs.db
 desktop.ini
 .DS_Store
+AGENTS.md
+CLAUDE.md
 .claude/worktrees/
 
 # Local tool output

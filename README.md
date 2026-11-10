@@ -11,7 +11,7 @@
 
 [![Live site](https://img.shields.io/badge/▶_Live_dive-omarshobaki--png.github.io-5ce1ff?style=for-the-badge)](https://omarshobaki-png.github.io/Pyrothalasa/)
 [![Video](https://img.shields.io/badge/🎬_Watch_the_video-Google_Drive-ff5d8f?style=for-the-badge)](https://drive.google.com/file/d/1dLfS1ZW1qGngDrTg4QJEw0VGyg4zmLMQ/view?usp=sharing)
-[![Report](https://img.shields.io/badge/📄_Read_the_report-PDF-ffb347?style=for-the-badge)](ShayRafe3_Challenge-Report.pdf)
+[![Report](https://img.shields.io/badge/📄_Read_the_report-PDF-ffb347?style=for-the-badge)](ShayRafe3_Challenge-A_Report.pdf)
 
 ![The probe entering the Hydrogen Garden](docs/readme/garden.png)
 
@@ -229,7 +229,7 @@ Google Fonts; without internet the page falls back to a monospace font.
 | `js/quiz.js` | Before/after quiz for the user test |
 | `css/` | Design system (`style.css`) plus one stylesheet per widget |
 | `docs/` | Challenge brief, science lead guide, report outline and screenshots |
-| `ShayRafe3_Challenge-Report.pdf` | The 4-page concept report |
+| `ShayRafe3_Challenge-A_Report.pdf` | The 4-page concept report |
 
 ---
 

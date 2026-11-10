@@ -12,10 +12,10 @@ window.DIVE = {
 
   meta: {
     title: "The Hydrogen Garden",
-    moonName: "Pyrothalasa",       // matches the live site; confirm the spelling with the team
+    moonName: "Pyrothalasa",
     teamName: "Shay Rafe3",
     members: ["Omar Shoubaki", "Ahmad Sulieman", "Omar Takhman", "Alameen Abufkheida", "Mahdi Alsheikh", "Mohammad Humidan"],
-    reportUrl: "ShayRafe3_Challenge-Report.pdf",
+    reportUrl: "ShayRafe3_Challenge-A_Report.pdf",
     videoUrl: "https://drive.google.com/file/d/1dLfS1ZW1qGngDrTg4QJEw0VGyg4zmLMQ/view",
     aiUse: "ChatGPT (Codex) helped with writing and formatting the report. Claude reviewed the report against the rubric. Claude Code assisted with programming and ElevenLabs with narration audio. Mahdi edited the video in Adobe After Effects.",
     tagline: "Dive 50 km into a fictional ocean moon where life runs without sunlight."
@@ -26,7 +26,7 @@ window.DIVE = {
   params: {
     iceKm: 20,              // ice shell thickness (Enceladus: ~20-25 km avg, NASA)
     oceanKm: 30,            // ocean depth (Enceladus: tens of km, Thomas 2016)
-    gravity: 0.113,         // m/s^2, Enceladus surface gravity  (VERIFY in a cited source)
+    gravity: 0.113,
     rhoIce: 920,            // kg/m^3
     rhoWater: 1030,         // kg/m^3, salty water
     surfaceTempC: -201,     // NASA: about -201 C at Enceladus' surface
