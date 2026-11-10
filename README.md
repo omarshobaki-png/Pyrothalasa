@@ -38,6 +38,19 @@ the first time it appears.
 
 ---
 
+## 📖 Key words
+
+New to the science? Here is what the main words mean.
+
+- **Hydrothermal vent:** a crack in the seafloor where warm, mineral-rich water flows out.
+- **Serpentinisation:** a reaction between seawater and certain rocks (like olivine) that releases hydrogen gas.
+- **Chemosynthesis:** making food from chemical energy instead of sunlight.
+- **Methane-makers (methanogens):** microbes that combine hydrogen and carbon dioxide for energy, releasing methane.
+- **Food web level:** one step in who-eats-whom. Only about 10% of the energy passes to the next level.
+- **Anaerobic:** living without oxygen.
+
+---
+
 ## 🔬 Science you can trust: every claim is labelled
 
 Every card, callout and widget tags its claims with one of three labels:
